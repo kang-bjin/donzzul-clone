@@ -22,12 +22,12 @@
 ## 자료
 
 - 회의록  
-  - [회의록](./Doc/회의록/)
+  - [회의록](./doc/회의록/)
 
 
 - 보고서  
-  - [수행계획서](./Doc/1_1_OSSProj_02_Spring_수행계획서.pdf)
+  - [수행계획서](./doc/1_1_OSSProj_02_Spring_수행계획서.pdf)
 
 
 - 발표자료  
-  - [수행 계획서 발표](./Doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf1_2_OSSProj_02_Spring_수행계획발표자료.pptx)  
+  - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf1_2_OSSProj_02_Spring_수행계획발표자료.pptx)  
