@@ -1,8 +1,12 @@
 package com.ossproj.donjjul.controller;
 
 import com.ossproj.donjjul.domain.User;
+import com.ossproj.donjjul.dto.LoginRequest;
+import com.ossproj.donjjul.dto.LoginResponse;
 import com.ossproj.donjjul.service.UserService;
+import com.ossproj.donjjul.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +18,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -28,8 +33,14 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public String hello() {
-        return "hello from /users";
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return userService.login(request.getUsername(), request.getPassword())
+                .map(user -> {
+                    String token = jwtUtil.generateToken(user.getUsername());
+                    return ResponseEntity.ok(new LoginResponse(token, user.getUsername(), user.getNickname()));
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()); // body 없이 실패
     }
+
 }
