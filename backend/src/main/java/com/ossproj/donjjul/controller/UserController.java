@@ -37,10 +37,10 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         return userService.login(request.getUsername(), request.getPassword())
                 .map(user -> {
-                    String token = jwtUtil.generateToken(user.getUsername());
+                    String token = jwtUtil.generateToken(String.valueOf(user.getId())); // ✅ userId로 수정
                     return ResponseEntity.ok(new LoginResponse(token, user.getUsername(), user.getNickname()));
                 })
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()); // body 없이 실패
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
 }
