@@ -35,14 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
         try {
-            System.out.println(">>> JwtAuthenticationFilter 진입");
-
             Claims claims = jwtUtil.parseClaims(token);
             String userId = claims.getSubject();
-            System.out.println(">> JWT subject (userId): " + userId);
 
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(userId);
-            System.out.println(">> 인증할 사용자: " + userDetails.getUsername());
+
+            // ✅ 로그 찍기
             System.out.println(">> 권한: " + userDetails.getAuthorities());
 
             UsernamePasswordAuthenticationToken authentication =
@@ -51,11 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            System.out.println(">> 인증 성공: SecurityContext에 등록 완료");
-
         } catch (Exception e) {
-            System.out.println(">> JWT 인증 실패:");
-            e.printStackTrace();
+            // JWT 검증 실패: 인증 없음 상태로 진행
         }
 
         chain.doFilter(request, response);

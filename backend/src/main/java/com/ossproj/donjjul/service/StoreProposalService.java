@@ -23,18 +23,24 @@ public class StoreProposalService {
     public StoreProposal createProposal(Long userId, StoreProposalRequest req) {
         User user = userRepo.findById(userId).orElseThrow();
 
+        // 사업자번호 중복 제보 방지
+        if (proposalRepo.existsByBusinessNumber(req.getBusinessNumber())) {
+            throw new IllegalArgumentException("이미 제보된 사업자번호입니다.");
+        }
+
         StoreProposal proposal = StoreProposal.builder()
                 .user(user)
                 .storeName(req.getStoreName())
                 .storeAddress(req.getStoreAddress())
                 .businessNumber(req.getBusinessNumber())
                 .reason(req.getReason())
-                .status(ProposalStatus.PENDING)
+                .status(ProposalStatus.VOTING) // ✅ 기본값 VOTING
                 .createdAt(LocalDateTime.now())
                 .build();
 
         return proposalRepo.save(proposal);
     }
+
 
     public List<StoreProposal> getAllProposals() {
         return proposalRepo.findAll();

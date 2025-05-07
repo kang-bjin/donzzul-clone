@@ -2,7 +2,7 @@
 package com.ossproj.donjjul.enums;
 
 public enum ProposalStatus {
-    PENDING,
+    VOTING,
     APPROVED,
     REJECTED
 }
