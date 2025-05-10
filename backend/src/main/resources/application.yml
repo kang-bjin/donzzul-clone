@@ -19,3 +19,6 @@ spring:
 
 server:
   port: 8080
+
+jwt:
+  secret: donjjul-secret-key-that-opens-every-door-there-is
