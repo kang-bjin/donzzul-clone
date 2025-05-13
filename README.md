@@ -33,7 +33,7 @@
 
 - 발표자료  
   - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
-  - [중간 보고서 발표](./doc/2_2_OSSProj_02_Spring_중간발표자료.pdf)
+  - [중간 보고서 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
 
 
 - 진행발표
