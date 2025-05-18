@@ -39,3 +39,11 @@
 - 진행발표
   - [9주차 진행 보고](./doc/(0430)9주차진행발표자료.pdf)  
   - [10주차 진행 보고](./doc/(0507)10주차진행발표자료.pdf)
+
+
+## 한글 OCR 개발 환경 준비
+1. Tesseract 설치  
+   - https://github.com/tesseract-ocr/tesseract#installing-tesseract
+2. kor.traineddata 다운로드  
+   - https://github.com/tesseract-ocr/tessdata  
+   - 파일을 tessdata 폴더(Windows: C:\Program Files\Tesseract-OCR\tessdata, Ubuntu: /usr/share/tesseract-ocr/4.00/tessdata)로 복사
