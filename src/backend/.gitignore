@@ -44,6 +44,7 @@ out/
 # 환경설정
 .env
 application-secret.yml
+.idea/
 
 # OS 쓰레기 파일
 .DS_Store
