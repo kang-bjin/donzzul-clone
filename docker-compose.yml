@@ -2,14 +2,10 @@ services:
   backend:
     build: ./src/backend
     container_name: donjjul-backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-      - ocr
-    networks:
-      - donjjul_net
-
+    ports: ["8080:8080"]
+    depends_on: [mysql, ocr]
+    networks: [donjjul_net]
+    
   ocr:
     build: ./src/ocr-server          # 여기 수정
     container_name: donjjul-ocr
