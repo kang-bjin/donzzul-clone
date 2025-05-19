@@ -1,6 +1,14 @@
-FROM openjdk:17
+FROM openjdk:17-alpine
 WORKDIR /app
-COPY . /app
+
+# xargs 포함된 유틸 설치
+RUN apk update && apk add findutils
+
+# gradle 소스 복사
+COPY . .
+
+# 빌드
 RUN ./gradlew build --no-daemon
-CMD ["java", "-jar", "build/libs/yourapp.jar"] 
-// yourapp.jar 이름은 build/libs/ 아래 실제 jar 파일 이름으로 맞춰야됨
+
+# 실행
+CMD ["java", "-jar", "build/libs/backend.jar"]

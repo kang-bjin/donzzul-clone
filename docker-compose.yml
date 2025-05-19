@@ -1,4 +1,3 @@
-version: '3'
 services:
   backend:
     build: ./src/backend
@@ -12,7 +11,7 @@ services:
       - donjjul_net
 
   ocr:
-    build: ./src/ocr
+    build: ./src/ocr-server          # 여기 수정
     container_name: donjjul-ocr
     ports:
       - "5000:5000"
