@@ -5,7 +5,7 @@ services:
     build: ./src/backend
     container_name: donjjul-backend
     ports:
-      - "8080:8080"
+      - "8080:8080"         # backend는 개발용으로 IDE에서 띄움
     depends_on:
       - mysql
       - ocr
