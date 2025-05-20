@@ -1,14 +1,13 @@
+// src/backend/src/main/java/com/ossproj/donjjul/controller/ReceiptController.java
 package com.ossproj.donjjul.controller;
 
 import com.ossproj.donjjul.dto.OcrResponseDto;
 import com.ossproj.donjjul.service.ReceiptService;
+import com.ossproj.donjjul.service.ReceiptValidationResult;
 import com.ossproj.donjjul.util.OcrClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,16 +26,31 @@ public class ReceiptController {
         OcrResponseDto ocrResult = ocrClient.requestOcr(file);
 
         if (!ocrResult.isSuccess()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "OCR 실패"));
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "OCR 실패"));
         }
 
-        boolean isValid = receiptService.verifyReceipt(
+        ReceiptValidationResult result = receiptService.verifyReceipt(
                 ocrResult.getBusinessNumber(),
                 ocrResult.getPayDate()
         );
 
+        if (!result.isValid()) {
+            // 유효하지 않은 경우 400 리턴하고 reason 포함
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of(
+                            "valid", false,
+                            "reason", result.getReason(),
+                            "business_number", ocrResult.getBusinessNumber(),
+                            "pay_date", ocrResult.getPayDate()
+                    ));
+        }
+
+        // 성공
         return ResponseEntity.ok(Map.of(
-                "valid", isValid,
+                "valid", true,
                 "business_number", ocrResult.getBusinessNumber(),
                 "pay_date", ocrResult.getPayDate()
         ));
