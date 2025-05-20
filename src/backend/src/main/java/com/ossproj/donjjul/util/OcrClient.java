@@ -1,26 +1,27 @@
 package com.ossproj.donjjul.util;
 
 import com.ossproj.donjjul.dto.OcrResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class OcrClient {
 
-    private static final String OCR_URL = "http://ocr:5000/ocr";
+    @Value("${ocr.url}")
+    private String ocrUrl;
+
+    private final RestTemplate restTemplate;
 
     public OcrResponseDto requestOcr(MultipartFile imageFile) throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -31,9 +32,8 @@ public class OcrClient {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<OcrResponseDto> response = restTemplate.postForEntity(
-                OCR_URL, requestEntity, OcrResponseDto.class
-        );
+        ResponseEntity<OcrResponseDto> response = restTemplate
+                .postForEntity(ocrUrl, requestEntity, OcrResponseDto.class);
 
         return response.getBody();
     }

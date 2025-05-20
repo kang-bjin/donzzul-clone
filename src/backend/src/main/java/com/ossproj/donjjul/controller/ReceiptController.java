@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -23,36 +24,29 @@ public class ReceiptController {
 
     @PostMapping("/verify")
     public ResponseEntity<Map<String, Object>> verifyReceipt(@RequestParam("file") MultipartFile file) throws IOException {
+        // 1) OCR 요청
         OcrResponseDto ocrResult = ocrClient.requestOcr(file);
-
         if (!ocrResult.isSuccess()) {
             return ResponseEntity
                     .badRequest()
                     .body(Map.of("message", "OCR 실패"));
         }
 
+        // 2) 비즈니스 검증
         ReceiptValidationResult result = receiptService.verifyReceipt(
                 ocrResult.getBusinessNumber(),
                 ocrResult.getPayDate()
         );
 
+        // 3) 응답 바디 조립 (항상 200)
+        Map<String, Object> body = new HashMap<>();
+        body.put("business_number", ocrResult.getBusinessNumber());
+        body.put("pay_date", ocrResult.getPayDate());
+        body.put("valid", result.isValid());
         if (!result.isValid()) {
-            // 유효하지 않은 경우 400 리턴하고 reason 포함
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of(
-                            "valid", false,
-                            "reason", result.getReason(),
-                            "business_number", ocrResult.getBusinessNumber(),
-                            "pay_date", ocrResult.getPayDate()
-                    ));
+            body.put("reason", result.getReason());
         }
 
-        // 성공
-        return ResponseEntity.ok(Map.of(
-                "valid", true,
-                "business_number", ocrResult.getBusinessNumber(),
-                "pay_date", ocrResult.getPayDate()
-        ));
+        return ResponseEntity.ok(body);
     }
 }

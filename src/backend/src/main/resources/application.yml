@@ -1,13 +1,11 @@
+# src/backend/src/main/resources/application.yml
+
 spring:
   datasource:
-    # src/backend/src/main/resources/application.yml
-    spring:
-      datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:donjjul}\?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:donjjul}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul"
     username: ${DB_USER:root}
     password: ${DB_PASS:goodpassword}
-
 
   jpa:
     hibernate:
@@ -17,13 +15,12 @@ spring:
       hibernate:
         format_sql: true
 
+server:
+  port: 8080
 
 security:
   filter:
     dispatchers: request
-
-server:
-  port: 8080
 
 jwt:
   secret: donjjul-secret-key-that-opens-every-door-there-is
