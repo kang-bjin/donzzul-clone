@@ -1,0 +1,8 @@
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/donjjul?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: goodpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
