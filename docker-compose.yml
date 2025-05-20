@@ -1,15 +1,28 @@
+version: "3.8"
+
 services:
   backend:
     build: ./src/backend
     container_name: donjjul-backend
-    ports: ["8080:8080"]
-    depends_on: [mysql, ocr]
-    networks: [donjjul_net]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - ocr
+    networks:
+      - donjjul_net
     environment:
-      - SPRING_PROFILES_ACTIVE=dockerdocker-compose down
-    
+      # 프로파일
+      SPRING_PROFILES_ACTIVE: docker
+      # MySQL 연결 정보
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: donjjul
+      DB_USERNAME: root
+      DB_PASSWORD: goodpassword
+
   ocr:
-    build: ./src/ocr-server          # 여기 수정
+    build: ./src/ocr-server           # 실제 OCR 서버 소스 위치에 맞춰 변경
     container_name: donjjul-ocr
     ports:
       - "5000:5000"
