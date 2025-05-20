@@ -1,4 +1,3 @@
-// src/backend/src/main/java/com/ossproj/donjjul/service/ReceiptService.java
 package com.ossproj.donjjul.service;
 
 import com.ossproj.donjjul.dto.ReceiptValidationResult;
@@ -24,17 +23,37 @@ public class ReceiptService {
         try {
             payDate = LocalDate.parse(payDateStr);
         } catch (Exception e) {
-            return new ReceiptValidationResult(false, "잘못된 날짜 형식");
+            return new ReceiptValidationResult(
+                    false,
+                    businessNumber,
+                    payDateStr,
+                    "잘못된 날짜 형식"
+            );
         }
 
         if (payDate.isBefore(LocalDate.now().minusDays(3))) {
-            return new ReceiptValidationResult(false, "유효 기간(3일) 초과");
+            return new ReceiptValidationResult(
+                    false,
+                    businessNumber,
+                    payDateStr,
+                    "유효 기간(3일) 초과"
+            );
         }
 
         if (!storeRepository.existsByBusinessNumber(businessNumber)) {
-            return new ReceiptValidationResult(false, "등록되지 않은 사업자번호");
+            return new ReceiptValidationResult(
+                    false,
+                    businessNumber,
+                    payDateStr,
+                    "등록되지 않은 사업자번호"
+            );
         }
 
-        return new ReceiptValidationResult(true, null);
+        return new ReceiptValidationResult(
+                true,
+                businessNumber,
+                payDateStr,
+                null
+        );
     }
 }

@@ -2,8 +2,8 @@
 package com.ossproj.donjjul.controller;
 
 import com.ossproj.donjjul.dto.OcrResponseDto;
+import com.ossproj.donjjul.dto.ReceiptValidationResult;
 import com.ossproj.donjjul.service.ReceiptService;
-import com.ossproj.donjjul.service.ReceiptValidationResult;
 import com.ossproj.donjjul.util.OcrClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
