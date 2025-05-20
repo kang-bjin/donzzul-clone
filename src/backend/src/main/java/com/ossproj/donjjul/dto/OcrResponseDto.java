@@ -1,8 +1,17 @@
-public class OcrResponseDto {
-    private String business_number;
-    private String pay_date;
-    private boolean success;
-    private String message;
+package com.ossproj.donjjul.dto;
 
-    // Getters and setters (or use Lombok @Data)
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+@Data
+public class OcrResponseDto {
+    @JsonProperty("business_number")
+    private String businessNumber;
+
+    @JsonProperty("pay_date")
+    private String payDate;
+
+    private boolean success;
+
+    private String message;
 }
