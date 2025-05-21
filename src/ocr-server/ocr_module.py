@@ -39,14 +39,15 @@ def extract_business_info(image_stream):
     config = r'--oem 3 --psm 6'
     text = pytesseract.image_to_string(pil_ready, lang='kor+eng', config=config)
 
-    # STEP 7: 사업자등록번호 추출 (정규표현식 기반)
+   # STEP 7: 사업자등록번호 추출 (다양한 라벨 대응)
     business_number = None
-    m = re.search(r'등록번호[:\s]*([0-9]{3}-[0-9]{2}-[0-9]{5})', text)
+    m = re.search(r'(등록번호|사업자번호|사업자 등록번호|사업자)[:\s]*([0-9]{3}[-\s]?[0-9]{2}[-\s]?[0-9]{5})', text)
     if m:
-        business_number = m.group(1)
+        business_number = m.group(2)
     else:
+        # 포맷만 있는 경우 커버
         m1 = re.search(r'(\d{3})[-\s]?(\d{2})[-\s]?(\d{5})', text)
-        if m1:
+        if  m1:
             business_number = f"{m1.group(1)}-{m1.group(2)}-{m1.group(3)}"
 
     # STEP 8: 발행일자 추출 (포맷 다양성 고려)
