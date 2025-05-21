@@ -1,18 +1,23 @@
 FROM python:3.9-slim
 
-# 필수 패키지 설치
+# 시스템 패키지 설치 (Tesseract + EasyOCR용 의존성 포함)
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-kor \
     tesseract-ocr-eng \
-    libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1 \
     && apt-get clean
 
-# 작업 디렉토리 복사
+# 작업 디렉토리 설정 및 복사
 WORKDIR /app
 COPY . /app
 
-# 파이썬 의존성 설치
+# 파이썬 패키지 설치
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Flask 서버 실행
 CMD ["python", "app.py"]
