@@ -26,9 +26,10 @@ def extract_business_info(image_stream):
             business_number = f"{m1.group(1)}-{m1.group(2)}-{m1.group(3)}"
 
     pay_date = None
-    m2 = re.search(r'발행일자[:\s]*([0-9]{4}[-./][0-9]{2}[-./][0-9]{2})', text)
+    m2 = re.search(r'(발행일자|정산일시|거래일시)[:\s]*([0-9]{4}[-./][0-9]{2}[-./][0-9]{2})', text)
     if m2:
-        pay_date = m2.group(1).replace('.', '-').replace('/', '-')
+        raw = m2.group(2)  
+        pay_date = raw.replace('.', '-').replace('/', '-')
     else:
         dm = re.search(r'(\d{4}[-./]\d{2}[-./]\d{2})', text)
         if dm:
