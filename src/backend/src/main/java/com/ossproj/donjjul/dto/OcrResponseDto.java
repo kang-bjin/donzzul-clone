@@ -1,17 +1,17 @@
+// src/backend/src/main/java/com/ossproj/donjjul/dto/OcrResponseDto.java
 package com.ossproj.donjjul.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class OcrResponseDto {
-    @JsonProperty("business_number")
-    private String businessNumber;
-
-    @JsonProperty("pay_date")
-    private String payDate;
-
     private boolean success;
+    private String businessNumber;
+    private LocalDate payDate;
 
-    private String message;
+    // 추가
+    private String storeName;
 }
