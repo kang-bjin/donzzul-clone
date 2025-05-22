@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from ocr_module import extract_business_info
-import werkzeug
+import datetime
 
 app = Flask(__name__)
 
@@ -10,7 +10,6 @@ def ocr():
         return jsonify({'success': False, 'error': '이미지 파일이 포함되어 있지 않습니다.'}), 400
 
     file = request.files['file']
-
     if file.filename == '':
         return jsonify({'success': False, 'error': '선택된 파일이 없습니다.'}), 400
 
@@ -18,9 +17,33 @@ def ocr():
         return jsonify({'success': False, 'error': '지원되지 않는 파일 형식입니다.'}), 400
 
     try:
-        result = extract_business_info(file.stream)
-        result['success'] = result.get('success', False)
-        return jsonify(result), 200 if result['success'] else 422
+        info = extract_business_info(file.stream)
+        # extract_business_info 반환 예시:
+        # {
+        #   'business_number': '123-45-67890',
+        #   'date': datetime.date(2025, 5, 20),
+        #   'store_name': '도넛가게'
+        # }
+        success = info.get('success', True)
+        # 결제일 처리
+        raw_date = info.get('date')
+        pay_date = None
+        if isinstance(raw_date, datetime.date):
+            pay_date = raw_date.isoformat()                # "yyyy-MM-dd"
+        elif isinstance(raw_date, str):
+            pay_date = raw_date                             # 이미 문자열이면 그대로
+        # 매장 이름
+        store_name = info.get('store_name')
+
+        payload = {
+            'success': success,
+            'businessNumber': info.get('business_number'),
+            'payDate': pay_date,
+            'storeName': store_name
+        }
+        status_code = 200 if success else 422
+        return jsonify(payload), status_code
+
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
