@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 @app.route('/ocr', methods=['POST'])
 def ocr():
+    # 1) 파일 유무 확인
     if 'file' not in request.files:
         return jsonify({'success': False, 'error': '이미지 파일이 포함되어 있지 않습니다.'}), 400
 
@@ -18,34 +19,36 @@ def ocr():
 
     try:
         info = extract_business_info(file.stream)
-        # extract_business_info 반환 예시:
-        # {
-        #   'business_number': '123-45-67890',
-        #   'date': datetime.date(2025, 5, 20),
-        #   'store_name': '도넛가게'
-        # }
-        success = info.get('success', True)
-        # 결제일 처리
-        raw_date = info.get('date')
-        pay_date = None
-        if isinstance(raw_date, datetime.date):
-            pay_date = raw_date.isoformat()                # "yyyy-MM-dd"
-        elif isinstance(raw_date, str):
-            pay_date = raw_date                             # 이미 문자열이면 그대로
-        # 매장 이름
-        store_name = info.get('store_name')
 
+        # OCR 추출 실패
+        if not info.get('success', False):
+            return jsonify({
+                'success': False,
+                'error': info.get('message')
+            }), 422
+
+        # 필드 매핑
+        business_num = info.get('businessNumber')
+        pay_date     = info.get('payDate')
+
+        # 정보 누락 체크
+        if not business_num or not pay_date:
+            return jsonify({
+                'success': False,
+                'error': 'OCR에서 일부 정보를 추출하지 못했습니다.'
+            }), 422
+
+        # 정상 응답
         payload = {
-            'success': success,
-            'businessNumber': info.get('business_number'),
-            'payDate': pay_date,
-            'storeName': store_name
+            'success':        True,
+            'businessNumber': business_num,
+            'payDate':         pay_date
         }
-        status_code = 200 if success else 422
-        return jsonify(payload), status_code
+        return jsonify(payload), 200
 
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
 
 def allowed_file(filename):
     ext = filename.rsplit('.', 1)[-1].lower()
