@@ -22,10 +22,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/users/**").permitAll()
-                        .requestMatchers("/proposals/**").authenticated()
+                        // JWT 인증 제거: proposals 포함 모든 엔드포인트 열기
                         .anyRequest().permitAll()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // ✅ 주입된 필터 그대로 등록
+                // JWT 필터는 남겨둬도 동작하지 않음
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
