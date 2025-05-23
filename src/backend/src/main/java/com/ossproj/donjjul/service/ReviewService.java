@@ -23,18 +23,19 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponse createReview(ReviewCreateRequest req) {
-        String username = SecurityContextHolder.getContext()
-                .getAuthentication().getName();
-        User user = userRepo.findByUsername(username)
+        User user = userRepo.findById(req.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+
         Store store = storeRepo.findById(req.getStoreId())
                 .orElseThrow(() -> new IllegalArgumentException("스토어 없음"));
 
         Review r = new Review(user, store, req.getRating(), req.getContent());
         reviewRepo.save(r);
+
         return new ReviewResponse(
                 r.getId(), r.getUserId(), r.getStoreId(),
                 r.getRating(), r.getContent(), r.getCreatedAt()
         );
     }
+
 }
