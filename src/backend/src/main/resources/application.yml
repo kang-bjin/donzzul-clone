@@ -3,9 +3,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:donjjul}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul"
-    username: ${DB_USER:root}
-    password: ${DB_PASS:goodpassword}
+    url: "jdbc:mysql://localhost:3306/donjjul"
+    username: root
+    password: sqlbysean0226
 
   jpa:
     hibernate:
@@ -24,3 +24,6 @@ security:
 
 jwt:
   secret: donjjul-secret-key-that-opens-every-door-there-is
+
+ocr:
+  url: http://127.0.0.1:5000/ocr
