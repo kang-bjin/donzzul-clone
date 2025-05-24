@@ -4,4 +4,8 @@ package com.ossproj.donjjul.repository;
 import com.ossproj.donjjul.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {}
+import java.util.List;
+
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+    List<Review> findByUser_Id(Long userId);
+}

@@ -36,4 +36,7 @@ public class Review {
     public int getRating() { return rating; }
     public String getContent() { return content; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public User getUser() { return user; }
+    public Store getStore() { return store; }
 }

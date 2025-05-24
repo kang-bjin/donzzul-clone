@@ -1,5 +1,6 @@
-// dto/ReviewResponse.java
 package com.ossproj.donjjul.dto;
+
+import com.ossproj.donjjul.domain.Review;
 
 import java.time.LocalDateTime;
 
@@ -27,4 +28,15 @@ public class ReviewResponse {
     public int getRating() { return rating; }
     public String getContent() { return content; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public static ReviewResponse from(Review review) {
+        return new ReviewResponse(
+                review.getId(),
+                review.getUser().getId(),
+                review.getStore().getId(),
+                review.getRating(),
+                review.getContent(),
+                review.getCreatedAt()
+        );
+    }
 }

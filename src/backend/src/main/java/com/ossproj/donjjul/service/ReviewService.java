@@ -1,4 +1,3 @@
-// service/ReviewService.java
 package com.ossproj.donjjul.service;
 
 import com.ossproj.donjjul.domain.Review;
@@ -10,9 +9,11 @@ import com.ossproj.donjjul.repository.ReviewRepository;
 import com.ossproj.donjjul.repository.StoreRepository;
 import com.ossproj.donjjul.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +37,21 @@ public class ReviewService {
                 r.getId(), r.getUserId(), r.getStoreId(),
                 r.getRating(), r.getContent(), r.getCreatedAt()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewResponse> getReviewsByUserId(Long userId) {
+        return reviewRepo.findByUser_Id(userId)  // <-- 여기
+                .stream()
+                .map(r -> new ReviewResponse(
+                        r.getId(),
+                        r.getUser().getId(),    // getUserId()가 없으면 이렇게
+                        r.getStore().getId(),
+                        r.getRating(),
+                        r.getContent(),
+                        r.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
     }
 
 }
