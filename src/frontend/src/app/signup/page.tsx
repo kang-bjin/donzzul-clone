@@ -34,7 +34,6 @@ export default function SignUpPage() {
       if (response.ok) {
         const data = await response.json();
         alert('회원가입 성공!');
-        // 예: 로그인 페이지로 이동
         router.push('/login');
       } else {
         const err = await response.json();
