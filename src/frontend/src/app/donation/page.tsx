@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import BottomTab from '@/components/BottomTab';
 import Header from '@/components/Header';
-import SearchBar from '@/components/SearchBar';
 import SectionTitle from '@/components/SectionTitle';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -15,7 +14,7 @@ export default function DonationPage() {
   const [balloonText, setBalloonText] = useState('');
   const [hamsterImage, setHamsterImage] = useState('/donation_hamster.png');
   const [imageKey, setImageKey] = useState(0);
-  const router = useRouter(); // ✅ 라우터 추가
+  const router = useRouter(); // 라우터 추가
 
   useEffect(() => {
     const balloons = [
@@ -83,7 +82,6 @@ export default function DonationPage() {
 
       <div className="flex-grow w-full relative z-10 px-4">
         <Header />
-        <SearchBar />
         <SectionTitle text="기부하기" />
 
         <motion.div
