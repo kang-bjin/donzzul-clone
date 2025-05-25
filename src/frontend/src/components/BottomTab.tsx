@@ -1,7 +1,7 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
-import LocationPermissionModal from '@/components/modals/LocationPermissionModal';
+import PhotoGuideModal from '@/components/modals/PhotoGuideModal';
 
 interface TabItem {
   label: string;
@@ -21,17 +21,18 @@ export default function BottomTab() {
   const router = useRouter();
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState(false);
+  const [showPhotoGuide, setShowPhotoGuide] = useState(false);
 
   return (
     <>
-     <footer className="w-full py-2 flex justify-around">
+     <footer className="fixed bottom-0 left-0 w-full h-[70px] bg-white border-t border-gray-200 flex justify-around items-center z-50">
           {tabs.map((tab, index) => {
             const isActive = pathname === tab.path;
             const isCenter = tab.center;
 
             const handleClick = () => {
             if (isCenter) {
-              setOpenModal(true); // ✅ 모달 열기
+              setShowPhotoGuide(true); // ✅ 모달 열기
             } else if (tab.path) {
               router.push(tab.path);
             }
@@ -64,8 +65,7 @@ export default function BottomTab() {
             );
           })}
     </footer>
-    {/* ✅ 위치 권한 모달 */}
-    <LocationPermissionModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+    <PhotoGuideModal isOpen={showPhotoGuide} onClose={() => setOpenModal(false)} />
     </>
   );
 }
