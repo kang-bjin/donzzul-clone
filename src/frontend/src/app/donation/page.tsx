@@ -14,7 +14,7 @@ export default function DonationPage() {
   const [balloonText, setBalloonText] = useState('');
   const [hamsterImage, setHamsterImage] = useState('/donation_hamster.png');
   const [imageKey, setImageKey] = useState(0);
-  const router = useRouter(); // 라우터 추가
+  const router = useRouter();
 
   useEffect(() => {
     const balloons = [
@@ -61,31 +61,33 @@ export default function DonationPage() {
     updateActivity(type);
   };
 
-  // ✅ 기부 버튼 클릭 핸들러
   const handleDonate = () => {
     if (points >= 10000) {
-      router.push('/donation/list'); // 실제 경로로 수정
+      router.push('/donation/list');
     } else {
       alert('최소 만 포인트부터 기부가 가능해요!');
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white w-full">
+    <div className="flex flex-col min-h-screen bg-white w-full pb-24 overflow-x-hidden relative">
+      {/* 배경 원 */}
       <div
-        className="absolute left-1/2 top-[171px] w-[592px] h-[91.63%] z-0 pointer-events-none -translate-x-1/2"
+        className="absolute left-1/2 top-[171px] w-full max-w-[592px] h-[91.63%] z-0 pointer-events-none -translate-x-1/2"
         style={{
           background:
             'radial-gradient(50% 50% at 50% 50%, #FFD6D6 0%, rgba(255, 214, 214, 0.74) 29%, rgba(224, 77, 77, 0) 100%)',
         }}
       />
 
-      <div className="flex-grow w-full relative z-10 px-4">
+      {/* 콘텐츠 */}
+      <div className="flex-grow w-full relative z-10 px-4 pt-0">
         <Header />
         <SectionTitle text="기부하기" />
 
+        {/* 말풍선 */}
         <motion.div
-          className="bg-[#FFF7F7] text-center text-sm sm:text-base text-gray-800 rounded-full px-6 py-4 mb-4 shadow-md w-full"
+          className="mt-6 bg-[#FFF7F7] text-center text-sm sm:text-base text-gray-800 rounded-full px-6 py-4 mb-10 shadow-md w-full"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -93,7 +95,8 @@ export default function DonationPage() {
           {balloonText}
         </motion.div>
 
-        <div className="relative flex justify-center items-center mb-4">
+        {/* 햄스터 이미지 */}
+        <div className="relative flex justify-center items-center mb-2">
           <div
             className="absolute w-72 h-72 rounded-full -z-10"
             style={{
@@ -123,7 +126,8 @@ export default function DonationPage() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-2 mb-4">
+        {/* 이름, 포인트 */}
+        <div className="flex flex-col items-center gap-2 mb-8">
           <div className="bg-[#FFE5E3] px-4 py-1 rounded-full text-sm font-medium text-gray-700">
             🐹 {name} 🐹
           </div>
@@ -132,7 +136,8 @@ export default function DonationPage() {
           </div>
         </div>
 
-        <div className="w-full bg-white rounded-xl shadow-sm p-4 flex justify-between items-center mb-4">
+        {/* 아이콘 상태 표시 */}
+        <div className="w-full bg-white rounded-xl shadow-sm p-4 flex justify-between items-center mb-5">
           {iconTypes.map((type) => (
             <div key={type} className="flex gap-1">
               {[0, 1, 2].map((i) => (
@@ -151,21 +156,22 @@ export default function DonationPage() {
           ))}
         </div>
 
-        <div className="flex justify-between w-full mb-4">
+        {/* 액션 버튼 */}
+        <div className="flex justify-center gap-12 lg:gap-105 w-full mb-15">
           {iconTypes.map((type) => (
             <motion.button
               key={type}
               onClick={() => handleAction(type)}
               whileTap={{ scale: 0.9 }}
-              className="bg-[#FFE8A3] text-gray-800 text-xs px-4 py-2 rounded-full shadow font-semibold w-[80px] whitespace-nowrap text-center"
+              className="bg-[#FFE8A3] text-gray-800 text-xs px-4 py-2 rounded-full shadow font-semibold whitespace-nowrap text-center"
             >
               {labelMap[type]}
             </motion.button>
           ))}
         </div>
 
-        {/* ✅ 기부하기 버튼 */}
-        <div className="w-full mb-6">
+        {/* 기부하기 버튼 */}
+        <div className="w-full ">
           <motion.button
             onClick={handleDonate}
             whileHover={{ scale: 1.03 }}
@@ -177,6 +183,7 @@ export default function DonationPage() {
         </div>
       </div>
 
+      {/* 바텀탭 */}
       <div className="bg-white w-full">
         <BottomTab />
       </div>
