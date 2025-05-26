@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestConfig {
-    @Bean("ocrRestTemplate")
+    @Bean
     public RestTemplate ocrRestTemplate() {
         return new RestTemplate();
     }

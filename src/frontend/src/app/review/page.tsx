@@ -1,0 +1,116 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { FaStar } from 'react-icons/fa'
+import Header from '@/components/Header'
+import BottomTab from '@/components/BottomTab'
+import PointModal from '@/components/modals/PointModal'
+
+export default function WriteReviewPage() {
+  const router = useRouter()
+  const [rating, setRating] = useState(4)
+  const [hoverRating, setHoverRating] = useState(0)
+  const [review, setReview] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  return (
+    <>
+      <Header />
+
+      {/* ✅ 스크롤 콘텐츠 영역 */}
+      <main className="min-h-screen bg-[#FFD735]/85 px-4 py-6 flex flex-col items-center rounded-[50px]">
+        <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
+          {/* 이미지 + 닫기 */}
+          <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
+            <Image src="/성심당.jpg" alt="가게 이미지" fill className="object-cover" />
+            <button
+              onClick={() => router.back()}
+              className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* 가게 정보 */}
+          <div className="mb-6">
+            <p className="border-l-4 border-yellow-400 pl-2 font-bold text-gray-800 mb-1">
+              인식된 가게 정보
+            </p>
+            <div className="relative border border-gray-300 border-dashed rounded-xl p-4 pt-8 text-center mt-6">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#E7E6E6] px-4 py-1 rounded-full shadow-sm">
+                <p className="font-bold text-md text-gray-800">성심당 본점</p>
+              </div>
+              <p className="text-left text-sm text-gray-600">대전광역시 중구 대종로480번길 15</p>
+              <p className="text-left text-sm text-gray-600">영업시간 : 오전 8:00 ~ 오후 10:00</p>
+              <div className="flex justify-between text-sm text-gray-600">
+                <p>전화번호 : 1588-8069</p>
+                <p className="text-blue-500">⭐ 4.5</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 확인 버튼 */}
+          <div className="flex justify-between mb-6">
+            <button
+              className="w-[48%] bg-[#E7E6E6]/70 rounded-full py-2 font-semibold"
+              onClick={() => router.push('/scan')}
+            >
+              아니에요
+            </button>
+            <button
+              className="w-[48%] bg-[#E7E6E6]/70 rounded-full py-2 font-semibold"
+              onClick={() => console.log('맞아요 클릭됨')}
+            >
+              맞아요
+            </button>
+          </div>
+
+          {/* 리뷰 작성 */}
+          <div>
+            <p className="border-l-4 border-yellow-400 pl-2 font-bold text-gray-800 mb-3">
+              리뷰 작성하기
+            </p>
+            <div className="flex gap-1 mb-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <FaStar
+                  key={i}
+                  className={`w-6 h-6 cursor-pointer ${
+                    i <= (hoverRating || rating) ? 'text-orange-400' : 'text-gray-300'
+                  }`}
+                  onClick={() => setRating(i)}
+                  onMouseEnter={() => setHoverRating(i)}
+                  onMouseLeave={() => setHoverRating(0)}
+                />
+              ))}
+            </div>
+            <textarea
+              className="w-full border border-[#D9D9DE] rounded-md p-3 h-28 resize-none text-sm"
+              placeholder="구매하신 상품/서비스는 만족스러우셨나요?"
+              maxLength={500}
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            />
+            <p className="text-right text-xs text-gray-400 mt-1">{review.length}/500</p>
+          </div>
+          {/* ✅ 등록 버튼: 고정 (하단탭 위) */}
+          <div className="mt-15">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full bg-[#FFC300] text-white font-bold py-4 rounded-full shadow-lg"
+            >
+              등록하기
+            </button>
+          </div>
+        </div>
+      </main>
+      
+      {/* ✅ 하단탭 */}
+      <BottomTab />
+
+      {/* ✅ 모달 */}
+      <PointModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
+  )
+}
