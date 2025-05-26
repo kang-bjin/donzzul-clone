@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { IoChevronBack, IoSettingsSharp } from 'react-icons/io5';
 import Image from 'next/image';
@@ -10,6 +10,9 @@ import CertificateModal from '@/components/modals/CertificateModal'
 export default function HistoryPage() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const [reviews, setReviews] = useState([]);
+  const [proposals, setProposals] = useState([]);
   
 
   const user = { name: '이설후' }; // TODO: DB 연동 시 교체
@@ -58,6 +61,14 @@ export default function HistoryPage() {
     },
   ];
 
+  useEffect(() => {
+  // 닉네임 불러오기
+  fetch('http://localhost:8080/api/my/nickname', { method: 'GET',// credentials, headers 등 실제 인증 필요 시 추가
+    })
+    .then(res => res.json())
+    .then(data => setNickname(data.nickname));
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-white pb-[80px]">
       {/* 헤더 */}
@@ -73,7 +84,7 @@ export default function HistoryPage() {
       <div>
         <div className="flex flex-col items-center py-6">
           <Image src="/햄스터_대표로고.png" alt="프로필 캐릭터" width={150} height={100} className="rounded-full" />
-          <p className="mt-5 text-lg font-bold">User 님</p>
+          <p className="mt-5 text-lg font-bold">{nickname}님</p>
         </div>
 
         {/* 버튼 영역 */}

@@ -30,4 +30,10 @@ public class UserService {
                 .filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()));
     }
 
+    public String getNicknameByUserId(Long userId) {
+        return userRepository.findById(userId)
+                .map(user -> user.getNickname())
+                .orElse("Unknown");
+    }
+
 }
