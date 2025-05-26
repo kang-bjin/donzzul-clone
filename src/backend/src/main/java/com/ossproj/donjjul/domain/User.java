@@ -1,5 +1,6 @@
 package com.ossproj.donjjul.domain;
 
+import com.ossproj.donjjul.enums.CharacterStage;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -35,4 +36,9 @@ public class User {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
+
+    private int donationPoints = 0;               // 누적 포인트
+
+    @Enumerated(EnumType.STRING)
+    private CharacterStage characterStage = CharacterStage.BABY;  // 캐릭터 단계
 }
