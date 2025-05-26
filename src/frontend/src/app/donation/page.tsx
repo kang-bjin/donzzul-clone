@@ -81,9 +81,11 @@ export default function DonationPage() {
       />
 
       {/* 콘텐츠 */}
-      <div className="flex-grow w-full relative z-10 px-4 pt-0">
+      <div className="flex-grow w-full relative z-10 pt-0">
         <Header />
+        <div className="px-4">
         <SectionTitle text="기부하기" />
+        </div>
 
         {/* 말풍선 */}
         <motion.div

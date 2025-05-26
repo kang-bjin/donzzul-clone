@@ -6,7 +6,7 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <header className="w-full py-4 p-4">
+    <header className="w-full py-2 p-4">
       <div className="flex flex-col gap-4">
         {/* 상단: 타이틀 + 아이콘 */}
         <div className="flex items-center justify-between">
