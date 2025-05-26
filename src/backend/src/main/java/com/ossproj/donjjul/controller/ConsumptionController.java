@@ -1,5 +1,6 @@
 package com.ossproj.donjjul.controller;
 
+import com.ossproj.donjjul.dto.CharacterResponse;
 import com.ossproj.donjjul.service.CharacterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,8 @@ public class ConsumptionController {
     }
 
     @PostMapping("/{userId}/good")
-    public ResponseEntity<Void> goodConsumption(@PathVariable Long userId) {
-        characterService.processGoodConsumption(userId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CharacterResponse> goodConsumption(@PathVariable Long userId) {
+        CharacterResponse resp = characterService.processGoodConsumption(userId);
+        return ResponseEntity.ok(resp);
     }
 }

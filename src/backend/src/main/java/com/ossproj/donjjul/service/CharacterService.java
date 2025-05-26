@@ -2,6 +2,7 @@ package com.ossproj.donjjul.service;
 
 import com.ossproj.donjjul.config.CharacterConfig;
 import com.ossproj.donjjul.domain.User;
+import com.ossproj.donjjul.dto.CharacterResponse;
 import com.ossproj.donjjul.enums.CharacterStage;
 import com.ossproj.donjjul.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CharacterService {
     private final UserRepository userRepo;
-    private final DonationService donationService; // 기부 처리 서비스
+    private final DonationService donationService;
 
     public CharacterService(UserRepository userRepo,
                             DonationService donationService) {
@@ -20,9 +21,10 @@ public class CharacterService {
     }
 
     @Transactional
-    public void processGoodConsumption(Long userId) {
+    public CharacterResponse processGoodConsumption(Long userId) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
         // 1) 포인트 적립
         user.setDonationPoints(user.getDonationPoints() + CharacterConfig.POINT_PER_CONSUMPTION);
 
@@ -36,14 +38,20 @@ public class CharacterService {
             user.setCharacterStage(CharacterStage.BABY);
         }
 
-        // 3) 성체(ADULT) 완성 처리
+        CharacterResponse resp;
+        // 3) ADULT 달성 시 기부 & 초기화
         if (user.getCharacterStage() == CharacterStage.ADULT) {
-            donationService.donate(user, CharacterConfig.DONATION_AMOUNT);
-            // 포인트와 단계 초기화
+            resp = donationService.donate(user, CharacterConfig.DONATION_AMOUNT);
             user.setDonationPoints(0);
             user.setCharacterStage(CharacterStage.BABY);
+        } else {
+            resp = new CharacterResponse(
+                    user.getDonationPoints(),
+                    user.getCharacterStage()
+            );
         }
 
         userRepo.save(user);
+        return resp;
     }
 }
