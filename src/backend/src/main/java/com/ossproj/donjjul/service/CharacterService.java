@@ -12,12 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CharacterService {
     private final UserRepository userRepo;
-    private final DonationService donationService;
 
-    public CharacterService(UserRepository userRepo,
-                            DonationService donationService) {
+    public CharacterService(UserRepository userRepo) {
         this.userRepo = userRepo;
-        this.donationService = donationService;
     }
 
     @Transactional
@@ -38,20 +35,12 @@ public class CharacterService {
             user.setCharacterStage(CharacterStage.BABY);
         }
 
-        CharacterResponse resp;
-        // 3) ADULT 달성 시 기부 & 초기화
-        if (user.getCharacterStage() == CharacterStage.ADULT) {
-            resp = donationService.donate(user, CharacterConfig.DONATION_AMOUNT);
-            user.setDonationPoints(0);
-            user.setCharacterStage(CharacterStage.BABY);
-        } else {
-            resp = new CharacterResponse(
-                    user.getDonationPoints(),
-                    user.getCharacterStage()
-            );
-        }
-
         userRepo.save(user);
-        return resp;
+
+        // 3) 현재 상태 반환
+        return new CharacterResponse(
+                user.getDonationPoints(),
+                user.getCharacterStage()
+        );
     }
 }
