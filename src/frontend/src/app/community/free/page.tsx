@@ -8,6 +8,7 @@ import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
 import { LiaCommentDots } from "react-icons/lia";
 import { useRouter, usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 
 interface Post {
@@ -72,9 +73,9 @@ export default function freePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {dummyPosts.map((p) => (
-            <div
+            <Link
             key={p.id}
-            onClick={() => router.push(`/community/free/${p.id}`)}
+            href={`/community/free/${p.id}`}
             className="relative border border-gray-200 rounded-lg p-4 pb-16 shadow-xl bg-white"
             >
 
@@ -105,7 +106,7 @@ export default function freePage() {
             <span className="absolute bottom-4 right-4 flex items-center gap-1 text-xs text-gray-500">
                 <LiaCommentDots className='w-4 h-4'/> {p.comments}
             </span>
-            </div>
+            </Link>
 
         ))}
         </div>

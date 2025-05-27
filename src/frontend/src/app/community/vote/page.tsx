@@ -10,6 +10,7 @@ import { LiaCommentDots } from "react-icons/lia";
 import { useRouter, usePathname } from 'next/navigation'
 import { FaStar, FaRegStar } from 'react-icons/fa'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface VotePost {
   id: number
@@ -85,9 +86,9 @@ export default function freePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {dummyVote.map((p) => (
-            <div
+            <Link
             key={p.id}
-            onClick={() => router.push(`/community/vote/${p.id}`)}
+            href={`/community/vote/${p.id}`}
             className="relative border border-gray-200 rounded-lg p-4 pb-16 shadow-xl bg-white"
             >
             {/* 별점 + 제목 */}
@@ -141,7 +142,7 @@ export default function freePage() {
             <span className="absolute bottom-4 right-4 flex items-center gap-1 text-xs text-gray-500">
                 <LiaCommentDots className='w-4 h-4'/> {p.comments}
             </span>
-            </div>
+            </Link>
 
         ))}
         </div>
