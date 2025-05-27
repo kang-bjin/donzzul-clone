@@ -1,12 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
-import Container from '@/components/Container';
-import CardWrapper from '@/components/CardWrapper';
 import { FaStar } from 'react-icons/fa'
 import BottomTab from '@/components/BottomTab';
 import Header from '@/components/Header';
+import LocationPermissionModal from '@/components/modals/LocationPermissionModal';
+import NearbySection from '@/components/NearbySection';
 
 
 const categories = ['🍚 한식', '🥟 중식', '☕️ 카페', '+'];
@@ -15,26 +15,21 @@ const stores = [
   { id: 2, name: '6번지버거', ex: '육즙 가득 수제 햄버거집', rating: 4.6, reviews: 67, img: '/store2.png' },
 ];
 
-const tabs = [
-  { label: '착한 가게', path: '/main' },
-  { label: '커뮤니티', path: '/community' },
-  { label: '소비 인증', path: '/certify', center: true },
-  { label: '지도', path: '/map' },
-  { label: '기부하기', path: '/donate' },
-];
-
 export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsModalOpen(true); // ✅ 페이지 진입 시 모달 자동 열기
+  }, []);
   
 
   return (
-    <Container size="sm" bgColor="bg-white">
-      <CardWrapper>
+      <div className='min-h-screen'>
         {/* 헤더 */}
         <Header/>
-
         {/* 배너 */}
-        <section className="w-full h-70 relative my-2 overflow-hidden rounded-lg">
+        <div className='p-4'>
+        <section className="w-full h-90 relative my-2 overflow-hidden rounded-lg">
           <Image src="/banners.png" alt="메인 배너" fill style={{ objectFit: 'cover' }} />
         </section>
 
@@ -89,12 +84,18 @@ export default function MainPage() {
                 {store.ex}
               </div>
             </div>
+            
           ))}
         </section>
-
+        </div>
+        {/* ✅ 위치 권한 모달 삽입 */}
+        <LocationPermissionModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
         {/* 하단 탭바 */}
+        <NearbySection />
        <BottomTab/>
-      </CardWrapper>
-    </Container>
+      </div>
   );
 }
