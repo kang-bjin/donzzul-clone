@@ -4,6 +4,7 @@ from PIL import Image
 import pytesseract
 import re
 import datetime
+pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 def extract_business_info(image_stream):
     img = Image.open(image_stream)
@@ -17,7 +18,7 @@ def extract_business_info(image_stream):
 
     text = pytesseract.image_to_string(
         Image.fromarray(cleaned),
-        lang='kor+eng',
+        lang='eng',
         config='--oem 3 --psm 6'
     )
 

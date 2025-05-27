@@ -33,7 +33,7 @@ public class ReceiptService {
         }
 
         // 2) 유효 기간(3일) 초과 체크
-        if (payDate.isBefore(LocalDate.now().minusDays(3))) {
+        if (payDate.isBefore(LocalDate.now().minusDays(30))) {
             return new ReceiptValidationResult(
                     false,
                     businessNumber,
