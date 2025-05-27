@@ -12,7 +12,10 @@ import { FaStar, FaRegStar } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface VotePost {
+export default function Store() {
+  const router = useRouter()
+
+interface ReviewPost {
   id: number
   title: string
   excerpt?: string
@@ -24,11 +27,11 @@ interface VotePost {
   thumbnailUrl?: string
   thumbnails: string[]
 }
-const dummyVote: VotePost[] = [
+const dummyReview: ReviewPost[] = [
   {
       id: 1,
       title: '선행하는 빵 맛집 발견했어요~!',
-      excerpt : '이번에 저희 동네에 새로 생긴 빵집이 있는데, 어찌나 빵이 쫀득하구 맛있던지 저희 가족들이 정말 단골이 되리라 했어요 근데 사장님께서 매달 고아원과 요양원에 빵들을 기부하시는 분이셨더라구요~!! 그것두 손수 예쁘게 포장하셔서 기부하시는 모습에 정말 감동받은 거 있죠? 이번 돈쭐 가게 후보로 추천합니다~^^',
+      excerpt : '짱맛 말 모 말 모 튀김 소보루 삼백 개 사감 ㅅㄱ',
       date: '2025-04-10',
       likes: 105,
       dislikes : 3,
@@ -38,57 +41,46 @@ const dummyVote: VotePost[] = [
       thumbnails: ['/성심당3.jpg','/성심당2.jpg','/성심당.jpg'],
   },
 ]
-
-
-export default function freePage() {
-  const [activeTab, setActiveTab] = useState<'free' | 'vote'>('free')
-  const router = useRouter()
-  const pathname = usePathname() 
-  const tabs = [
-    { key: 'free', label: '자유 게시판', href: '/community/free' },
-    { key: 'vote', label: '투표 게시판', href: '/community/vote'},
-  ]
-
   return (
     <>
       <Header />
+     <div className="px-4">
+      {/* ✅ 스크롤 콘텐츠 영역 */}
+      <main className="min-h-screen bg-[#FFD735]/85 px-4 py-6 flex flex-col items-center rounded-[50px]">
+        <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
+          {/* 이미지 + 닫기 */}
+          <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
+            <Image src="/성심당.jpg" alt="가게 이미지" fill className="object-cover" />
+            <button
+              onClick={() => router.back()}
+              className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
+            >
+              ✕
+            </button>
+          </div>
 
-      <main className="px-4 pt-4 pb-28 bg-white flex-1">
-        {/* 상단 배너 */}
-        <div className="w-full overflow-hidden mb-4">
-          <img src="/배너_커뮤니티2.png" alt="배너" className="w-full object-cover" />
-        </div>
-
-        <div className='flex items-center justify-between mb-4'>
-        <p className="border-l-4 border-yellow-400 pl-2 font-bold text-[20px] mb-1">
-              커뮤니티
-        </p>
-
-        {/* 탭 */}
-        <div className="flex space-x-2 mb-4 px-2">
-            {tabs.map((t) => {
-                const isActive = pathname === t.href
-                return (
-                <button
-                    key={t.key}
-                    onClick={() => router.push(t.href)}
-                    className={`flex-1 text-center py-1 px-2 rounded-full text-[13px] ${
-                    isActive
-                        ? 'bg-[#FFD735]/85 border border-[#B5B5B5]'
-                        : 'bg-white border border-[#B5B5B5]'
-                    }`}
-                >
-                    {t.label}
-                </button>
-                )
-            })}
+          {/* 가게 정보 */}
+          <div className="mb-6">
+            <div className='flex items-center gap-8'>
+                <span className="font-bold text-[25px] ">성심당 본점</span>
+                <span className="text-[17px]">베이커리</span>
+            </div>    
+              <p className="text-left text-[15px] text-[#747483]">대전광역시 중구 대종로480번길 15</p>
+              <p className="text-left text-[15px] text-[#747483]">영업시간 : 오전 8:00 ~ 오후 10:00</p>
+              <div className="flex justify-between text-[15px] text-[#747483]">
+                <p>전화번호 : 1588-8069</p>
+                <div className='flex'>
+                  <p className="text-blue-500">⭐ 4.5</p>
+                  <p className='text-[#747483]'>(447)</p>
+                </div>
+              </div>
             </div>
-        </div>
+      {/* 탭 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {dummyVote.map((p) => (
+        {dummyReview.map((p) => (
             <Link
             key={p.id}
-            href={`/community/vote/${p.id}`}
+            href={`/store/${p.id}`}
             className="relative border border-gray-200 rounded-lg p-4 pb-16 shadow-xl bg-white"
             >
             {/* 별점 + 제목 */}
@@ -124,7 +116,7 @@ export default function freePage() {
             <p className="text-sm text-gray-600 mt-2 line-clamp-2">{p.excerpt}</p>
 
             {/* 날짜: 오른쪽 상단 */}
-            <span className="absolute top-4 right-9 text-xs text-gray-500">
+            <span className="absolute top-4 right-5 text-[15px] text-gray-500">
                 {p.date}
             </span>
 
@@ -146,18 +138,17 @@ export default function freePage() {
 
         ))}
         </div>
+          
 
+          
+       
+        </div>
       </main>
-
-      {/* 플로팅 액션 버튼 */}
-      <button
-        onClick={() => console.log('새 글쓰기')}
-        className="fixed bottom-24 right-6 w-8 h-8 bg-[#FFCD00] rounded-full flex items-center justify-center shadow-lg text-white text-2xl"
-      >
-        <FiPlus />
-      </button>
-
+      
+      {/* ✅ 하단탭 */}
       <BottomTab />
-    </>
+    
+  </div> 
+  </> 
   )
 }

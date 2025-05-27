@@ -5,6 +5,7 @@ import pytesseract
 import easyocr
 import re
 import datetime
+pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 # EasyOCR Reader(한 번만 생성)
 reader = easyocr.Reader(['ko', 'en'], gpu=False)
@@ -21,7 +22,7 @@ def extract_business_info(image_stream):
     # 1) 룰베이스 텍스트 추출 (Tesseract)
     raw_text = pytesseract.image_to_string(
         Image.fromarray(cleaned),
-        lang='kor+eng',
+        lang='eng',
         config='--oem 3 --psm 6'
     )
 
