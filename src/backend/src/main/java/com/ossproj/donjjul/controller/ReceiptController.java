@@ -42,49 +42,32 @@ public class ReceiptController {
             return ResponseEntity.badRequest().body(Map.of("message", "OCR 실패"));
         }
 
-        // 2) payDate null 체크
         LocalDate payDate = ocr.getPayDate();
-        if (payDate == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "OCR에서 결제일을 추출하지 못했습니다"));
-        }
-
         String businessNumber = ocr.getBusinessNumber();
-        String payDateStr = payDate.toString();
+        String payDateStr = payDate != null ? payDate.toString() : null;
 
-        // 3) 영수증 검증
+        // 2) payDate null 체크 → 안내
+        if (payDate == null) {
+            return ResponseEntity.ok(Map.of(
+                "valid", false,
+                "status", "invalid",
+                "reason", "잘못된 날짜 형식",
+                "business_number", businessNumber,
+                "pay_date", payDateStr
+            ));
+        }
+
+        // 3) 영수증 검증 → status로 분기
         ReceiptValidationResult vr = receiptService.verifyReceipt(businessNumber, payDate);
-        if (!vr.isValid()) {
-            Map<String, Object> body = new HashMap<>();
-            body.put("business_number", businessNumber);
-            body.put("pay_date", payDateStr);
-            body.put("valid", false);
-            body.put("reason", vr.getReason());
-            return ResponseEntity.ok(body);
-        }
 
-        // 4) 매장 존재 여부에 따른 분기
-        Optional<Store> optStore = storeRepo.findByBusinessNumber(businessNumber);
-        if (optStore.isPresent()) {
-            ReviewCreateRequest req = new ReviewCreateRequest();
-            req.setStoreId(optStore.get().getId());
-            req.setRating(rating);
-            req.setContent(content);
+        Map<String, Object> body = new HashMap<>();
+        body.put("business_number", businessNumber);
+        body.put("pay_date", payDateStr);
+        body.put("valid", vr.isValid());
+        body.put("status", vr.getStatus());
+        body.put("reason", vr.getReason());
 
-            // 임시 userId 고정 (인증 제거 상태)
-            req.setUserId(1L);
-
-            ReviewResponse rr = reviewSvc.createReview(req);
-
-            Map<String, Object> body = new HashMap<>();
-            body.put("type", "review");
-            body.put("review", rr);
-            return ResponseEntity.ok(body);
-        } else {
-            ProposalResponseDto pr = proposalSvc.createProposal(ocr);
-            Map<String, Object> body = new HashMap<>();
-            body.put("type", "proposal");
-            body.put("proposal", pr);
-            return ResponseEntity.ok(body);
-        }
+        // (필요하다면 추가 정보 같이 전달)
+        return ResponseEntity.ok(body);
     }
 }
