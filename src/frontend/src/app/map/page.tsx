@@ -130,7 +130,7 @@ export default function MapPage() {
                 onClick={moveToCurrentLocation}
                 className="flex items-center gap-1 text-xs font-semibold px-4 py-2 border border-yellow-300 bg-yellow-100 text-yellow-800 rounded-full shadow-sm whitespace-nowrap"
               >
-                📍 현재 위치로 이동
+                현재 위치로 이동
               </button>
             </div>
           </div>
