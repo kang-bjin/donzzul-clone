@@ -1,8 +1,10 @@
 package com.ossproj.donjjul.controller;
 
 import com.ossproj.donjjul.dto.ReviewResponse;
+import com.ossproj.donjjul.dto.ProposalResponseDto;
 import com.ossproj.donjjul.service.ReviewService;
 import com.ossproj.donjjul.service.UserService;
+import com.ossproj.donjjul.service.ProposalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/my")
@@ -38,10 +39,10 @@ public class MyPageController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/proposals")
-    public ResponseEntity<List<ProposalResponse>> getMyProposals() {
-        Long userId = 1L;       // ((CustomUserDetails)auth.getPrincipal()).getId();
-        List<ProposalResponse> proposals = proposalService.getProposalsByUserId(userId);
-        return ResponseEntity.ok(proposals);
-    }
+    // @GetMapping("/proposals")
+    // public ResponseEntity<List<ProposalResponseDto>> getMyProposals() {
+    //     Long userId = 1L;       // ((CustomUserDetails)auth.getPrincipal()).getId();
+    //     List<ProposalResponseDto> proposals = ProposalService.getProposalsByUserId(userId);
+    //     return ResponseEntity.ok(proposals);
+    // }
 }
