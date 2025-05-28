@@ -11,7 +11,7 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { label: '착한 가게', path: '/main' },
-  { label: '커뮤니티', path: '/community' },
+  { label: '커뮤니티', path: '/community/free' },
   { label: '소비 인증', path: '/certify', center: true },
   { label: '지도', path: '/map' },
   { label: '기부하기', path: '/donation' },

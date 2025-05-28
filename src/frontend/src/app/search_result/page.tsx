@@ -5,9 +5,6 @@ import Header from '@/components/Header';
 import BottomTab from '@/components/BottomTab';
 import SearchResults from '@/components/SearchResults';
 import Link from 'next/link';
-import { FiChevronRight, FiPlus } from 'react-icons/fi';
-import { BiLike, BiDislike } from 'react-icons/bi';
-import { LiaCommentDots } from 'react-icons/lia';
 
 interface Store {
   id: number;
