@@ -18,6 +18,8 @@ public class Review {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    private LocalDateTime paymentDate;
+
     private int rating;
     private String content;
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -37,6 +39,9 @@ public class Review {
     public String getContent() { return content; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
+    }
     public User getUser() { return user; }
     public Store getStore() { return store; }
 }

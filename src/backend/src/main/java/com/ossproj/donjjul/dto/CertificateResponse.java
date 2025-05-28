@@ -1,23 +1,22 @@
 package com.ossproj.donjjul.dto;
 
 import com.ossproj.donjjul.domain.Certificate;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class CertificateResponse {
-    private Long certificateId;
+    private String userName;
     private String storeName;
-    private LocalDate issuedDate;
+    private LocalDateTime paymentDate;
 
-    public static CertificateResponse from(Certificate c) {
-        return new CertificateResponse(
-                c.getId(),
-                c.getReview().getStore().getName(),
-                c.getIssuedDate()
-        );
+    public static CertificateResponse from(Certificate cert) {
+        return CertificateResponse.builder()
+                .storeName(cert.getReview().getStore().getName())
+                .paymentDate(cert.getReview().getPaymentDate())  // 또는 적절한 필드명
+                .build();
     }
 }
