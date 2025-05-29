@@ -11,9 +11,13 @@ public class DonationTarget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;      // 기부처 이름
-    private String description;
-    private String imageUrl;  // (선택) 프론트에 보여줄 썸네일
+    private String name;          // 기부처 이름
+    private String type;          // 단체 종류
+    private String phoneNumber;   // 전화번호
+    private String introduction;  // 소개 문구
+    private String imageUrl;      // 썸네일 (선택)
 
     public DonationTarget() {}
+
+    // 필요시 생성자, getter, setter 추가
 }
