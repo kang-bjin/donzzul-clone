@@ -14,8 +14,17 @@ export default function MapPage() {
   const [currentPosition, setCurrentPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [category, setCategory] = useState<string>('');
   const [markers, setMarkers] = useState<any[]>([]);
-
   const infoWindowRef = useRef<any>(null);
+
+  // mock 데이터
+  const mockData = [
+    { name: '착한식당', lat: 37.5665, lng: 126.9780, category: '음식점' },
+    { name: '우리약국', lat: 37.5651, lng: 126.9895, category: '의료시설' },
+    { name: '헬스짐', lat: 37.5678, lng: 126.9755, category: '스포츠' },
+    { name: '생활마트', lat: 37.5681, lng: 126.9820, category: '생활' },
+    { name: '학원A', lat: 37.5690, lng: 126.9770, category: '교육' },
+  ];
+
 
   useEffect(() => {
     if (!loaded || !mapRef.current) return;
@@ -50,11 +59,42 @@ export default function MapPage() {
     });
   }, [map]);
 
-  const clearMarkers = () => {
-    markers.forEach((m) => m.setMap(null));
-    setMarkers([]);
-  };
+  // category 상태 변경 시 mock 마커 표시
+  useEffect(() => {
+    if (!map || !loaded) return;
 
+    clearMarkers();
+
+    const filtered = category
+      ? mockData.filter((s) => s.category === category)
+      : mockData;
+
+    const newMarkers = filtered.map((store) => {
+      const pos = new window.kakao.maps.LatLng(store.lat, store.lng);
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position: pos,
+        image: getMarkerImage(),
+      });
+
+      if (!infoWindowRef.current) {
+        infoWindowRef.current = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+      }
+
+      window.kakao.maps.event.addListener(marker, 'click', () => {
+        infoWindowRef.current.setContent(
+          `<div style="padding:5px;font-size:12px;">${store.name}</div>`
+        );
+        infoWindowRef.current.open(map, marker);
+      });
+
+      return marker;
+    });
+
+    setMarkers(newMarkers);
+  }, [category, map, loaded]);
+
+  // 키워드 검색 시 마커 표시
   const handleSearch = () => {
     if (!map || !keyword.trim()) return;
 
@@ -91,6 +131,11 @@ export default function MapPage() {
       newMarkers.forEach((m) => bounds.extend(m.getPosition()));
       map.setBounds(bounds);
     });
+  };
+
+  const clearMarkers = () => {
+    markers.forEach((m) => m.setMap(null));
+    setMarkers([]);
   };
 
   const getMarkerImage = () => {
