@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import OCRFailModal from '../../components/modals/OCRFailModal'; // 경로 확인 필요
+
 
 // base64 → Blob 변환 함수
 function dataURLtoBlob(dataurl: string): Blob {
@@ -20,6 +23,7 @@ const CameraScreen: React.FC = () => {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 카메라 시작
   useEffect(() => {
@@ -49,6 +53,7 @@ const CameraScreen: React.FC = () => {
   const takePhoto = async () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+
 
     if (!video || !canvas) return;
 
@@ -83,7 +88,7 @@ const CameraScreen: React.FC = () => {
         // status 기반 분기
         if (result.status === 'registered') {
           // 이미 등록된 가게, 리뷰 작성 페이지로 이동
-          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으으로 이동합니다.')
+          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.')
           router.push('/review');
         } else if (result.status === 'unregistered') {
           // 신규 가게 제보 페이지로 이동
@@ -96,7 +101,7 @@ const CameraScreen: React.FC = () => {
           alert('알 수 없는 상태: ' + result.status);
         }
       } else {
-        alert('이미지 업로드 실패: ' + response.status);
+        setIsModalOpen(true);  // ✅ 모달 띄우기
       }
     } catch (err) {
       console.error('이미지 업로드 에러:', err);
@@ -128,6 +133,7 @@ const CameraScreen: React.FC = () => {
         {/* 캡처용 canvas (숨김) */}
         <canvas ref={canvasRef} className="hidden" />
       </div>
+      <OCRFailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

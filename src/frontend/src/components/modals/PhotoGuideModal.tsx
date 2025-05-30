@@ -47,7 +47,7 @@ export default function PhotoGuideModal({ isOpen, onClose }: PhotoGuideModalProp
             </div>
             {/* 본문 내용 */}
             <div className="text-sm leading-relaxed px-2">
-              <p><span className="">영수증의 인쇄됀 면을 카메라에</span></p>
+              <p><span className="">영수증의 인쇄된 면을 카메라에</span></p>
               <br/>
               <p><span className="">❗<span className='underline'>정면으로</span> </span> 맞춰주세요</p>
               <br/>
