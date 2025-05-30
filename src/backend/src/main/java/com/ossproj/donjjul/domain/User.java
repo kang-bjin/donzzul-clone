@@ -41,4 +41,20 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private CharacterStage characterStage = CharacterStage.BABY;  // 캐릭터 단계
+
+    public void addDonationPoints(int delta) {
+        this.donationPoints += delta;
+        updateCharacterStage();
+    }
+
+    public void updateCharacterStage() {
+        if (donationPoints >= 10000) {
+            this.characterStage = CharacterStage.ADULT;
+        } else if (donationPoints >= 5000) {
+            this.characterStage = CharacterStage.CHILD;
+        } else {
+            this.characterStage = CharacterStage.BABY;
+        }
+    }
+
 }
