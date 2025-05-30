@@ -1,7 +1,12 @@
 package com.ossproj.donjjul.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,4 +40,7 @@ public class Store {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column
+    private String category;
 }

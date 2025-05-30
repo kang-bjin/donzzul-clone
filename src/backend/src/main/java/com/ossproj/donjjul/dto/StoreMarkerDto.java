@@ -10,12 +10,11 @@ public class StoreMarkerDto {
 
     public StoreMarkerDto(Store store) {
         this.name = store.getName();
-        this.lat = store.getLat();
-        this.lng = store.getLng();
-        this.category = store.getCategory();
+        this.lat = store.getLatitude() != null ? store.getLatitude() : 0.0;
+        this.lng = store.getLongitude() != null ? store.getLongitude() : 0.0;
+        this.category = "UNKNOWN"; // Store에 category 없으면 임시값
     }
 
-    // Getter만 필요
     public String getName() { return name; }
     public double getLat() { return lat; }
     public double getLng() { return lng; }
