@@ -56,7 +56,7 @@ public class UserController {
     // ✅ 포인트 조회
     @GetMapping("/{id}/points")
     public ResponseEntity<Map<String, Integer>> getPoints(@PathVariable Long id) {
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         return ResponseEntity.ok(Map.of("points", user.getDonationPoints()));
     }
 
@@ -64,7 +64,7 @@ public class UserController {
     @PostMapping("/{id}/points")
     public ResponseEntity<Map<String, Integer>> addPoints(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
         int delta = body.get("delta");
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         user.addDonationPoints(delta);
         userService.save(user);
         return ResponseEntity.ok(Map.of("updatedPoints", user.getDonationPoints()));
@@ -73,7 +73,7 @@ public class UserController {
     // ✅ 기부 (ADULT일 때 호출됨)
     @PostMapping("/{id}/donate")
     public ResponseEntity<?> donate(@PathVariable Long id, @RequestParam Long targetId) {
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         DonationTarget target = donationTargetRepository.findById(targetId).orElseThrow();
 
         int amount = user.getDonationPoints();
@@ -92,7 +92,7 @@ public class UserController {
     // ✅ 유저 상태 전체 조회 (프론트 초기 진입 시 사용)
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getUserInfo(@PathVariable Long id) {
-        User user = userService.findById(id).orElseThrow();
+        User user = userService.findById(id);
         return ResponseEntity.ok(Map.of(
                 "id", user.getId(),
                 "nickname", user.getNickname(),
