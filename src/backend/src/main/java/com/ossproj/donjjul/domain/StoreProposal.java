@@ -24,7 +24,7 @@ public class StoreProposal {
     @Column(name = "store_name")
     private String storeName;
 
-    @Column(name = "store_address")
+    @Column(name = "store_address", nullable = true)
     private String storeAddress;
 
     @Column(name = "business_number")

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import OCRFailModal from '../../components/modals/OCRFailModal'; // 경로 확인 필요
+import OCRFailModal from '@/components/modals/OCRFailModal'; // 경로 확인 필요
 
 
 // base64 → Blob 변환 함수
@@ -93,7 +93,8 @@ const CameraScreen: React.FC = () => {
         } else if (result.status === 'unregistered') {
           // 신규 가게 제보 페이지로 이동
           alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.')
-          router.push('/submit_store');
+          console.log('전체 result:', result)
+          router.push(`/submit_store?bno=${result.business_number}`);
         } else if (result.status === 'expired') {
           // 유효기간 초과 등
           alert(result.reason || '유효기간 초과 또는 인증 불가');

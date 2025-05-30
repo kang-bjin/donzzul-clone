@@ -24,7 +24,7 @@ public class StoreProposalController {
     public StoreProposalResponse create(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestBody StoreProposalRequest req) {
-        Long userId = Long.parseLong(userDetails.getUsername()); // username에 id 저장된 경우
+        Long userId = userDetails != null ? Long.parseLong(userDetails.getUsername()) : 1L; // username에 id 저장된 경우
         StoreProposal proposal = proposalService.createProposal(userId, req);
         return StoreProposalResponse.from(proposal);
     }

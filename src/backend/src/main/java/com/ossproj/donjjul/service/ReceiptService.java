@@ -62,6 +62,7 @@ public class ReceiptService {
             payDateStr,
             "등록되지 않은 사업자번호",
             "unregistered"
+            
         );
     }
 }
