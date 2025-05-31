@@ -50,7 +50,6 @@ export default function VerifyPage() {
     if (res.ok) {
       // 성공시 안내 (예: 모달 띄우기, 라우터 이동 등)
       setIsModalOpen(true);
-      // 혹은: router.push('/제보완료');
     } else {
       alert('제보 등록에 실패했습니다.');
     }
@@ -171,7 +170,12 @@ export default function VerifyPage() {
         <BottomTab />
 
         {/* 모달 */}
-        <PointModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <PointModal
+          isOpen={isModalOpen} 
+          onClose={() => {
+            setIsModalOpen(false);
+            router.push('/main');
+          }} />
       </main>
     </>
   )

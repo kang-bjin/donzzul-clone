@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.ok(Map.of("points", user.getDonationPoints()));
     }
 
-    // ✅ 포인트 증가 (활동 시 호출됨)
+    // ✅ 포인트 증가 (활동 시 s호출됨)
     @PostMapping("/{id}/points")
     public ResponseEntity<Map<String, Integer>> addPoints(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
         int delta = body.get("delta");

@@ -13,12 +13,12 @@ def extract_business_info(image_stream):
     img = img.resize((int(img.width * 1.5), int(img.height * 1.5)), Image.LANCZOS)
     img_cv = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2GRAY)
     _, binary = cv2.threshold(img_cv, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    kernel = np.ones((1,1), np.uint8)
+    kernel = np.ones((2,1), np.uint8)
     cleaned = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
 
     text = pytesseract.image_to_string(
         Image.fromarray(cleaned),
-        lang='eng',
+        lang='kor+eng',
         config='--oem 3 --psm 6'
     )
 

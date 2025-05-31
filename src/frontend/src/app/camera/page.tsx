@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import OCRFailModal from '@/components/modals/OCRFailModal'; // 경로 확인 필요
+import OCRFailModal from '@/components/modals/OCRFailModal';
 
 
 // base64 → Blob 변환 함수

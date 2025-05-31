@@ -10,13 +10,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 export default function DonationPage() {
-  const { name, points, activityCount, updateActivity } = useCharacterStore();
+  const { name, activityCount, updateActivity } = useCharacterStore();
   const [balloonText, setBalloonText] = useState('');
   const [hamsterImage, setHamsterImage] = useState('/donation_hamster.png');
   const [imageKey, setImageKey] = useState(0);
   const router = useRouter();
+  const [points, setPoints] = useState(0);
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 포인트 요청
+    fetch('http://localhost:8080/users/1/points') // id=1 고정
+      .then(res => res.json())
+      .then(data => {
+        setPoints(data.points); // 백엔드 응답: { "points": 12345 }
+      })
+      .catch(err => {
+        console.error('포인트 불러오기 실패', err);
+      });
     const balloons = [
       '오늘 하루는 어때?',
       '나 배고파ㅜㅜ',
@@ -44,7 +54,7 @@ export default function DonationPage() {
     sleep: '/게임햄스터.png',
   };
 
-  const handleAction = (type: 'meal' | 'exercise' | 'sleep') => {
+  const handleAction = async (type: 'meal' | 'exercise' | 'sleep') => {
     if (activityCount[type] >= 3) {
       alert('오늘은 더 못해요!');
       return;
@@ -59,6 +69,21 @@ export default function DonationPage() {
     }, 2000);
 
     updateActivity(type);
+
+    const delta = 10; // 예시: 10점 추가
+  try {
+    const res = await fetch('http://localhost:8080/users/1/points', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ delta })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setPoints(data.updatedPoints);
+    }
+  } catch (e) {
+    console.error('포인트 증가 실패', e);
+  }
   };
 
   const handleDonate = () => {
