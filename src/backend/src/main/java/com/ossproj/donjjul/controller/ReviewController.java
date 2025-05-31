@@ -3,9 +3,11 @@ package com.ossproj.donjjul.controller;
 import com.ossproj.donjjul.dto.ReviewCreateRequest;
 import com.ossproj.donjjul.dto.ReviewResponse;
 import com.ossproj.donjjul.service.ReviewService;
+import com.ossproj.donjjul.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.ossproj.donjjul.domain.User;
 
 import java.util.List;
 
@@ -15,10 +17,20 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<ReviewResponse> create(@RequestBody ReviewCreateRequest request) {
-        return ResponseEntity.ok(reviewService.createReview(request));
+        // 1. 리뷰 먼저 저장
+        ReviewResponse reviewRes = reviewService.createReview(request);
+
+        // 2. 포인트 적립 (userId는 request에 들어있어야 함)
+        Long userId = request.getUserId(); // ReviewCreateRequest에 getUserId() 필요
+        User user = userService.findById(userId);
+        user.addDonationPoints(100); // 100포인트 적립
+        userService.save(user);
+
+        return ResponseEntity.ok(reviewRes);
     }
 
     @GetMapping("/user/{userId}")

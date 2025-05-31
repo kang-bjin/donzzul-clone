@@ -15,6 +15,31 @@ export default function WriteReviewPage() {
   const [review, setReview] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const handleSubmit = async () => {
+    if (!review || rating === 0) {
+      alert('별점과 리뷰를 입력해주세요!');
+      return;
+    }
+    const userId = 1;   // 실제 id로 교체
+    const storeId = 1;  // 실제 id로 교체
+    const payload = { userId, storeId, rating, content: review };
+
+    try {
+      const res = await fetch('http://localhost:8080/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        setIsModalOpen(true);
+      } else {
+        alert('리뷰 등록에 실패했습니다.');
+      }
+    } catch (err) {
+      alert('서버 오류');
+      console.error(err);
+    }
+  };
   return (
     <>
       <Header />
@@ -55,7 +80,7 @@ export default function WriteReviewPage() {
           <div className="flex justify-between mb-6">
             <button
               className="w-[48%] bg-[#E7E6E6]/70 rounded-full py-2 font-semibold"
-              onClick={() => router.push('/scan')}
+              onClick={() => router.push('/camera')}
             >
               아니에요
             </button>
@@ -97,7 +122,7 @@ export default function WriteReviewPage() {
           {/* ✅ 등록 버튼: 고정 (하단탭 위) */}
           <div className="mt-15">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleSubmit}
               className="w-full bg-[#FFC300] text-white font-bold py-4 rounded-full shadow-lg"
             >
               등록하기
@@ -110,7 +135,10 @@ export default function WriteReviewPage() {
       <BottomTab />
 
       {/* ✅ 모달 */}
-      <PointModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <PointModal isOpen={isModalOpen} onClose={() => {
+        setIsModalOpen(false);
+        router.push('/main');
+        }} />
     </>
   )
 }
