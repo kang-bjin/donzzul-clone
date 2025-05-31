@@ -32,6 +32,7 @@ public class StoreController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     // ✅ 카카오맵 마커용 전체 가게 리스트 조회 (카테고리 선택 가능)
     @GetMapping
     public ResponseEntity<List<StoreMarkerDto>> getStoreMarkers(

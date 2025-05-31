@@ -1,19 +1,48 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams} from 'next/navigation'
 import { FaStar } from 'react-icons/fa'
 import Header from '@/components/Header'
 import BottomTab from '@/components/BottomTab'
 import PointModal from '@/components/modals/PointModal'
 
+// 1. 컴포넌트 바깥(상단)에 타입 정의
+interface Store {
+  id: number;
+  name: string;
+  address: string;
+  description: string;
+  image?: string;
+  // ...필요 필드
+}
+
 export default function WriteReviewPage() {
   const router = useRouter()
+  const searchParams = useSearchParams();
+  const businessNumber = searchParams.get('bno');
+  const [store, setStore] = useState<Store | null>(null);
+  const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(4)
   const [hoverRating, setHoverRating] = useState(0)
   const [review, setReview] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  
+  // 사업자번호로 가게정보 패칭
+  useEffect(() => {
+    if (!businessNumber) return;
+    fetch(`http://localhost:8080/stores/${businessNumber}`)
+      .then(res => res.ok ? res.json() : Promise.reject('가게 정보 없음'))
+      .then(data => {
+        setStore(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        alert('가게 정보를 불러오지 못했습니다.');
+        setLoading(false);
+      });
+  }, [businessNumber]);
 
   const handleSubmit = async () => {
     if (!review || rating === 0) {
@@ -40,6 +69,10 @@ export default function WriteReviewPage() {
       console.error(err);
     }
   };
+
+  if (loading) return <div>로딩 중...</div>;
+  if (!store) return <div>가게 정보를 불러올 수 없습니다.</div>;
+
   return (
     <>
       <Header />
@@ -49,7 +82,11 @@ export default function WriteReviewPage() {
         <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
           {/* 이미지 + 닫기 */}
           <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
-            <Image src="/성심당.jpg" alt="가게 이미지" fill className="object-cover" />
+            {store.image ? (
+              <Image src={`http://localhost:8080/images/${store.image}`} alt="가게 이미지" fill unoptimized className="object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">이미지 없음</div>
+            )}
             <button
               onClick={() => router.back()}
               className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
@@ -65,10 +102,10 @@ export default function WriteReviewPage() {
             </p>
             <div className="relative border border-gray-300 border-dashed rounded-xl p-4 pt-8 text-center mt-6">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#E7E6E6] px-4 py-1 rounded-full shadow-sm">
-                <p className="font-bold text-md text-gray-800">성심당 본점</p>
+                <p className="font-bold text-md text-gray-800">{store.name}</p>
               </div>
-              <p className="text-left text-sm text-gray-600">대전광역시 중구 대종로480번길 15</p>
-              <p className="text-left text-sm text-gray-600">영업시간 : 오전 8:00 ~ 오후 10:00</p>
+              <p className="text-left text-sm text-gray-600">{store.address}</p>
+              <p className="text-left text-sm text-gray-600">{store.description}</p>
               <div className="flex justify-between text-sm text-gray-600">
                 <p>전화번호 : 1588-8069</p>
                 <p className="text-blue-500">⭐ 4.5</p>

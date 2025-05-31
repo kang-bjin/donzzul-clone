@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.*;
+import jakarta.persistence.Lob;
+
 
 import java.time.LocalDateTime;
 
@@ -43,4 +45,7 @@ public class Store {
 
     @Column
     private String category;
+
+    @Lob
+    private String image;
 }

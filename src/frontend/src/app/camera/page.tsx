@@ -89,7 +89,8 @@ const CameraScreen: React.FC = () => {
         if (result.status === 'registered') {
           // 이미 등록된 가게, 리뷰 작성 페이지로 이동
           alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.')
-          router.push('/review');
+          console.log('넘기는 사업자번호:', result.business_number);
+          router.push(`/review?bno=${result.business_number}`);
         } else if (result.status === 'unregistered') {
           // 신규 가게 제보 페이지로 이동
           alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.')

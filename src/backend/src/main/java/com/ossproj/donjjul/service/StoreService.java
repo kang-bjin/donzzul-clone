@@ -25,6 +25,11 @@ public class StoreService {
         return storeRepository.findByBusinessNumber(businessNumber);
     }
 
+    public Optional<Store> findById(Long id) {
+        return storeRepository.findById(id);
+    }
+
+
     // ✅ 카카오맵 마커용 가게 리스트 조회
     public List<StoreMarkerDto> getStoresForMap(String category) {
         List<Store> stores = (category != null && !category.isEmpty())
