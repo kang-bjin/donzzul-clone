@@ -9,7 +9,9 @@ import com.ossproj.donjjul.repository.StoreProposalRepository;
 import com.ossproj.donjjul.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.ossproj.donjjul.dto.StoreProposalResponse;
 
+import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -62,4 +64,12 @@ public class StoreProposalService {
         proposal.setReason(req.getReason());
         return proposalRepo.save(proposal);
     }
+
+    public List<StoreProposalResponse> getProposalsByUserId(Long userId) {
+    return proposalRepo.findByUserId(userId)
+        .stream()
+        .map(StoreProposalResponse::from)
+        .collect(Collectors.toList());
+}
+
 }

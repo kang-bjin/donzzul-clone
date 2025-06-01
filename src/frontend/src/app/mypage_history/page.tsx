@@ -11,8 +11,7 @@ export default function HistoryPage() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [nickname, setNickname] = useState('');
-  const [reviews, setReviews] = useState([]);
-  const [proposals, setProposals] = useState([]);
+  const userId = 1;
   
 
   const user = { name: '이설후' }; // TODO: DB 연동 시 교체
@@ -33,40 +32,70 @@ export default function HistoryPage() {
     content: string;
   };
 
-  type Suggestion = {
+  type Proposal = {
     id: number;
     date: string;
     type: '가게 제보';
     content: string;
   };
 
-  type ReviewItem = Review | Suggestion;
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [proposals, setProposals] = useState<Proposal[]>([]);
 
 
   // 더미 데이터
-  const reviewList: ReviewItem[] = [
-    {
-      id: 1,
-      date: '2025.04.10',
-      type: '리뷰',
-      rating: 5,
-      images: ['/성심당2.jpg', '/성심당3.jpg', '/성심당.jpg'],
-      content: '선행하는 빵 맛집 발견했어요~!\n짱맛\n말 모 말 모\n튀김 소보루 삼백 개 사감 ㅅㄱ',
-    },
-    {
-      id: 2,
-      date: '2025.03.10',
-      type: '가게 제보',
-      content: '성심당 - 마음을 먹어요',
-    },
-  ];
+  // const reviewList: ReviewItem[] = [
+  //   {
+  //     id: 1,
+  //     date: '2025.04.10',
+  //     type: '리뷰',
+  //     rating: 5,
+  //     images: ['/성심당2.jpg', '/성심당3.jpg', '/성심당.jpg'],
+  //     content: '선행하는 빵 맛집 발견했어요~!\n짱맛\n말 모 말 모\n튀김 소보루 삼백 개 사감 ㅅㄱ',
+  //   },
+  //   {
+  //     id: 2,
+  //     date: '2025.03.10',
+  //     type: '가게 제보',
+  //     content: '성심당 - 마음을 먹어요',
+  //   },
+  // ];
 
   useEffect(() => {
   // 닉네임 불러오기
-  fetch('http://localhost:8080/api/my/nickname', { method: 'GET',// credentials, headers 등 실제 인증 필요 시 추가
+  fetch('http://localhost:8080/api/my/nickname', { method: 'GET',// credentials, headers 등 실제 인증추가
     })
     .then(res => res.json())
     .then(data => setNickname(data.nickname));
+
+    // 리뷰 내역 가져오기
+  fetch(`http://localhost:8080/api/reviews/user/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+      const mapped = data.map((r: any) => ({
+        id: r.id,
+        date: r.createdAt?.slice(0, 10).replace(/-/g, '.') ?? '', // 날짜 가공
+        type: '리뷰',
+        rating: r.rating,
+        images: r.images || [], // API에 따라 다름
+        content: r.content,
+      }));
+      setReviews(mapped);
+    });
+
+  // 제보 내역 가져오기
+  fetch(`http://localhost:8080/proposals/user/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+      const mapped = data.map((p: any) => ({
+        id: p.id,
+        date: p.createdAt?.slice(0, 10).replace(/-/g, '.') ?? '',
+        type: '가게 제보',
+        content: p.reason
+      }));
+      setProposals(mapped);
+    });
+
   }, []);
 
   return (
@@ -111,8 +140,8 @@ export default function HistoryPage() {
       {/* 돈쭐 내역 카드 리스트 */}
       <div className="flex-1 bg-[#FFF9E5] px-4 pt-6 pb-20">
         <div className="max-w-xl mx-auto">
-          {reviewList.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl p-5 shadow mb-4 text-[#3D3D3D]">
+          {reviews.map((item) => (
+            <div key={'review-' + item.id} className="bg-white rounded-2xl p-5 shadow mb-4 text-[#3D3D3D]">
               <div className="flex justify-between items-center text-sm mb-2">
                 <span>[{item.date}]</span>
                 <span className="font-semibold whitespace-nowrap">[{item.type}]</span>
@@ -133,6 +162,16 @@ export default function HistoryPage() {
               ) : (
                 <p className="text-sm mt-2">{item.content}</p>
               )}
+            </div>
+          ))}
+          {/* 제보 목록 */}
+          {proposals.map((item) => (
+            <div key={'proposal-' + item.id} className="bg-white rounded-2xl p-5 shadow mb-4 text-[#3D3D3D]">
+              <div className="flex justify-between items-center text-sm mb-2">
+                <span>[{item.date}]</span>
+                <span className="font-semibold whitespace-nowrap">[가게 제보]</span>
+              </div>
+              <p className="text-sm mt-2">{item.content}</p>
             </div>
           ))}
         </div>

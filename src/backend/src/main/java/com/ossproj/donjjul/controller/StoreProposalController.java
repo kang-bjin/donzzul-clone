@@ -37,11 +37,9 @@ public class StoreProposalController {
         return StoreProposalResponse.from(proposal);
     }
 
-    @GetMapping
-    public List<StoreProposalResponse> getAll() {
-        return proposalService.getAllProposals().stream()
-                .map(StoreProposalResponse::from)
-                .collect(Collectors.toList());
+    @GetMapping("/user/{userId}")
+    public List<StoreProposalResponse> getProposalsByUserId(@PathVariable Long userId) {
+        return proposalService.getProposalsByUserId(userId);
     }
 
     @GetMapping("/{id}")
