@@ -25,7 +25,7 @@ export default function MapPage() {
     { name: '학원A', lat: 37.5690, lng: 126.9770, category: '교육' },
   ];
 
-
+  // 지도 생성 & 내 위치 중심 잡기
   useEffect(() => {
     if (!loaded || !mapRef.current) return;
 
@@ -52,6 +52,7 @@ export default function MapPage() {
     );
   }, [loaded]);
 
+  // 지도 클릭시 InfoWindow 닫기
   useEffect(() => {
     if (!map) return;
     window.kakao.maps.event.addListener(map, 'click', () => {
@@ -59,7 +60,7 @@ export default function MapPage() {
     });
   }, [map]);
 
-  // category 상태 변경 시 mock 마커 표시
+  // 카테고리 필터 마커
   useEffect(() => {
     if (!map || !loaded) return;
 
@@ -94,7 +95,26 @@ export default function MapPage() {
     setMarkers(newMarkers);
   }, [category, map, loaded]);
 
-  // 키워드 검색 시 마커 표시
+  // 내 위치 마커 (⭐️ 이 부분이 추가된 것)
+  useEffect(() => {
+    if (!map || !currentPosition) return;
+
+    const myPos = new window.kakao.maps.LatLng(currentPosition.lat, currentPosition.lng);
+    const marker = new window.kakao.maps.Marker({
+      map,
+      position: myPos,
+      image: new window.kakao.maps.MarkerImage(
+        '/icon/my_location.png', // public/icon/my_location.png에 위치
+        new window.kakao.maps.Size(32, 32)
+      ),
+      zIndex: 10,
+    });
+
+    // cleanup
+    return () => marker.setMap(null);
+  }, [map, currentPosition]);
+
+  // 키워드 검색시 마커
   const handleSearch = () => {
     if (!map || !keyword.trim()) return;
 
@@ -133,11 +153,13 @@ export default function MapPage() {
     });
   };
 
+  // 마커 모두 삭제
   const clearMarkers = () => {
     markers.forEach((m) => m.setMap(null));
     setMarkers([]);
   };
 
+  // 마커 아이콘(노란색)
   const getMarkerImage = () => {
     return new window.kakao.maps.MarkerImage(
       '/icon/default_marker_yellow.png',
@@ -149,6 +171,7 @@ export default function MapPage() {
     setCategory(cat === category ? '' : cat);
   };
 
+  // 내 위치로 이동
   const moveToCurrentLocation = () => {
     if (map && currentPosition) {
       const pos = new window.kakao.maps.LatLng(currentPosition.lat, currentPosition.lng);
