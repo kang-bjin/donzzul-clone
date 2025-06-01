@@ -12,21 +12,32 @@ import { useRouter } from 'next/navigation';
 export default function DonationPage() {
   const { name, activityCount, updateActivity } = useCharacterStore();
   const [balloonText, setBalloonText] = useState('');
-  const [hamsterImage, setHamsterImage] = useState('/donation_hamster.png');
+  const [hamsterImage, setHamsterImage] = useState('/애기햄스터.png');
   const [imageKey, setImageKey] = useState(0);
-  const router = useRouter();
   const [points, setPoints] = useState(0);
+  const [stage, setStage] = useState<'BABY' | 'CHILD' | 'ADULT'>('BABY');
+  const router = useRouter();
+
+  const stageImageMap = {
+    BABY: '/애기햄스터.png',
+    CHILD: '/햄스터2.png',
+    ADULT: '/햄스터.png',
+  };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 포인트 요청
-    fetch('http://localhost:8080/users/1/points') // id=1 고정
+    fetch('http://localhost:8080/users/1/points')
       .then(res => res.json())
       .then(data => {
-        setPoints(data.points); // 백엔드 응답: { "points": 12345 }
+        const pt = data.points;
+        setPoints(pt);
+        const currentStage = pt >= 10000 ? 'ADULT' : pt >= 5000 ? 'CHILD' : 'BABY';
+        setStage(currentStage);
+        setHamsterImage(stageImageMap[currentStage]); //  초기 캐릭터 이미지 설정
       })
       .catch(err => {
         console.error('포인트 불러오기 실패', err);
       });
+
     const balloons = [
       '오늘 하루는 어때?',
       '나 배고파ㅜㅜ',
@@ -49,7 +60,7 @@ export default function DonationPage() {
     sleep: '놀아주기',
   };
   const imageMap = {
-    meal: '/(누끼)햄스터_밥뚱.png',
+    meal: '/밥햄스터.png',
     exercise: '/운동햄스터.png',
     sleep: '/게임햄스터.png',
   };
@@ -64,26 +75,32 @@ export default function DonationPage() {
     setImageKey(prev => prev + 1);
 
     setTimeout(() => {
-      setHamsterImage('/donation_hamster.png');
+      setHamsterImage(stageImageMap[stage]); //  현재 단계에 맞는 이미지로 복귀
       setImageKey(prev => prev + 1);
     }, 2000);
 
     updateActivity(type);
 
-    const delta = 10; // 예시: 10점 추가
-  try {
-    const res = await fetch('http://localhost:8080/users/1/points', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ delta })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setPoints(data.updatedPoints);
+    const delta = 10;
+    try {
+      const res = await fetch('http://localhost:8080/users/1/points', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ delta }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const updatedPoints = data.updatedPoints;
+        setPoints(updatedPoints);
+
+        const newStage =
+          updatedPoints >= 10000 ? 'ADULT' : updatedPoints >= 5000 ? 'CHILD' : 'BABY';
+        setStage(newStage);
+        setHamsterImage(stageImageMap[newStage]); //  업데이트된 단계 반영
+      }
+    } catch (e) {
+      console.error('포인트 증가 실패', e);
     }
-  } catch (e) {
-    console.error('포인트 증가 실패', e);
-  }
   };
 
   const handleDonate = () => {
@@ -105,14 +122,12 @@ export default function DonationPage() {
         }}
       />
 
-      {/* 콘텐츠 */}
       <div className="flex-grow w-full relative z-10 pt-0">
         <Header />
         <div className="px-4">
-        <SectionTitle text="기부하기" />
+          <SectionTitle text="기부하기" />
         </div>
 
-        {/* 말풍선 */}
         <motion.div
           className="mt-6 bg-[#FFF7F7] text-center text-sm sm:text-base text-gray-800 rounded-full px-6 py-4 mb-10 shadow-md w-full"
           initial={{ opacity: 0, y: -10 }}
@@ -122,7 +137,6 @@ export default function DonationPage() {
           {balloonText}
         </motion.div>
 
-        {/* 햄스터 이미지 */}
         <div className="relative flex justify-center items-center mb-2">
           <div
             className="absolute w-72 h-72 rounded-full -z-10"
@@ -153,7 +167,6 @@ export default function DonationPage() {
           </div>
         </div>
 
-        {/* 이름, 포인트 */}
         <div className="flex flex-col items-center gap-2 mb-8">
           <div className="bg-[#FFE5E3] px-4 py-1 rounded-full text-sm font-medium text-gray-700">
             🐹 {name} 🐹
@@ -163,7 +176,6 @@ export default function DonationPage() {
           </div>
         </div>
 
-        {/* 아이콘 상태 표시 */}
         <div className="w-full bg-white rounded-xl shadow-sm p-4 flex justify-between items-center mb-5">
           {iconTypes.map((type) => (
             <div key={type} className="flex gap-1">
@@ -183,7 +195,6 @@ export default function DonationPage() {
           ))}
         </div>
 
-        {/* 액션 버튼 */}
         <div className="flex justify-center gap-12 lg:gap-105 w-full mb-15">
           {iconTypes.map((type) => (
             <motion.button
@@ -197,7 +208,6 @@ export default function DonationPage() {
           ))}
         </div>
 
-        {/* 기부하기 버튼 */}
         <div className="w-full ">
           <motion.button
             onClick={handleDonate}
@@ -210,10 +220,10 @@ export default function DonationPage() {
         </div>
       </div>
 
-      {/* 바텀탭 */}
       <div className="bg-white w-full">
         <BottomTab />
       </div>
     </div>
   );
 }
+
