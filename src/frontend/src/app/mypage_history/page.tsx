@@ -129,7 +129,7 @@ export default function HistoryPage() {
 
       {showModal && (
         <CertificateModal
-          name={user.name}
+          name={nickname}
           date={formattedDate}
           message={message}
           representative={representative}
