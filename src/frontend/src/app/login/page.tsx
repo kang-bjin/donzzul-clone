@@ -37,66 +37,68 @@ export default function Login() {
     }
   };
 
-  return (
-    <Container size="sm">
-      <CardWrapper>
-        <Image
-          src="/mainrogo.png"
-          alt="로고"
-          width={200}
-          height={200}
-          className="mb-6"
+  
+   return (
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
+      {/* 로고 */}
+      <Image
+        src="/mainrogo.png"
+        alt="로고"
+        width={200}
+        height={200}
+        className="mb-6"
+      />
+
+      {/* 로그인 폼 */}
+      <form className="space-y-4 mt-4 w-full max-w-md">
+        <input
+          id="username"
+          type="text"
+          placeholder="아이디"
+          className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
         />
-
-        <form className="space-y-4 mt-4 w-full" onSubmit={handleLogin}>
-          <input
-            id="username"
-            type="text"
-            placeholder="아이디"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
-          />
-          <input
-            id="password"
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="w-full h-12 py-3 bg-[#FFD735] text-white font-bold rounded-lg hover:bg-yellow-400 transition mt-3"
-          >
-            로그인
-          </button>
-        </form>
-
+        <input
+          id="password"
+          type="password"
+          placeholder="비밀번호"
+          className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
+        />
         <button
-          onClick={() => router.push('/signup')}
-          className="w-full h-12 py-3 bg-[#FFFFFF] text-black border-2 border-[#FFCD00] font-medium rounded-lg hover:bg-yellow-400 transition mt-3"
+          onClick={() => router.push('/main')}
+          type="submit"
+          className="w-full h-12 py-3 bg-[#FFD735] text-white font-bold rounded-lg hover:bg-yellow-400 transition mt-3"
         >
-          회원가입
+          로그인
         </button>
+      </form>
 
-        <div className="flex items-center mt-20 my-6 w-full">
-          <hr className="flex-grow border-gray-300" />
-          <span className="px-3 text-sm text-[#9D9DAE]">Or</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
+      {/* 회원가입 버튼 */}
+      <button
+        onClick={() => router.push('/signup')}
+        className="w-full max-w-md h-12 py-3 bg-white text-black border-2 border-[#FFCD00] font-medium rounded-lg hover:bg-yellow-400 transition mt-3"
+      >
+        회원가입
+      </button>
 
-        <div className="space-y-3 w-full">
-          <button className="w-full h-12 flex items-center justify-center rounded-lg hover:bg-gray-100 transition bg-white px-4">
-            <Image src="/google.png" alt="Google" width={50} height={50} />
-            <span className="ml-2 text-sm leading-none">Google 계정으로 로그인</span>
-          </button>
-          <button className="w-full h-12 flex items-center justify-center rounded-lg hover:bg-gray-100 transition bg-white px-4">
-            <Image src="/naver.png" alt="Naver" width={28} height={28} />
-            <span className="ml-4 text-sm leading-none">Naver 계정으로 로그인</span>
-          </button>
-        </div>
-      </CardWrapper>
-    </Container>
+      {/* 구분선 */}
+      <div className="flex items-center mt-20 my-6 w-full max-w-md">
+        <hr className="flex-grow border-gray-300" />
+        <span className="px-3 text-sm text-[#9D9DAE]">Or</span>
+        <hr className="flex-grow border-gray-300" />
+      </div>
+
+      {/* 소셜 로그인 */}
+      <div className="space-y-3 w-full max-w-md">
+        <button className="w-full h-12 flex items-center justify-center rounded-lg hover:bg-gray-100 transition bg-white px-4">
+          <Image src="/google.png" alt="Google" width={50} height={50} />
+          <span className="ml-2 text-sm leading-none">Google 계정으로 로그인</span>
+        </button>
+        <button className="w-full h-12 flex items-center justify-center rounded-lg hover:bg-gray-100 transition bg-white px-4">
+          <Image src="/naver.png" alt="Naver" width={28} height={28} />
+          <span className="ml-4 text-sm leading-none">Naver 계정으로 로그인</span>
+        </button>
+      </div>
+    </div>
   );
-}
+ }
+
