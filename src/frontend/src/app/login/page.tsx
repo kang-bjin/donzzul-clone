@@ -11,8 +11,9 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  // 로그인 처리 함수
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // submit 기본 동작(페이지 리로드) 막기
 
     try {
       const res = await fetch('http://localhost:8080/users/login', {
@@ -24,21 +25,22 @@ export default function Login() {
       });
 
       if (!res.ok) {
-        throw new Error('로그인 실패');
+        // 응답 상태가 200~299 범위가 아니면 에러 처리
+        const errorData = await res.json();
+        throw new Error(errorData.message || '로그인 실패');
       }
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
       alert('로그인 성공!');
       router.push('/main');  // 메인 페이지로 이동
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('로그인에 실패했습니다.');
+      alert(`로그인에 실패했습니다. (${err.message})`);
     }
   };
 
-  
-   return (
+  return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
       {/* 로고 */}
       <Image
@@ -49,23 +51,26 @@ export default function Login() {
         className="mb-6"
       />
 
-      {/* 로그인 폼 */}
-      <form className="space-y-4 mt-4 w-full max-w-md">
+      {/* 로그인 폼 - onSubmit에 handleLogin 등록 */}
+      <form onSubmit={handleLogin} className="space-y-4 mt-4 w-full max-w-md">
         <input
           id="username"
           type="text"
           placeholder="아이디"
           className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
         />
         <input
           id="password"
           type="password"
           placeholder="비밀번호"
           className="text-[15px] w-full h-12 px-4 py-2 bg-white rounded-lg focus:border-yellow-400 focus:outline-none"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
         />
         <button
-          onClick={() => router.push('/main')}
-          type="submit"
+          type="submit"  // onClick 제거, submit만 사용
           className="w-full h-12 py-3 bg-[#FFD735] text-white font-bold rounded-lg hover:bg-yellow-400 transition mt-3"
         >
           로그인
@@ -100,5 +105,4 @@ export default function Login() {
       </div>
     </div>
   );
- }
-
+}

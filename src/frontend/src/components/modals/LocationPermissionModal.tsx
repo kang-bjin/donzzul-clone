@@ -46,7 +46,7 @@ export default function LocationPermissionModal(
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="relative z-50 w-full max-w-sm mx-auto bg-white rounded-t-[70px] p-6"
+            className="relative z-50 w-full max-w-sm mx-auto bg-white rounded-t-[70px] pt-6 px-6 pb-20"
           >
             {/* 드래그 바 */}
             <div className="w-20 h-1.5 bg-[#FFC300] rounded-full mx-auto mb-4" />

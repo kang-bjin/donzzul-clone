@@ -92,7 +92,7 @@ export default function MainPage() {
         <LocationPermissionModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
+        />   
         {/* 하단 탭바 */}
         <NearbySection />
        <BottomTab/>
