@@ -230,7 +230,7 @@ export default function MapPage() {
 
           {/* 카테고리 필터 */}
           <div className="flex flex-wrap gap-2 mt-4 justify-between">
-            {["음식점", "의료시설", "스포츠", "생활", "교육"].map((cat) => (
+            {["음식점", "카페/디저트", "학원", "생활", "의료시설"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
