@@ -1,22 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoClose } from 'react-icons/io5';
 import Image from 'next/image';
 import DonationCompleteModal from '@/components/modals/DonationCompleteModal';
+import { useRouter } from 'next/navigation'
 
 interface DonationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDonate: (amount: number) => Promise<void>;
 }
 
-export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
-  const [userPoints] = useState(10000);
+export default function DonationModal({ isOpen, onClose, onDonate }: DonationModalProps) {
+  const [userPoints, setUserPoints] = useState<number>(0);
   const [donatePoints, setDonatePoints] = useState(0);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
-  const handleDonate = () => {
+  useEffect(() => {
+    if (isOpen) {
+      const userId = 1;
+      fetch(`http://localhost:8080/users/${userId}/points`)
+        .then(res => res.json())
+        .then(data => setUserPoints(data.points))
+        .catch(() => setUserPoints(0));
+    }
+  }, [isOpen]);
+
+  const handleDonate = async () => {
     if (donatePoints <= 0) {
       alert('1원 이상 입력해주세요!');
       return;
@@ -26,7 +40,16 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
       return;
     }
 
-    setShowCompleteModal(true); // 기부 완료 모달 띄우기
+    setLoading(true);
+
+    try {
+      await onDonate(donatePoints); // 상위에서 서버 요청!
+      setShowCompleteModal(true);
+    } catch (e: any) {
+      alert(e.message || '기부에 실패했습니다.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -113,6 +136,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
         onClose={() => {
           setShowCompleteModal(false);
           onClose(); // 기부 완료 후 기부 모달도 닫기
+          router.push('/donation')
         }}
       />
     </>

@@ -74,10 +74,15 @@ public class UserController {
     @PostMapping("/{userId}/donate")
     public ResponseEntity<?> donatePoints(
             @PathVariable Long userId,
-            @RequestBody Map<String, Integer> payload) {
-        int amount = payload.get("amount");
-        userService.donatePoints(userId, amount);
-        return ResponseEntity.ok().build();
+            @RequestBody Map<String, Integer> body) {
+        int amount = body.get("amount");
+        boolean success = userService.donatePoints(userId, amount);
+        if (success) {
+            return ResponseEntity.ok(Map.of("result", "ok"));  // 200 OK
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", "포인트 차감에 실패했습니다.")); // 400 (차감 실패)
+        }
     }
 
 
