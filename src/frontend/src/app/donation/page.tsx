@@ -89,8 +89,6 @@ export default function DonationPage() {
     setTimeout(() => setAction(null), 2000); // 2. 2초 후 원래 이미지로 복귀
     updateActivity(type);
 
-    // updateActivity(type);
-
     const delta = 10;
     try {
       const res = await fetch('http://localhost:8080/users/1/points', {
