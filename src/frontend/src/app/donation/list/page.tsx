@@ -10,13 +10,13 @@ export default function DonationListPage() {
 
   const donationItems = [
     {
-      id: 'wildfire',
+      id: 'firevictims',
       title: '산불 이재민 기부',
       subtitle: '구호 성금 전달',
       image: '/donation_wildfire.jpg',
     },
     {
-      id: 'firehospital',
+      id: 'firefighter',
       title: '국립소방병원 기부',
       subtitle: '(주) 수방가족희망나눔',
       image: '/donation_firehospital.jpg',
@@ -82,7 +82,7 @@ export default function DonationListPage() {
 
               {/* 상세보기 버튼 */}
               <button
-                onClick={() => router.push(`/donation/list/${item.id}`)}
+                onClick={() => router.push(`/donation/detail/${item.id}`)}
                 className="ml-2 bg-yellow-400 text-white text-xs sm:text-sm px-3 py-1 sm:px-4 sm:py-1.5 rounded-full whitespace-nowrap"
               >
                 상세보기
