@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Header from '@/components/Header';
 import BottomTab from '@/components/BottomTab';
 import DonationHeaderCard from '@/components/DonationHeaderCard';
@@ -74,18 +73,8 @@ export default function DonationDetailPage() {
             <DonationBodyText
               summaryTitle={donation.summaryTitle}
               description={donation.description}
+              bottomImage={donation.bottomImage}
             />
-
-            {/* 이미지 */}
-            <div className="mb-6 rounded-xl overflow-hidden shadow">
-              <Image
-                src={donation.bottomImage}
-                alt="기부 활동 이미지"
-                width={800}
-                height={400}
-                className="w-full h-auto object-cover"
-              />
-            </div>
 
             {/* 버튼 */}
             <div className="w-full">

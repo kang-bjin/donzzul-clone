@@ -41,6 +41,8 @@ const CameraScreen: React.FC = () => {
 
     startCamera();
 
+    const currentVideo = videoRef.current;
+
     return () => {
       if (videoRef.current?.srcObject) {
         const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
@@ -74,7 +76,7 @@ const CameraScreen: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('rating', 5);
+    formData.append('rating', '5');
     formData.append('content', '캡처한 이미지');
 
     try {
@@ -103,7 +105,7 @@ const CameraScreen: React.FC = () => {
           alert('알 수 없는 상태: ' + result.status);
         }
       } else {
-        setIsModalOpen(true);  // ✅ 모달 띄우기
+        setIsModalOpen(true);  // 모달 띄우기
       }
     } catch (err) {
       console.error('이미지 업로드 에러:', err);
