@@ -5,6 +5,7 @@ import com.ossproj.donjjul.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -44,4 +45,16 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
+    public boolean donatePoints(Long userId, int points) {
+        User user = userRepository.findById(userId).orElseThrow();
+        try {
+            user.subtractDonationPoints(points);
+            userRepository.save(user);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
 }

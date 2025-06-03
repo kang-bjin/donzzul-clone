@@ -47,6 +47,14 @@ public class User {
         updateCharacterStage();
     }
 
+    public void subtractDonationPoints(int amount) {
+        if (this.donationPoints < amount) {
+            throw new IllegalArgumentException("포인트가 부족합니다.");
+        }
+        this.donationPoints -= amount;
+        updateCharacterStage();
+    }
+
     public void updateCharacterStage() {
         if (donationPoints >= 10000) {
             this.characterStage = CharacterStage.ADULT;

@@ -71,23 +71,15 @@ public class UserController {
     }
 
     // ✅ 기부 (ADULT일 때 호출됨)
-    @PostMapping("/{id}/donate")
-    public ResponseEntity<?> donate(@PathVariable Long id, @RequestParam Long targetId) {
-        User user = userService.findById(id);
-        DonationTarget target = donationTargetRepository.findById(targetId).orElseThrow();
-
-        int amount = user.getDonationPoints();
-        if (amount < 10000) {
-            return ResponseEntity.badRequest().body("포인트가 부족합니다.");
-        }
-
-        donationRepository.save(new Donation(user, target, amount));
-        user.setDonationPoints(0);
-        user.setCharacterStage(com.ossproj.donjjul.enums.CharacterStage.BABY);
-        userService.save(user);
-
+    @PostMapping("/{userId}/donate")
+    public ResponseEntity<?> donatePoints(
+            @PathVariable Long userId,
+            @RequestBody Map<String, Integer> payload) {
+        int amount = payload.get("amount");
+        userService.donatePoints(userId, amount);
         return ResponseEntity.ok().build();
     }
+
 
     // ✅ 유저 상태 전체 조회 (프론트 초기 진입 시 사용)
     @GetMapping("/{id}")
