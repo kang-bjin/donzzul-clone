@@ -6,6 +6,14 @@ import Header from '@/components/Header';
 import SectionTitle from '@/components/SectionTitle';
 import BottomTab from '@/components/BottomTab';
 
+type Store = {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  category: string;
+};
+
 export default function MapPage() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -14,18 +22,18 @@ export default function MapPage() {
   const [currentPosition, setCurrentPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [category, setCategory] = useState<string>('');
   const [markers, setMarkers] = useState<any[]>([]);
+  const [stores, setStores] = useState<Store[]>([]);
   const infoWindowRef = useRef<any>(null);
 
-  // mock 데이터
-  const mockData = [
-    { name: '착한식당', lat: 37.5665, lng: 126.9780, category: '음식점' },
-    { name: '우리약국', lat: 37.5651, lng: 126.9895, category: '의료시설' },
-    { name: '헬스짐', lat: 37.5678, lng: 126.9755, category: '스포츠' },
-    { name: '생활마트', lat: 37.5681, lng: 126.9820, category: '생활' },
-    { name: '학원A', lat: 37.5690, lng: 126.9770, category: '교육' },
-  ];
+  // 1️⃣ 서버에서 착한가게 전체 데이터 받아오기
+  useEffect(() => {
+    fetch('http://localhost:8080/stores')
+      .then(res => res.json())
+      .then(setStores)
+      .catch(() => setStores([]));
+  }, []);
 
-  // 지도 생성 & 내 위치 중심 잡기
+  // 2️⃣ 지도 생성 & 내 위치 마커
   useEffect(() => {
     if (!loaded || !mapRef.current) return;
 
@@ -52,7 +60,7 @@ export default function MapPage() {
     );
   }, [loaded]);
 
-  // 지도 클릭시 InfoWindow 닫기
+  // 3️⃣ 지도 클릭시 InfoWindow 닫기
   useEffect(() => {
     if (!map) return;
     window.kakao.maps.event.addListener(map, 'click', () => {
@@ -60,15 +68,15 @@ export default function MapPage() {
     });
   }, [map]);
 
-  // 카테고리 필터 마커
+  // 4️⃣ 착한가게 마커 표시 (카테고리 필터 적용)
   useEffect(() => {
     if (!map || !loaded) return;
 
     clearMarkers();
 
     const filtered = category
-      ? mockData.filter((s) => s.category === category)
-      : mockData;
+      ? stores.filter((s) => s.category === category)
+      : stores;
 
     const newMarkers = filtered.map((store) => {
       const pos = new window.kakao.maps.LatLng(store.lat, store.lng);
@@ -93,9 +101,9 @@ export default function MapPage() {
     });
 
     setMarkers(newMarkers);
-  }, [category, map, loaded]);
+  }, [category, map, loaded, stores]);
 
-  // 내 위치 마커 (⭐️ 이 부분이 추가된 것)
+  // 5️⃣ 내 위치 마커
   useEffect(() => {
     if (!map || !currentPosition) return;
 
@@ -114,7 +122,7 @@ export default function MapPage() {
     return () => marker.setMap(null);
   }, [map, currentPosition]);
 
-  // 키워드 검색시 마커
+  // 6️⃣ 키워드 검색 (카카오 플레이스 검색)
   const handleSearch = () => {
     if (!map || !keyword.trim()) return;
 

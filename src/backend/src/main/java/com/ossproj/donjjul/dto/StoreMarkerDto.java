@@ -12,7 +12,7 @@ public class StoreMarkerDto {
         this.name = store.getName();
         this.lat = store.getLatitude() != null ? store.getLatitude() : 0.0;
         this.lng = store.getLongitude() != null ? store.getLongitude() : 0.0;
-        this.category = "UNKNOWN"; // Store에 category 없으면 임시값
+        this.category = store.getCategory() != null ? store.getCategory() : "UNKNOWN";
     }
 
     public String getName() { return name; }
