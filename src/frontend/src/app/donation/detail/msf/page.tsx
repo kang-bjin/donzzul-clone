@@ -13,8 +13,7 @@ const donation = {
   subtitle: '국제 의료 구호 단체',
   phone: '02-3703-3555',
   email: 'support@seoul.msf.org',
-  rating: 4.5,
-  reviews: 447,
+  favorites: 447,
   logo: '/donation_msf.jpg',
   bottomImage: '/donation_msf_bottom.png',
   summaryTitle: '“국경도, 정체도, 이념도 없이 오직 생명을 위해”',
@@ -50,8 +49,7 @@ export default function DonationDetailPage() {
               subtitle={donation.subtitle}
               phone={donation.phone}
               email={donation.email}
-              rating={donation.rating}
-              reviews={donation.reviews}
+              favorites={donation.favorites}
               logo={donation.logo}
             />
 

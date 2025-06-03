@@ -55,7 +55,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
               {/* 햄스터 이미지 */}
               <div className="mb-4 flex justify-center">
                 <Image
-                  src="/햄스터_대표로고.png"
+                  src="/(누끼)햄스터_대표로고.png"
                   alt="기부하는 햄스터"
                   width={140}
                   height={140}
