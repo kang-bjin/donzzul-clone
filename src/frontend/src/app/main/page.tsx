@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
 import { FaStar } from 'react-icons/fa'
 import BottomTab from '@/components/BottomTab';
 import Header from '@/components/Header';

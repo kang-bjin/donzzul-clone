@@ -7,6 +7,9 @@ import { IoClose, IoDownloadOutline } from 'react-icons/io5';
 
 interface ModalProps {
   name: string;
+  date: string;
+  message: string;
+  representative: string;
   onClose: () => void;
 }
 

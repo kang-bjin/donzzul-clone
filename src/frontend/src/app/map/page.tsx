@@ -6,6 +6,12 @@ import Header from '@/components/Header';
 import SectionTitle from '@/components/SectionTitle';
 import BottomTab from '@/components/BottomTab';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 type Store = {
   id: number;
   name: string;
@@ -156,14 +162,14 @@ export default function MapPage() {
       setMarkers(newMarkers);
 
       const bounds = new window.kakao.maps.LatLngBounds();
-      newMarkers.forEach((m) => bounds.extend(m.getPosition()));
+      newMarkers.forEach((m: any) => bounds.extend(m.getPosition()));
       map.setBounds(bounds);
     });
   };
 
   // 마커 모두 삭제
   const clearMarkers = () => {
-    markers.forEach((m) => m.setMap(null));
+    markers.forEach((m: any) => m.setMap(null));
     setMarkers([]);
   };
 

@@ -1,8 +1,7 @@
 'use client';
 
 import { useCharacterStore } from '@/store/characterStore';
-import { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import BottomTab from '@/components/BottomTab';
 import Header from '@/components/Header';
 import SectionTitle from '@/components/SectionTitle';
@@ -12,17 +11,16 @@ import { useRouter } from 'next/navigation';
 export default function DonationPage() {
   const { name, activityCount, updateActivity } = useCharacterStore();
   const [balloonText, setBalloonText] = useState('');
-  const [hamsterImage, setHamsterImage] = useState('/애기햄스터.png');
-  const [imageKey, setImageKey] = useState(0);
+  const [, setHamsterImage] = useState('/애기햄스터.png');
   const [points, setPoints] = useState(0);
   const [stage, setStage] = useState<'BABY' | 'CHILD' | 'ADULT'>('BABY');
   const router = useRouter();
 
-  const stageImageMap = {
+  const stageImageMap = useMemo(() =>({
     BABY: '/애기햄스터.png',
     CHILD: '/청소년햄스터.png',
     ADULT: '/donation_hamster.png',
-  };
+  }), []);
 
   const stageRef = useRef(stage);
   useEffect(() => {
@@ -51,7 +49,7 @@ export default function DonationPage() {
     ];
     const random = Math.floor(Math.random() * balloons.length);
     setBalloonText(balloons[random]);
-  }, []);
+  }, [stageImageMap]);
 
   const iconTypes = ['meal', 'exercise', 'sleep'] as const;
   const iconMap = {
@@ -219,7 +217,7 @@ export default function DonationPage() {
           ))}
         </div>
 
-        <div className="flex justify-center gap-12 lg:gap-105 w-full mb-15">
+        <div className="w-full flex justify-between px-6 mb-8">
           {iconTypes.map((type) => (
             <motion.button
               key={type}

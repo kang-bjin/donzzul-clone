@@ -12,6 +12,12 @@ export default function DonationBodyCard({ summaryTitle, description, bottomImag
       {description.map((line, idx) => (
         <p key={idx} className="mb-1">{line}</p>
       ))}
+
+      {bottomImage && (
+        <div className="mt-4">
+          <img src={bottomImage} alt="donation" className="w-full rounded-lg" />
+        </div>
+        )}
     </div>
   );
 }

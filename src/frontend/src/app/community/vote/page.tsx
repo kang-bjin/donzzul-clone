@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Header from '@/components/Header'
 import BottomTab from '@/components/BottomTab'
-import { FiChevronRight, FiPlus } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
 import { LiaCommentDots } from "react-icons/lia";
@@ -40,7 +40,7 @@ const dummyVote: VotePost[] = [
 ]
 
 
-export default function freePage() {
+export default function FreePage() {
   const [activeTab, setActiveTab] = useState<'free' | 'vote'>('free')
   const router = useRouter()
   const pathname = usePathname() 

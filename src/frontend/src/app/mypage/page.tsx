@@ -7,11 +7,6 @@ import { useRouter } from 'next/navigation';
 import { IoChevronBack } from 'react-icons/io5';
 import Link from 'next/link';
 
-type Props = {
-  icon: string;
-  label: string;
-  iconSize?: number;
-};
 
 export default function MyPage() {
   const router = useRouter();
