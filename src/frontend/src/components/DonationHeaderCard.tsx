@@ -7,8 +7,7 @@ interface HeaderProps {
   subtitle: string;
   phone: string;
   email: string;
-  rating: number;
-  reviews: number;
+  favorites: number;
   logo: string;
 }
 
@@ -17,8 +16,7 @@ export default function DonationHeaderCard({
   subtitle,
   phone,
   email,
-  rating,
-  reviews,
+  favorites,
   logo,
 }: HeaderProps) {
   return (
@@ -40,20 +38,24 @@ export default function DonationHeaderCard({
         <p className="text-sm lg:text-base text-[#3D3D3D]">{subtitle}</p>
       </div>
 
-      {/* 후원문의 + 평점 */}
+      {/* 후원문의 + 즐겨찾기 수 */}
       <div className="flex justify-between items-center text-xs lg:text-sm text-gray-600">
         <p>후원 문의 : {phone}</p>
         <div className="flex items-center gap-1">
+          {/* 하트 아이콘 */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="#3578FF"
+            fill="#F43F5E"
             viewBox="0 0 24 24"
             className="w-4 h-4"
           >
-            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.837 1.48 8.282L12 18.896l-7.416 4.529 1.48-8.282-6.064-5.837 8.332-1.151z" />
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
+                     4.42 3 7.5 3c1.74 0 3.41 0.81 
+                     4.5 2.09C13.09 3.81 14.76 3 
+                     16.5 3 19.58 3 22 5.42 22 8.5c0 
+                     3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
-          <span className="text-[#3578FF]">{rating}</span>
-          <span>({reviews})</span>
+          <span className="text-[#F43F5E] font-medium">누적기부 {favorites}회</span>
         </div>
       </div>
 

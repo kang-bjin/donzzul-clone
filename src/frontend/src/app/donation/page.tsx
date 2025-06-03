@@ -20,8 +20,8 @@ export default function DonationPage() {
 
   const stageImageMap = {
     BABY: '/애기햄스터.png',
-    CHILD: '/햄스터2.png',
-    ADULT: '/햄스터.png',
+    CHILD: '/청소년햄스터.png',
+    ADULT: '/donation_hamster.png',
   };
 
   const stageRef = useRef(stage);
