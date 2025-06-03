@@ -34,7 +34,7 @@ public class ReceiptService {
         }
 
         // 2) 결제일이 30일 초과
-        if (payDate.isBefore(LocalDate.now().minusDays(30))) {
+        if (payDate.isBefore(LocalDate.now().minusDays(50))) {
             return new ReceiptValidationResult(
                 false,
                 businessNumber,
