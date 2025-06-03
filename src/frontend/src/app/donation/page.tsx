@@ -1,7 +1,7 @@
 'use client';
 
 import { useCharacterStore } from '@/store/characterStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import BottomTab from '@/components/BottomTab';
 import Header from '@/components/Header';
@@ -23,6 +23,11 @@ export default function DonationPage() {
     CHILD: '/햄스터2.png',
     ADULT: '/햄스터.png',
   };
+
+  const stageRef = useRef(stage);
+  useEffect(() => {
+    stageRef.current = stage;
+  }, [stage]);
 
   useEffect(() => {
     fetch('http://localhost:8080/users/1/points')
@@ -64,22 +69,27 @@ export default function DonationPage() {
     exercise: '/운동햄스터.png',
     sleep: '/게임햄스터.png',
   };
-
+  const [action, setAction] = useState<null | 'meal' | 'exercise' | 'sleep'>(null);
   const handleAction = async (type: 'meal' | 'exercise' | 'sleep') => {
     if (activityCount[type] >= 3) {
       alert('오늘은 더 못해요!');
       return;
     }
 
-    setHamsterImage(imageMap[type]);
-    setImageKey(prev => prev + 1);
+    // console.log('이미지 바꿀 값:', imageMap[type]);
+    // setHamsterImage(imageMap[type]);
+    // setImageKey(prev => prev + 1);
 
-    setTimeout(() => {
-      setHamsterImage(stageImageMap[stage]); //  현재 단계에 맞는 이미지로 복귀
-      setImageKey(prev => prev + 1);
-    }, 2000);
-
+    // setTimeout(() => {
+    //   console.log("복귀할 때 stageRef.current", stageRef.current)
+    //   setHamsterImage(stageImageMap[stageRef.current]); //  현재 단계에 맞는 이미지로 복귀
+    //   setImageKey(prev => prev + 1);
+    // }, 2000);
+    setAction(type);     // 1. 액션 시작
+    setTimeout(() => setAction(null), 2000); // 2. 2초 후 원래 이미지로 복귀
     updateActivity(type);
+
+    // updateActivity(type);
 
     const delta = 10;
     try {
@@ -146,7 +156,7 @@ export default function DonationPage() {
             }}
           />
           <div className="w-44 h-44 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden p-2">
-            <AnimatePresence mode="wait">
+            {/* <AnimatePresence mode="wait">
               <motion.div
                 key={imageKey}
                 initial={{ opacity: 0 }}
@@ -155,7 +165,7 @@ export default function DonationPage() {
                 transition={{ duration: 0.3 }}
               >
                 <Image
-                  src={hamsterImage}
+                  src={`${hamsterImage}?t=${imageKey}`}
                   alt="hamster"
                   width={90}
                   height={90}
@@ -163,6 +173,20 @@ export default function DonationPage() {
                   style={{ width: 'auto', height: 'auto' }}
                 />
               </motion.div>
+            </AnimatePresence> */}
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={action ?? stage}
+                src={action ? imageMap[action] : stageImageMap[stage]}
+                alt="hamster"
+                width={90}
+                height={90}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: 'auto', height: 'auto' }}
+              />
             </AnimatePresence>
           </div>
         </div>
