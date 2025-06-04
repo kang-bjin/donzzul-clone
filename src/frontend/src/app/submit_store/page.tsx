@@ -130,7 +130,7 @@ export default function VerifyPage() {
             <div>
               <span className="border-l-4 border-yellow-400 pl-2 text-gray-800 font-bold text-base">
                 돈쭐 내줘야 하는 이유를 알려주세요
-                <span className="font-bold block w-full text-left">
+                <span className="font-bold block w-full pl-2.5">
                       (가게 선행사례)
                 </span>
               </span>
