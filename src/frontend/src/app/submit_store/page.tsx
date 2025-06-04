@@ -128,9 +128,15 @@ export default function VerifyPage() {
 
             {/* 돈쭐 이유 */}
             <div>
-              <p className="border-l-4 border-yellow-400 pl-2 text-gray-800 font-bold text-base">
+              <span className="border-l-4 border-yellow-400 pl-2 text-gray-800 font-bold text-base">
                 돈쭐 내줘야 하는 이유를 알려주세요
-              </p>
+                <span className="font-bold block w-full pl-2.5">
+                      (가게 선행사례)
+                </span>
+              </span>
+
+              
+
               <textarea
                 placeholder="사장님의 어떤 선행이 기억에 남았나요?"
                 maxLength={500}
