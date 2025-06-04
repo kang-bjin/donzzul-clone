@@ -107,7 +107,7 @@ export default function WriteReviewPage() {
               <p className="text-left text-sm text-gray-600">{store.address}</p>
               <p className="text-left text-sm text-gray-600">{store.description}</p>
               <div className="flex justify-between text-sm text-gray-600">
-                <p>전화번호 : 1588-8069</p>
+                <p>전화번호 : 031-426-4790</p>
                 <p className="text-blue-500">⭐ 4.5</p>
               </div>
             </div>
