@@ -40,4 +40,20 @@ public class StoreController {
         List<StoreMarkerDto> stores = storeService.getStoresForMap(category);
         return ResponseEntity.ok(stores);
     }
+
+    // ✅ ID 기반 가게 상세 조회
+    @GetMapping("/store/{id}")
+    public ResponseEntity<Store> getStoreById(@PathVariable Long id) {
+        Optional<Store> store = storeService.findById(id);
+        return store.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+}
+
+    @GetMapping("/top6")
+    public ResponseEntity<List<Store>> getStores1To6() {
+        List<Store> stores = storeService.getStoresWithId1To6();
+        return ResponseEntity.ok(stores);
+    }
+
+
 }

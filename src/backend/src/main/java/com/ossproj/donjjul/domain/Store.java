@@ -48,4 +48,10 @@ public class Store {
 
     @Lob
     private String image;
+
+    @Column
+    private String work_time;
+
+    @Column
+    private String store_phone;
 }

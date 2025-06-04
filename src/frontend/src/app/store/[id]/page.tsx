@@ -1,19 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import BottomTab from '@/components/BottomTab'
 import { FiChevronRight, FiPlus } from 'react-icons/fi'
 import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
 import { LiaCommentDots } from "react-icons/lia";
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useParams } from 'next/navigation'
 import { FaStar, FaRegStar } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 
+interface StoreDetail {
+  id: number
+  name: string
+  category: string
+  address: string
+  work_time: string
+  store_phone: string
+  image: string
+  description: string
+}
 export default function Store() {
   const router = useRouter()
+  const { id } = useParams()
+  const [store, setStore] = useState<StoreDetail | null>(null)
 
 interface ReviewPost {
   id: number
@@ -27,6 +39,7 @@ interface ReviewPost {
   thumbnailUrl?: string
   thumbnails: string[]
 }
+
 const dummyReview: ReviewPost[] = [
   {
       id: 1,
@@ -41,6 +54,15 @@ const dummyReview: ReviewPost[] = [
       thumbnails: ['/성심당3.jpg','/성심당2.jpg','/성심당.jpg'],
   },
 ]
+  useEffect(() => {
+    if (!id) return
+    fetch(`http://localhost:8080/stores/store/${id}`)  // ✅ 백엔드에서 id 기반 상세정보 요청
+      .then((res) => res.json())
+      .then((data) => setStore(data))
+      .catch((err) => console.error('상세정보 요청 실패:', err))
+  }, [id])
+
+  if (!store) return <p className="p-4">불러오는 중...</p>
   return (
     <>
       <Header />
@@ -50,7 +72,7 @@ const dummyReview: ReviewPost[] = [
         <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
           {/* 이미지 + 닫기 */}
           <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
-            <Image src="/성심당.jpg" alt="가게 이미지" fill className="object-cover" />
+            <Image src={`http://localhost:8080/images/${store.image}`} alt={store.name} fill className="object-cover" />
             <button
               onClick={() => router.back()}
               className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
@@ -62,16 +84,16 @@ const dummyReview: ReviewPost[] = [
           {/* 가게 정보 */}
           <div className="mb-6">
             <div className='flex items-center gap-8'>
-                <span className="font-bold text-[25px] ">성심당 본점</span>
-                <span className="text-[17px]">베이커리</span>
+                <span className="font-bold text-[25px] ">{store.name}</span>
+                <span className="text-[17px]">{store.category}</span>
             </div>    
-              <p className="text-left text-[15px] text-[#747483]">대전광역시 중구 대종로480번길 15</p>
+              <p className="text-left text-[15px] text-[#747483]">{store.address}</p>
               <p className="text-left text-[15px] text-[#747483]">영업시간 : 오전 8:00 ~ 오후 10:00</p>
               <div className="flex justify-between text-[15px] text-[#747483]">
                 <p>전화번호 : 1588-8069</p>
                 <div className='flex'>
-                  <p className="text-blue-500">⭐ 4.5</p>
-                  <p className='text-[#747483]'>(447)</p>
+                  <p className="text-blue-500">⭐ 4.3</p>
+                  <p className='text-[#747483]'>(54)</p>
                 </div>
               </div>
             </div>

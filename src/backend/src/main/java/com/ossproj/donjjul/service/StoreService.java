@@ -40,4 +40,8 @@ public class StoreService {
                 .map(StoreMarkerDto::new)
                 .toList();
     }
+
+    public List<Store> getStoresWithId1To6() {
+        return storeRepository.findByIdBetween(1L, 6L);
+    }
 }
