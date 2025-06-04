@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./src/backend
+    container_name: donjjul-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - ocr
+    networks:
+      - donjjul_net
+    volumes:
+      - ./src/backend:/app  # <== 코드 실시간 반영
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: donjjul
+      DB_USERNAME: root
+      DB_PASSWORD: goodpassword
+
+  ocr:
+    build: ./src/ocr-server
+    container_name: donjjul-ocr
+    ports:
+      - "5000:5000"
+    networks:
+      - donjjul_net
+    volumes:
+      - ./src/ocr-server:/app  # <== OCR 서버도 코드 실시간 반영
+
+  mysql:
+    image: mysql:8.0
+    container_name: donjjul-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: goodpassword
+      MYSQL_DATABASE: donjjul
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - donjjul_net
+
+volumes:
+  mysql_data:
+
+networks:
+  donjjul_net:

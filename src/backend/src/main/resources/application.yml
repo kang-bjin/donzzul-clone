@@ -1,0 +1,29 @@
+# src/backend/src/main/resources/application.yml
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/donjjul"
+    username: root
+    password: sqlbysean0226
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+security:
+  filter:
+    dispatchers: request
+
+jwt:
+  secret: donjjul-secret-key-that-opens-every-door-there-is
+
+ocr:
+  url: http://127.0.0.1:5000/ocr

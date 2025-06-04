@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/donjjul?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    username: root
+    password: goodpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+ocr:
+  url: http://localhost:5000/ocr
+
+server:
+  port: 8080
