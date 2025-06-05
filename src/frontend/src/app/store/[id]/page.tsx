@@ -109,9 +109,9 @@ export default function Store() {
                 <span className="text-[17px]">{store.category}</span>
             </div>    
               <p className="text-left text-[15px] text-[#747483]">{store.address}</p>
-              <p className="text-left text-[15px] text-[#747483]">영업시간 : 오전 11:00 ~ 오후 9:00</p>
+              <p className="text-left text-[15px] text-[#747483]">영업시간: {store.work_time} </p>
               <div className="flex justify-between text-[15px] text-[#747483]">
-                <p>전화번호 : 1588-8069</p>
+                <p>전화번호: {store.store_phone}</p>
                 <div className='flex'>
                   <p className="text-blue-500">⭐ {store.rating}</p>
                   <p className='text-[#747483]'>(32)</p>
