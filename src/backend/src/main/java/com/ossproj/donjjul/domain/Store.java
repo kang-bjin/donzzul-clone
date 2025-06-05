@@ -54,4 +54,7 @@ public class Store {
 
     @Column
     private String store_phone;
+
+    @Column
+    private String rating;
 }

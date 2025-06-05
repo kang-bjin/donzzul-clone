@@ -44,4 +44,8 @@ public class StoreService {
     public List<Store> getStoresWithId1To6() {
         return storeRepository.findByIdBetween(1L, 6L);
     }
+
+    public List<Store> getStoresWithId7To12() {
+        return storeRepository.findByIdBetween(7L, 12L);
+    }
 }

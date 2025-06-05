@@ -55,5 +55,11 @@ public class StoreController {
         return ResponseEntity.ok(stores);
     }
 
+    @GetMapping("/top12")
+    public ResponseEntity<List<Store>> getStores7To12() {
+        List<Store> stores = storeService.getStoresWithId7To12();
+        return ResponseEntity.ok(stores);
+    }
+
 
 }

@@ -21,6 +21,7 @@ interface StoreDetail {
   store_phone: string
   image: string
   description: string
+  rating: string
 }
 export default function Store() {
   const router = useRouter()
@@ -92,8 +93,8 @@ const dummyReview: ReviewPost[] = [
               <div className="flex justify-between text-[15px] text-[#747483]">
                 <p>전화번호 : 1588-8069</p>
                 <div className='flex'>
-                  <p className="text-blue-500">⭐ 4.3</p>
-                  <p className='text-[#747483]'>(54)</p>
+                  <p className="text-blue-500">⭐ {store.rating}</p>
+                  <p className='text-[#747483]'>(32)</p>
                 </div>
               </div>
             </div>
