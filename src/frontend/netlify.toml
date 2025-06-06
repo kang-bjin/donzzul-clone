@@ -1,9 +1,10 @@
 # netlify.toml
 
 [build]
+base = "src/frontend"
 command = "npm run build"
 publish = ".next"
-base = "."
+
 
 [build.environment]
 NODE_ENV = "production"
