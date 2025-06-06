@@ -28,7 +28,7 @@ export default function MainPage() {
         <Header/>
         {/* 배너 */}
         <div className='p-4'>
-        <section className="w-full h-90 relative my-2 overflow-hidden rounded-lg">
+        <section className="w-full h-96 relative my-2 overflow-hidden rounded-lg">
           <Image src="/banners.png" alt="메인 배너" fill style={{ objectFit: 'cover' }} />
         </section>
 
