@@ -67,14 +67,14 @@ export default function Store() {
 // ]
   useEffect(() => {
     if (!id) return
-    fetch(`http://localhost:8080/stores/store/${id}`)  // ✅ 백엔드에서 id 기반 상세정보 요청
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/stores/store/${id}`)  // ✅ 백엔드에서 id 기반 상세정보 요청
       .then((res) => res.json())
       .then((data) => setStore(data))
       .catch((err) => console.error('상세정보 요청 실패:', err))
 
 
     // 리뷰 리스트 가져오기
-    fetch(`http://localhost:8080/api/reviews/store/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/store/${id}`)
       .then((res) => res.json())
       .then((data: Review[]) => setReviews(data))
       .catch((err) => {

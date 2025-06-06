@@ -39,7 +39,7 @@ export default function VerifyPage() {
   console.log('payload:', payload);
 
   try {
-    const res = await fetch('http://localhost:8080/proposals', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/proposals`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

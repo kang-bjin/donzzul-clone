@@ -32,7 +32,7 @@ export default function WriteReviewPage() {
   // 사업자번호로 가게정보 패칭
   useEffect(() => {
     if (!businessNumber) return;
-    fetch(`http://localhost:8080/stores/${businessNumber}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/stores/${businessNumber}`)
       .then(res => res.ok ? res.json() : Promise.reject('가게 정보 없음'))
       .then(data => {
         setStore(data);
@@ -54,7 +54,7 @@ export default function WriteReviewPage() {
     const payload = { userId, storeId, rating, content: review };
 
     try {
-      const res = await fetch('http://localhost:8080/api/reviews', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
