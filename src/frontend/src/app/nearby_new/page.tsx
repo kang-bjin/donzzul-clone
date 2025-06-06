@@ -29,7 +29,7 @@ export default function NearbyDonjjul() {
   const router = useRouter()
 
   useEffect(() => {
-    fetch('http://localhost:8080/stores/top12')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/stores/top12`)
       .then((res) => res.json())
       .then((data) => setStores(data))
       .catch((err) => {
