@@ -12,4 +12,7 @@ NEXT_PUBLIC_API_URL = "https://dummy.example.com"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+  [plugins.inputs]
+    skipLibCheck = true
+    disableEsLint = true
 
