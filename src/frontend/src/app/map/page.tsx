@@ -76,10 +76,9 @@ export default function MapPage() {
   }, [map]);
 
   // ✅ 마커 모두 삭제 (useCallback으로 정의)
-  const clearMarkers = useCallback(() => {
+  const clearMarkers = () => {
     markers.forEach((m: any) => m.setMap(null));
-    setMarkers([]);
-  }, [markers]);
+  }
 
   // 4️⃣ 착한가게 마커 표시 (카테고리 필터 적용)
   useEffect(() => {
@@ -114,7 +113,7 @@ export default function MapPage() {
     });
 
     setMarkers(newMarkers);
-  }, [category, map, loaded, stores, clearMarkers]);
+  }, [category, map, loaded, stores]);
 
   // 5️⃣ 내 위치 마커
   useEffect(() => {
