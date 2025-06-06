@@ -2,7 +2,7 @@
 
 [build]
 base = "src/frontend"
-command = "npm run build"
+command = "npm install && npm install --save-dev typescript@latest @types/node@latest && npm run build"
 publish = ".next"
 
 
