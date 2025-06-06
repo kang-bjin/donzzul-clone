@@ -1,12 +1,12 @@
-'use client'
+'use client'; // 이 지시어는 이미 잘 되어 있습니다.
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useRouter, useSearchParams} from 'next/navigation'
-import { FaStar } from 'react-icons/fa'
-import Header from '@/components/Header'
-import BottomTab from '@/components/BottomTab'
-import PointModal from '@/components/modals/PointModal'
+import { useEffect, useState, Suspense } from 'react'; // Suspense를 React에서 임포트
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FaStar } from 'react-icons/fa';
+import Header from '@/components/Header';
+import BottomTab from '@/components/BottomTab';
+import PointModal from '@/components/modals/PointModal';
 
 // 1. 컴포넌트 바깥(상단)에 타입 정의
 interface Store {
@@ -18,20 +18,24 @@ interface Store {
   // ...필요 필드
 }
 
-export default function WriteReviewPage() {
-  const router = useRouter()
+// useSearchParams를 사용하는 실제 페이지 콘텐츠를 별도의 컴포넌트로 분리
+function ReviewPageContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const businessNumber = searchParams.get('bno');
+  const businessNumber = searchParams.get('bno'); // 이곳에서 useSearchParams 사용
   const [store, setStore] = useState<Store | null>(null);
   const [loading, setLoading] = useState(true);
-  const [rating, setRating] = useState(4)
-  const [hoverRating, setHoverRating] = useState(0)
-  const [review, setReview] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  
+  const [rating, setRating] = useState(4);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [review, setReview] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // 사업자번호로 가게정보 패칭
   useEffect(() => {
-    if (!businessNumber) return;
+    if (!businessNumber) {
+      setLoading(false); // businessNumber가 없으면 로딩 종료
+      return;
+    }
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/stores/${businessNumber}`)
       .then(res => res.ok ? res.json() : Promise.reject('가게 정보 없음'))
       .then(data => {
@@ -42,7 +46,7 @@ export default function WriteReviewPage() {
         alert('가게 정보를 불러오지 못했습니다.');
         setLoading(false);
       });
-  }, [businessNumber]);
+  }, [businessNumber]); // businessNumber가 변경될 때마다 실행
 
   const handleSubmit = async () => {
     if (!review || rating === 0) {
@@ -50,7 +54,7 @@ export default function WriteReviewPage() {
       return;
     }
     const userId = 1;   // 실제 id로 교체
-    const storeId = 1;  // 실제 id로 교체
+    const storeId = 1;  // 실제 id로 교체 (현재 더미 데이터, 실제로는 `store.id` 사용 고려)
     const payload = { userId, storeId, rating, content: review };
 
     try {
@@ -167,7 +171,7 @@ export default function WriteReviewPage() {
           </div>
         </div>
       </main>
-      
+
       {/* ✅ 하단탭 */}
       <BottomTab />
 
@@ -177,5 +181,14 @@ export default function WriteReviewPage() {
         router.push('/main');
         }} />
     </>
-  )
+  );
+}
+
+// Suspense를 포함하는 메인 export 컴포넌트
+export default function WriteReviewPageWithSuspense() {
+  return (
+    <Suspense fallback={<div>리뷰 페이지 로딩 중...</div>}>
+      <ReviewPageContent />
+    </Suspense>
+  );
 }

@@ -1,22 +1,20 @@
-'use client'
+'use client' // 이 지시어는 이미 잘 되어 있습니다.
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, Suspense } from 'react' // Suspense를 React에서 임포트
+import { useRouter, useSearchParams } from 'next/navigation' // useSearchParams 임포트
 import PointModal from '@/components/modals/PointModal'
 import Header from '@/components/Header'
 import BottomTab from '@/components/BottomTab'
-import { useSearchParams } from 'next/navigation';
 
-
-
-export default function VerifyPage() {
+// useSearchParams를 사용하는 실제 페이지 콘텐츠를 별도의 컴포넌트로 분리
+function VerifyPageContent() {
   const router = useRouter()
   const [category, setCategory] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [storeName, setStoreName] = useState('');
   const [reason, setReason] = useState('');
   const [review, setReview] = useState('');
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); // 이곳에서 useSearchParams 사용
   const businessNumber = searchParams.get('bno');
   console.log('submit_store bno:', businessNumber);
 
@@ -31,10 +29,10 @@ export default function VerifyPage() {
 
   const payload = {
     businessNumber, // 사업자 번호
-    storeName,    // 가게 이름
-    category,     // 업종
-    reason,       // 돈쭐 이유
-    review        // 소비 후기
+    storeName,      // 가게 이름
+    category,       // 업종
+    reason,         // 돈쭐 이유
+    review          // 소비 후기
   };
   console.log('payload:', payload);
 
@@ -134,9 +132,6 @@ export default function VerifyPage() {
                       (가게 선행사례)
                 </span>
               </span>
-
-              
-
               <textarea
                 placeholder="사장님의 어떤 선행이 기억에 남았나요?"
                 maxLength={500}
@@ -158,26 +153,23 @@ export default function VerifyPage() {
                 onChange={(e) => setReview(e.target.value)}
               />
             </div>
-             {/* 하단 버튼 */}
+              {/* 하단 버튼 */}
             <div className="mt-15">
               <button
                 onClick={handleSubmit}
-                // onClick={() => setIsModalOpen(true)}
                 className="w-full bg-[#FFC300] text-white font-bold py-4 rounded-full shadow-lg"
               >
-            등록하기
-          </button>
-          </div>
+                등록하기
+              </button>
+            </div>
           </div> {/* ✅ 입력폼 전체 div 닫음 */}
-        </div> {/* ✅ 바깥 카드 div 닫음 (기존 누락됐던 부분) */}
-
-       
+        </div> {/* ✅ 바깥 카드 div 닫음 */}
 
         <BottomTab />
 
         {/* 모달 */}
         <PointModal
-          isOpen={isModalOpen} 
+          isOpen={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
             router.push('/main');
@@ -185,4 +177,13 @@ export default function VerifyPage() {
       </main>
     </>
   )
+}
+
+// Suspense를 포함하는 메인 export 컴포넌트
+export default function VerifyPageWithSuspense() {
+  return (
+    <Suspense fallback={<div>제보 페이지 로딩 중...</div>}>
+      <VerifyPageContent />
+    </Suspense>
+  );
 }
