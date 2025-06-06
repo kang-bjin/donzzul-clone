@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react' // Suspense 추가
 import Image from 'next/image'
 import { useRouter, useSearchParams} from 'next/navigation'
 import { FaStar } from 'react-icons/fa'
@@ -18,7 +18,8 @@ interface Store {
   // ...필요 필드
 }
 
-export default function WriteReviewPage() {
+// 기존 WriteReviewPage 내용을 새 컴포넌트로 이동
+function ClientReviewPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams();
   const businessNumber = searchParams.get('bno');
@@ -28,7 +29,7 @@ export default function WriteReviewPage() {
   const [hoverRating, setHoverRating] = useState(0)
   const [review, setReview] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  
+
   // 사업자번호로 가게정보 패칭
   useEffect(() => {
     if (!businessNumber) return;
@@ -167,7 +168,7 @@ export default function WriteReviewPage() {
           </div>
         </div>
       </main>
-      
+
       {/* ✅ 하단탭 */}
       <BottomTab />
 
@@ -178,4 +179,13 @@ export default function WriteReviewPage() {
         }} />
     </>
   )
+}
+
+// Suspense로 감싸서 export
+export default function WriteReviewPage() {
+    return (
+        <Suspense fallback={<div>페이지를 로딩 중입니다...</div>}> {/* fallback은 로딩 중 표시될 내용 */}
+            <ClientReviewPageContent />
+        </Suspense>
+    )
 }
