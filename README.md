@@ -68,52 +68,44 @@
 
 ## 다이어그램
 ### 시스템 아키텍처
-<img src="images/.png"/> 
+<img src="images/image05.png"/> 
+
+### 개념 설계도
+<img src="images/image02.png"/> 
 
 ### 시스템 볼록 다이어그램
-<img src="images/.png"/> 
+<img src="images/image03.png"/> 
 
 ### 플로우 차트
-<img src="images/.png"/> 
+<img src="images/image04.png"/> 
 
 ### 시퀀스 다이어그램
-| <img src="images/.png"/> | <img src="images/.png"/> | <img src="images/.png"/> |
+| 소비인증 | 착한 가게 제보 | 기부 |
+|--------|--------|--------|
+| <img src="images/image06.png"/>  | <img src="images/image07.png"/> | <img src="images/image08.png"/>  |
 
 ### ERD
-<img src="images/.png"/> 
+<img src="images/image01.png"/> 
 
 ## 📂 프로젝트 구조
-'''
+
+```
 📦 2025-1-OSSProj-Spring-02
- ┣ 📂 .idea/                 # IDE 설정 (IntelliJ 등)
- ┣ 📂 db/                    # DB 관련 리소스
- ┣ 📂 doc/                   # 회의록, 보고서 등 문서
- ┣ 📂 images/                # 이미지 파일 저장
+ ┣ 📂 .idea/                 # 
+ ┣ 📂 db/                    # DB
+ ┣ 📂 doc/                   # 문서
+ ┣ 📂 images/                # 이미지 파일
  ┣ 📂 src/                   # 핵심 소스 코드
  ┃ ┣ 📂 backend/             # 백엔드 코드
- ┃ ┃ ┣ 📂 data/
- ┃ ┃ ┣ 📂 fonts/
- ┃ ┃ ┣ 📂 Icons/
- ┃ ┃ ┃ ┗ 📂 akoming/
- ┃ ┃ ┣ 📂 images/
- ┃ ┃ ┗ 📂 styles/
- ┃ ┣ 📂 frontend/         # 공통 컴포넌트
- ┃ ┃ ┣ 📂 common/
- ┃ ┃ ┗ 📂 layout/
- ┃ ┣ 📂 router/             # Vue Router 설정
- ┃ ┣ 📂 store/              # Vuex 상태 관리
- ┃ ┣ 📂 views/              # 페이지 뷰 컴포넌트
- ┃ ┃ ┣ 📂 akopolio/         # 아코폴리오 관련 페이지
- ┃ ┃ ┣ 📂 calendar/         # 학사 일정 캘린더
- ┃ ┃ ┣ 📂 feed/             # 피드 관련 페이지
- ┃ ┃ ┣ 📂 login/            # 로그인/회원가입/마이페이지
- ┃ ┃ ┣ 📂 mainpage/         # 메인 페이지
- ┃ ┃ ┗ 📜 NotFound.vue      # 404 페이지
- ┣ 📜 docker-compose.yml    # Docker 구성 파일
- ┣ 📜 README.md             # 프로젝트 설명 문서
- ┗ 📜 package.json          # 패키지 및 의존성 설정
+ ┃ ┃ ┗ 📂 /
+ ┃ ┣ 📂 frontend/            # 프론트엔드 코드
+ ┃ ┃ ┣ 📂 src/
+ ┃ ┃ ┃ ┣ 📂 app/             # 페이지 코드
+ ┃ ┃ ┃ ┣ 📂 components/      # UI 컴포넌트
+ ┃ ┃ ┃ ┗ 📂 store/           # Zustand 상태관리
+ ┃ ┃ ┗ 📂 ocr-server/        # 오픈소스 OCR 서버
 
-'''
+```
 
 
 ## ♥️ 기대효과 
@@ -132,11 +124,11 @@
 ## 🔧 기술 스택
 | **분야**      | **기술 스택** |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Frontend**  | <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"> |
-| **Backend**   | <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF4438?style=flat-square&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black">                                                  |
-| **Database**  | <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/DBeaver-3776AB?style=flat-square&logo=dbeaver&logoColor=white">                                                                                                                                                                                                                                                                     |
-| **DevOps**    | <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"> <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white">                                                                                                                                                                                                                                                            |
-| **Tools**     | <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"> |
+| **Frontend**  | <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/next.js-000000?style=flat-square&logo=next.js&logoColor=black"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">  <img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"> <<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">  <img src="https://img.shields.io/badge/framermotion-6F53F3?style=flat-square&logo=framermotion&logoColor=white">|
+| **Backend**   | <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat-square&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/SpringJPA-6DB33F?style=flat-square&logo=SpringJPA&logoColor=white">|
+| **Database**  | <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white"> |
+| **DevOps**    | <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white">|
+| **Open Source**  | <img src="https://img.shields.io/badge/Tesseract-4285F4?style=flat-square&logo=Tesseract&logoColor=white"> <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat-square&logo=kakao&logoColor=white"> || **tools**  | <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"> |
 
 ## 자료
 - 회의록  
@@ -147,11 +139,12 @@
   - [수행계획서](./doc/1_1_OSSProj_02_Spring_수행계획서.pdf)
   - [수행계획서수정본](./doc/(0430)1_1_OSSProj_02_Spring_수행계획서.pdf)
   - [중간보고서](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
-
+  - [최종보고서](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
 
 - 발표자료  
   - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
-  - [중간 보고서 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
+  - [중간 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
+  - [최종 발표](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
 
 
 - 진행발표
