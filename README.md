@@ -11,8 +11,11 @@
 
 - ‘돈쭐’은 인증, 공유, 참여, 기부의 선순환 구조를 통해 착한 소비 문화를 일상 속에 자연스럽게 녹여내고자 한다. 궁극적으로는 조용히 선행을 실천하는 작은 가게들이 사회적으로 주목받고 지속적으로 응원받는 구조를 만들며, 개인의 소비가 사회를 바꾸는 힘이 되는 경험을 제공하는 것이 이 프로젝트의 핵심 목표이다.
 
-
+| 메인 화면 | 착한 가게 탭 | 커뮤니티 탭 |
+|--------|--------|--------|
 | <img src="images/main.png" width="200"/> | <img src="images/store.png" width="200"/> | <img src="images/community.png" width="200"/> |
+| 소비 인증 탭 | 지도 탭 | 기부 탭 |
+|--------|--------|--------|
 | <img src="images/ocr.png" width="200"/>  | <img src="images/map.png" width="200"/>   | <img src="images/donation.png" width="200"/>   |
 
 
