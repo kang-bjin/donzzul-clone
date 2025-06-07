@@ -13,6 +13,8 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // submit 기본 동작(페이지 리로드) 막기
 
+    console.log("API 주소 확인:", process.env.NEXT_PUBLIC_API_URL);
+    
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
         method: 'POST',
