@@ -12,8 +12,9 @@
 - ‘돈쭐’은 인증, 공유, 참여, 기부의 선순환 구조를 통해 착한 소비 문화를 일상 속에 자연스럽게 녹여내고자 한다. 궁극적으로는 조용히 선행을 실천하는 작은 가게들이 사회적으로 주목받고 지속적으로 응원받는 구조를 만들며, 개인의 소비가 사회를 바꾸는 힘이 되는 경험을 제공하는 것이 이 프로젝트의 핵심 목표이다.
 
 
-| <img src="images/main.png"/> | <img src="images/store.png"/> | <img src="images/community.png"/> |
-| <img src="images/ocr.png"/> || <img src="images/map.png"/> | <img src="images/donation.png"/> |
+| <img src="images/main.png" width="200"/> | <img src="images/store.png" width="200"/> | <img src="images/community.png" width="200"/> |
+| <img src="images/ocr.png" width="200"/>  | <img src="images/map.png" width="200"/>   | <img src="images/donation.png" width="200"/>   |
+
 
 
 ## 🔗 배포 링크
@@ -124,7 +125,7 @@
 ## 🔧 기술 스택
 | **분야**      | **기술 스택** |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Frontend**  | <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/next.js-000000?style=flat-square&logo=next.js&logoColor=black"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">  <img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"> <<img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">  <img src="https://img.shields.io/badge/framermotion-6F53F3?style=flat-square&logo=framermotion&logoColor=white">|
+| **Frontend**  | <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/next.js-000000?style=flat-square&logo=next.js&logoColor=black"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">  <img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/zustand-orange?style=for-the-badge&logo=zustand&logoColor=white">  <img src="https://img.shields.io/badge/framermotion-6F53F3?style=flat-square&logo=framermotion&logoColor=white">|
 | **Backend**   | <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat-square&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/SpringJPA-6DB33F?style=flat-square&logo=SpringJPA&logoColor=white">|
 | **Database**  | <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white"> |
 | **DevOps**    | <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white">|
