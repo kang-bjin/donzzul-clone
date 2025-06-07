@@ -87,7 +87,7 @@ function ReviewPageContent() {
           {/* 이미지 + 닫기 */}
           <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
             {store.image ? (
-              <Image src={`http://localhost:8080/images/${store.image}`} alt="가게 이미지" fill unoptimized className="object-cover" />
+              <Image src={`${process.env.NEXT_PUBLIC_API_URL}/images/${store.image}`} alt="가게 이미지" fill unoptimized className="object-cover" />
             ) : (
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">이미지 없음</div>
             )}
