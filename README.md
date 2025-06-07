@@ -4,7 +4,7 @@
 
 <img src="images/logo.png" width="200"/> 
 
-## 프로젝트 개요
+## 💡프로젝트 개요
 - ‘돈쭐’은 사용자 참여를 기반으로 한 착한 소비 인증 플랫폼 웹서비스로, 선한 영향력을 가진 ‘착한 가게’들을 발굴하고 응원하는 데 초점을 맞춘다. 이 플랫폼은 사용자가 직접 방문한 가게의 영수증을 인증함으로써 선행 소비를 기록하게 하며, 이를 통해 포인트를 적립하고 다양한 방식으로 사회적 가치에 기여할 수 있도록 설계되었다.
 
 - 사용자는 인증을 통해 모은 포인트로 기부 활동에 참여하거나, 캐릭터 성장과 같은 게임 요소를 경험할 수 있어, 착한 소비가 단순한 실천을 넘어 재미있는 놀이처럼 반복되는 행동이 되도록 유도한다. 또한, 인증된 착한 소비 정보는 지도 기반으로 시각화하여 지역 사회의 착한 가게를 한눈에 확인할 수 있고, 이를 SNS에 공유함으로써 자발적인 확산과 참여를 이끌어낸다.
@@ -69,7 +69,7 @@
 - 추후 ppt 프론트엔드 사진 첨부, 내용 작성
 
 
-## 다이어그램
+## 🧾 다이어그램
 ### 시스템 아키텍처
 <img src="images/image05.png"/> 
 
@@ -133,7 +133,7 @@
 | **DevOps**    | <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white">|
 | **Open Source**  | <img src="https://img.shields.io/badge/Tesseract-4285F4?style=flat-square&logo=Tesseract&logoColor=white"> <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat-square&logo=kakao&logoColor=white"> || **tools**  | <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"> |
 
-## 자료
+## 📋 자료
 - 회의록  
   - [회의록](./doc/회의록/)
 
@@ -150,14 +150,20 @@
   - [최종 발표](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
 
 
-- 진행발표
-  - [9주차 진행 보고](./doc/(0430)9주차진행발표자료.pdf)  
-  - [10주차 진행 보고](./doc/(0507)10주차진행발표자료.pdf)
-
-
 - 트러블슈팅
   - [트러블슈팅](./doc/트러블슈팅/OSSProj_트러블슈팅.pdf)
 
+
+## 📦 사용한 오픈소스 및 라이선스
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Apache License 2.0- 
+- [React](https://react.dev/) - MIT License  
+- [Zustand](https://github.com/pmndrs/zustand) - MIT License
+- [Framer Motion](https://github.com/framer/motion) – MIT License  
+- [Tailwind CSS](https://tailwindcss.com/) - MIT License
+- [TypeScript](https://www.typescriptlang.org/) – Apache License 2.0  
+- [Spring Boot](https://spring.io/projects/spring-boot) - Apache License 2.0  
+- [MySQL](https://www.mysql.com/) - GPL License  
+- [Docker](https://www.docker.com/) - Apache License 2.0  
 
 ## 한글 OCR 개발 환경 준비
 1. Tesseract OCR 설치
