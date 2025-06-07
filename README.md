@@ -15,7 +15,6 @@
 |--------|--------|--------|
 | <img src="images/main.png" width="200"/> | <img src="images/store.png" width="200"/> | <img src="images/community.png" width="200"/> |
 | 소비 인증 탭 | 지도 탭 | 기부 탭 |
-|--------|--------|--------|
 | <img src="images/ocr.png" width="200"/>  | <img src="images/map.png" width="200"/>   | <img src="images/donation.png" width="200"/>   |
 
 
