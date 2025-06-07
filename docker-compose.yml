@@ -1,50 +1,22 @@
-version: "3.8"
+version: '3.8'
 
 services:
   backend:
-    build: ./src/backend
-    container_name: donjjul-backend
+    image: 559050249664.dkr.ecr.ap-northeast-2.amazonaws.com/donjjul-backend:latest
     ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-      - ocr
-    networks:
-      - donjjul_net
+      - "80:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      DB_HOST: mysql
+      DB_HOST: spring-db.czuosc4sm6fc.ap-northeast-2.rds.amazonaws.com
       DB_PORT: 3306
       DB_NAME: donjjul
-      DB_USERNAME: root
-      DB_PASSWORD: sqlbysean0226
+      DB_USERNAME: admin
+      DB_PASSWORD: ossprojdonjjul
+      OCR_SERVER_URL: http://ocr:5000
+    depends_on:
+      - ocr
 
   ocr:
-    build: ./src/ocr-server
-    container_name: donjjul-ocr
+    image: 559050249664.dkr.ecr.ap-northeast-2.amazonaws.com/donjjul-ocr:latest
     ports:
       - "5000:5000"
-    networks:
-      - donjjul_net
-    volumes:
-      - ./src/ocr-server:/app  # <== OCR 서버도 코드 실시간 반영
-
-  mysql:
-    image: mysql:8.0
-    container_name: donjjul-mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: sqlbysean0226
-      MYSQL_DATABASE: donjjul
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./db/donjjul.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - donjjul_net
-
-volumes:
-  mysql_data:
-
-networks:
-  donjjul_net:
