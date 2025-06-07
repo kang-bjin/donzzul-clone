@@ -93,7 +93,7 @@ export default function Store() {
         <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
           {/* 이미지 + 닫기 */}
           <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
-            <Image src={`http://localhost:8080/images/${store.image}`} alt={store.name} fill className="object-cover" />
+            <Image src={`${process.env.NEXT_PUBLIC_API_URL}/images/${store.image}`} alt={store.name} fill className="object-cover" />
             <button
               onClick={() => router.back()}
               className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
