@@ -108,9 +108,12 @@
  ┃ ┃ ┃ ┣ 📂 components/      # UI 컴포넌트
  ┃ ┃ ┃ ┗ 📂 store/           # Zustand 상태관리
  ┃ ┃ ┗ 📂 ocr-server/        # 오픈소스 OCR 서버
+```
 
 <details>
-<summary>📦 backend 디렉토리 구조</summary>
+<summary>📦 backend </summary>
+
+```
 📦 backend
 ┣ 📂gradle
 ┃ ┗ 📂wrapper
@@ -147,9 +150,24 @@
 ┣ 📜gradlew.bat
 ┣ 📜query
 ┗ 📜settings.gradle
+```
 </details>
 
+<details>
+<summary>📦 ocr-server </summary>
+
 ```
+📦 ocr-server
+┣ 📂 test
+┣ 📂 test_data
+┣ 📜 .dockerignore
+┣ 📜 app.py
+┣ 📜 Dockerfile
+┣ 📜 ocr_module.py
+┗ 📜 requirements.txt
+```
+
+</details>
 
 
 ## ♥️ 기대효과 
