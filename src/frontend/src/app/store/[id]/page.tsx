@@ -1,203 +1,201 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import Header from '@/components/Header'
-import BottomTab from '@/components/BottomTab'
-import { FiChevronRight, FiPlus } from 'react-icons/fi'
-import { BiLike } from "react-icons/bi";
-import { BiDislike } from "react-icons/bi";
-import { LiaCommentDots } from "react-icons/lia";
-import { useRouter, usePathname, useParams } from 'next/navigation'
-import { FaStar, FaRegStar } from 'react-icons/fa'
-import Image from 'next/image'
-import Link from 'next/link'
+import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import OCRFailModal from '@/components/modals/OCRFailModal';
 
-interface StoreDetail {
-  id: number
-  name: string
-  category: string
-  address: string
-  work_time: string
-  store_phone: string
-  image: string
-  description: string
-  rating: string
+// base64 → Blob 변환 함수
+function dataURLtoBlob(dataurl: string): Blob {
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });
 }
 
-interface Review {
-  id: number
-  userId: number
-  storeId: number
-  rating: number
-  content: string
-  createdAt: string
-}
-export default function Store() {
-  const router = useRouter()
-  const { id } = useParams()
-  const [store, setStore] = useState<StoreDetail | null>(null)
-  const [reviews, setReviews] = useState<Review[]>([])
+// 모바일 여부 체크
+const isMobile = typeof window !== 'undefined' && /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
-// interface ReviewPost {
-//   id: number
-//   title: string
-//   excerpt?: string
-//   date: string
-//   likes: number
-//   dislikes : number
-//   comments: number
-//   rating: number // 별점
-//   thumbnailUrl?: string
-//   thumbnails: string[]
-// }
+const CameraScreen: React.FC = () => {
+  const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-// const dummyReview: ReviewPost[] = [
-//   {
-//       id: 1,
-//       title: '선행하는 빵 맛집 발견했어요~!',
-//       excerpt : '짱맛 말 모 말 모 튀김 소보루 삼백 개 사감 ㅅㄱ',
-//       date: '2025-04-10',
-//       likes: 105,
-//       dislikes : 3,
-//       comments: 24,
-//       rating: 5,
-//       thumbnailUrl: '/store.jpg',
-//       thumbnails: ['/성심당3.jpg','/성심당2.jpg','/성심당.jpg'],
-//   },
-// ]
+  // 모바일용 사진 업로드 처리
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('rating', '5');
+    formData.append('content', '업로드된 이미지');
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/process`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (result.status === 'registered') {
+          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.');
+          router.push(`/review?bno=${result.business_number}`);
+        } else if (result.status === 'unregistered') {
+          alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.');
+          router.push(`/submit_store?bno=${result.business_number}`);
+        } else if (result.status === 'expired') {
+          alert(result.reason || '유효기간 초과 또는 인증 불가');
+        } else {
+          alert('알 수 없는 상태: ' + result.status);
+        }
+      } else {
+        setIsModalOpen(true);
+      }
+    } catch (err) {
+      console.error('업로드 에러:', err);
+      alert('이미지 업로드 에러');
+    }
+  };
+
+  // 데스크탑용 카메라 시작
   useEffect(() => {
-    if (!id) return
-    fetch(`/api/stores/store/${id}`)  // ✅ 백엔드에서 id 기반 상세정보 요청
-      .then((res) => res.json())
-      .then((data) => setStore(data))
-      .catch((err) => console.error('상세정보 요청 실패:', err))
+    if (!isMobile) {
+      const startCamera = async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' } },
+          });
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            await videoRef.current.play();
+          }
+        } catch (err) {
+          console.error('카메라 접근 오류:', err);
+        }
+      };
 
+      startCamera();
 
-    // 리뷰 리스트 가져오기
-    fetch(`/api/reviews/store/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('리뷰 응답: ', data)
-          setReviews(data)
-      })
-      .catch((err) => {
-        console.error('리뷰 불러오기 실패:', err)
-        setReviews([])
-      })
-  }, [id])
+      const currentVideo = videoRef.current;
 
-  if (!store) return <p className="p-4">불러오는 중...</p>
-  return (
-    <>
-      <Header />
-     <div className="px-4">
-      {/* ✅ 스크롤 콘텐츠 영역 */}
-      <main className="min-h-screen bg-[#FFD735]/85 px-4 py-6 flex flex-col items-center rounded-[50px]">
-        <div className="bg-white rounded-[40px] w-full max-w-md p-4 pb-20 shadow-md relative">
-          {/* 이미지 + 닫기 */}
-          <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
-            <Image src={`/api/images/${store.image}`} alt={store.name} fill className="object-cover" />
-            <button
-              onClick={() => router.back()}
-              className="absolute top-2 right-2 bg-black/40 text-white w-8 h-8 rounded-full flex items-center justify-center"
-            >
-              ✕
-            </button>
-          </div>
+      return () => {
+        if (currentVideo?.srcObject) {
+          const tracks = (currentVideo.srcObject as MediaStream).getTracks();
+          tracks.forEach((track) => track.stop());
+        }
+      };
+    }
+  }, []);
 
-          {/* 가게 정보 */}
-          <div className="mb-6">
-            <div className='flex items-center gap-8'>
-                <span className="font-bold text-[25px] ">{store.name}</span>
-                <span className="text-[17px]">{store.category}</span>
-            </div>    
-              <p className="text-left text-[15px] text-[#747483]">{store.address}</p>
-              <p className="text-left text-[15px] text-[#747483]">영업시간: {store.work_time} </p>
-              <div className="flex justify-between text-[15px] text-[#747483]">
-                <p>전화번호: {store.store_phone}</p>
-                <div className='flex'>
-                  <p className="text-blue-500">⭐ {store.rating}</p>
-                  <p className='text-[#747483]'>(32)</p>
-                </div>
-              </div>
-            </div>
-      {/* 탭 */}
-        <div className="mt-6">
-          <h3 className="text-lg font-bold mb-2">리뷰</h3>
-          {reviews.length === 0 ? (
-            <p className="text-sm text-gray-500">아직 리뷰가 없습니다.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {reviews.map((r) => (
-                <Link
-                key={r.id}
-                href={`/store/${r.storeId}`}
-                className="relative border border-gray-200 rounded-lg p-4 pb-16 shadow-xl bg-white"
-                >
-                {/* 별점 + 제목 */}
-                    <div>
-                      <div className="flex items-center mb-1">
-                        {Array.from({ length: 5 }).map((_, i) => {
-                            // i < p.rating 이면 채워진 별, 아니면 빈 별
-                            return i < r.rating ? (
-                            <FaStar key={i} className="w-4 h-4 text-yellow-400" />
-                            ) : (
-                            <FaRegStar key={i} className="w-4 h-4 text-gray-300" />
-                            )
-                        })}
-                        </div>
-                        {/* 썸네일 3개
-                        <div className="flex gap-1 mt-2 mb-4">
-                            {p.thumbnails.map((src, idx) => (
-                            <div key={idx} className="relative h-10 w-10 rounded-md overflow-hidden">
-                                <Image
-                                src={src}
-                                alt={`thumb-${idx}`}
-                                fill
-                                className="object-cover"
-                                />
-                            </div>
-                            ))}
-                        </div> */}
-                    {/* 제목 */}
-                      <h3 className="font-semibold text-gray-800 line-clamp-2">{store.name}</h3>
-                    </div>    
+  // 데스크탑용 사진 캡처
+  const takePhoto = async () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
 
-                {/* 본문 */}
-                <p className="text-sm text-gray-600 mt-2 line-clamp-2">{r.content}</p>
+    if (!video || !canvas) return;
 
-                {/* 날짜: 오른쪽 상단 */}
-                <span className="absolute top-4 right-5 text-[15px] text-gray-500">
-                    {r.createdAt.split('T')[0]}
-                </span>
+    const width = video.videoWidth;
+    const height = video.videoHeight;
 
-                {/* 좋아요/싫어요: 왼쪽 하단 */}
-                <div className="absolute bottom-4 left-4 flex items-center space-x-2 text-xs text-gray-500">
-                    <button className="flex items-center gap-1 hover:text-blue-500">
-                    <BiLike className='w-4 h-4'/> 2
-                    </button>
-                    <button className="flex items-center gap-1 hover:text-red-500">
-                    <BiDislike className='w-4 h-4'/> 0
-                    </button>
-                </div>
+    canvas.width = width;
+    canvas.height = height;
 
-                {/* 코멘트 수: 오른쪽 하단 */}
-                <span className="absolute bottom-4 right-4 flex items-center gap-1 text-xs text-gray-500">
-                    <LiaCommentDots className='w-4 h-4'/> 0
-                </span>
-                </Link>
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-            ))}
-            </div>
-          )}
-          </div>
+    ctx.drawImage(video, 0, 0, width, height);
+
+    const imageData = canvas.toDataURL('image/png');
+    const imageBlob = dataURLtoBlob(imageData);
+    const imageFile = new File([imageBlob], 'photo.png', { type: 'image/png' });
+
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('rating', '5');
+    formData.append('content', '캡처한 이미지');
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/process`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (result.status === 'registered') {
+          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.');
+          router.push(`/review?bno=${result.business_number}`);
+        } else if (result.status === 'unregistered') {
+          alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.');
+          router.push(`/submit_store?bno=${result.business_number}`);
+        } else if (result.status === 'expired') {
+          alert(result.reason || '유효기간 초과 또는 인증 불가');
+        } else {
+          alert('알 수 없는 상태: ' + result.status);
+        }
+      } else {
+        setIsModalOpen(true);
+      }
+    } catch (err) {
+      console.error('이미지 업로드 에러:', err);
+      alert('이미지 업로드 에러');
+    }
+  };
+
+  // ✅ 실제 렌더링 파트
+  return isMobile ? (
+    <div className="flex flex-col items-center justify-center h-screen bg-white px-4">
+      <p className="mb-4 text-center text-gray-800 font-medium">사진을 찍어 OCR 인증을 시작하세요</p>
+      <label className="cursor-pointer bg-[#FDDC55] text-black px-4 py-2 rounded-lg shadow-md font-semibold">
+        📷 사진 찍기
+        <input
+          type="file"
+          accept="image/*"
+          capture="environment"
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+      </label>
+      <OCRFailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </div>
+  ) : (
+    <div className="flex flex-col h-screen items-center justify-between">
+      {/* 상단 바 */}
+      <div className="w-full bg-[#FDDC55] min-h-[50px] relative z-10 flex items-center justify-center"></div>
+
+      {/* 카메라 미리보기 */}
+      <div className="flex-1 w-full bg-black flex items-center justify-center relative z-0">
+        <video
+          ref={videoRef}
+          className="w-full h-full max-h-full object-cover"
+          playsInline
+          muted
+        />
+      </div>
+
+      {/* 하단 바 + 촬영 버튼 */}
+      <div className="w-full bg-[#FDDC55] h-30 flex items-center justify-center relative">
+        <div className="w-16 h-16 bg-[#FDDC55] border border-black rounded-full flex items-center justify-center mt-2 mb-2">
+          <div
+            onClick={takePhoto}
+            className="w-14 h-14 bg-white rounded-full border border-black active:scale-95 cursor-pointer"
+          />
         </div>
-      </main>
-      
-      {/* ✅ 하단탭 */}
-      <BottomTab />
-    
-  </div> 
-  </> 
-  )
-}
+        <canvas ref={canvasRef} className="hidden" />
+      </div>
+
+      <OCRFailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </div>
+  );
+};
+
+export default CameraScreen;
