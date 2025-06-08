@@ -17,6 +17,39 @@ function dataURLtoBlob(dataurl: string): Blob {
   return new Blob([u8arr], { type: mime });
 }
 
+// 이미지 리사이즈 함수
+const resizeImage = (file: File, maxWidth = 800): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.src = e.target?.result as string;
+    };
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const scale = maxWidth / img.width;
+      const width = maxWidth;
+      const height = img.height * scale;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error("Canvas context load error"));
+
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob((blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error("Blob conversion failed"));
+      }, 'image/jpeg', 0.8); // 압축률: 80%
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
 // 모바일 여부 체크
 const isMobile = typeof window !== 'undefined' && /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
@@ -30,13 +63,16 @@ const CameraScreen: React.FC = () => {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    try{
+      const resizedBlob = await resizeImage(file, 800);
+      const resizedFile = new File([resizedBlob], 'resized.jpg', { type: 'image/jpeg' });
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('rating', '5');
-    formData.append('content', '업로드된 이미지');
+      const formData = new FormData();
 
-    try {
+      formData.append('file', resizedFile);
+      formData.append('rating', '5');
+      formData.append('content', '업로드된 이미지');
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/process`, {
         method: 'POST',
         body: formData,
