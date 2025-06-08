@@ -34,8 +34,9 @@ const CameraScreen: React.FC = () => {
             facingMode: { exact: "environment" },
             width: { ideal: 1280 },
             height: { ideal: 720 },
+            advanced: [{ focusMode: "continuous" }]
           }
-        }
+        } as any;
 
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         if (videoRef.current) {
@@ -45,15 +46,6 @@ const CameraScreen: React.FC = () => {
           const [track] = stream.getVideoTracks();
           const capabilities = track.getCapabilities();
           console.log('Camera capabilities:', capabilities);
-
-          // 👇 초점 모드를 지원하면 설정
-          if (capabilities.focusMode?.includes("continuous")) {
-            const focusconstraints = {
-              advanced: [{ focusMode: "continuous" }]
-            };
-
-            await track.applyConstraints(focusconstraints as unknown as MediaTrackConstraints);
-          }
         }
       } catch (err) {
         console.error('카메라 접근 오류:', err);
