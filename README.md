@@ -78,7 +78,7 @@
 ### 개념 설계도
 <img src="images/image02.png"/> 
 
-### 시스템 볼록 다이어그램
+### 시스템 블록 다이어그램
 <img src="images/image03.png"/> 
 
 ### 플로우 차트
