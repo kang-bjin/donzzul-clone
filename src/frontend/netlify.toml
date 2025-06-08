@@ -13,4 +13,9 @@ NEXT_PUBLIC_API_URL = "http://13.125.255.84"
 [[plugins]]
 package = "@netlify/plugin-nextjs"
 
+[[redirects]]
+from = "/api/*"
+to = "http://13.125.255.84:80/:splat"
+status = 200
+force = true
 

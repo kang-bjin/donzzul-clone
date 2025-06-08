@@ -34,7 +34,7 @@ export default function MapPage() {
 
   // 1️⃣ 서버에서 착한가게 전체 데이터 받아오기
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/stores`)
+    fetch(`/api/stores`)
       .then(res => res.json())
       .then(setStores)
       .catch(() => setStores([]));
