@@ -38,14 +38,10 @@ const CameraScreen: React.FC = () => {
           }
         } as any;
 
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode:{exact: "environment"}}});
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
-
-          const [track] = stream.getVideoTracks();
-          const capabilities = track.getCapabilities();
-          console.log('Camera capabilities:', capabilities);
         }
       } catch (err) {
         console.error('카메라 접근 오류:', err);
@@ -54,9 +50,11 @@ const CameraScreen: React.FC = () => {
 
     startCamera();
 
+    const currentVideo = videoRef.current;
+
     return () => {
-      if (videoRef.current?.srcObject) {
-        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      if (currentVideo?.srcObject) {
+        const tracks = (currentVideo.srcObject as MediaStream).getTracks();
         tracks.forEach(track => track.stop());
       }
     };
