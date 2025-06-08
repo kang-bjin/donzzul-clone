@@ -63,13 +63,13 @@ export default function HistoryPage() {
 
   useEffect(() => {
   // 닉네임 불러오기
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my/nickname`, { method: 'GET',// credentials, headers 등 실제 인증추가
+  fetch(`/api/my/nickname`, { method: 'GET',// credentials, headers 등 실제 인증추가
     })
     .then(res => res.json())
     .then(data => setNickname(data.nickname));
 
     // 리뷰 내역 가져오기
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/user/${userId}`)
+  fetch(`/api/reviews/user/${userId}`)
     .then(res => res.json())
     .then(data => {
       const mapped = data.map((r: any) => ({
@@ -84,7 +84,7 @@ export default function HistoryPage() {
     });
 
   // 제보 내역 가져오기
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/proposals/user/${userId}`)
+  fetch(`/api/proposals/user/${userId}`)
     .then(res => res.json())
     .then(data => {
       const mapped = data.map((p: any) => ({

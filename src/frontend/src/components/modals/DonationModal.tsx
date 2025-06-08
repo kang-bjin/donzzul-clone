@@ -23,7 +23,7 @@ export default function DonationModal({ isOpen, onClose, onDonate }: DonationMod
   useEffect(() => {
     if (isOpen) {
       const userId = 1;
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/points`)
+      fetch(`/api/users/${userId}/points`)
         .then(res => res.json())
         .then(data => setUserPoints(data.points))
         .catch(() => setUserPoints(0));
