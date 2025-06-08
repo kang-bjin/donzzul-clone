@@ -108,9 +108,11 @@
  ┃ ┃ ┃ ┣ 📂 components/      # UI 컴포넌트
  ┃ ┃ ┃ ┗ 📂 store/           # Zustand 상태관리
  ┃ ┃ ┗ 📂 ocr-server/        # 오픈소스 OCR 서버
+```
 
 <details>
 <summary>📦 backend 디렉토리 구조</summary>
+```
 📦 backend
 ┣ 📂gradle
 ┃ ┗ 📂wrapper
@@ -147,6 +149,7 @@
 ┣ 📜gradlew.bat
 ┣ 📜query
 ┗ 📜settings.gradle
+```
 </details>
 
 ```
