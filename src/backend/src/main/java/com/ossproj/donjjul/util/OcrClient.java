@@ -25,6 +25,7 @@ public class OcrClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", new MultipartInputStreamFileResource(
                 imageFile.getInputStream(), imageFile.getOriginalFilename()
@@ -34,6 +35,9 @@ public class OcrClient {
 
         ResponseEntity<OcrResponseDto> response = restTemplate
                 .postForEntity(ocrUrl, requestEntity, OcrResponseDto.class);
+
+        System.out.println("OCR 응답 본문: " + response.getBody());
+        System.out.println("OCR 응답 상태: " + response.getStatusCode());
 
         return response.getBody();
     }

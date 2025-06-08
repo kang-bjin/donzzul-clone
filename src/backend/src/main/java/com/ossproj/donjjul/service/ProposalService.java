@@ -23,7 +23,6 @@ public class ProposalService {
     public ProposalResponseDto createProposal(OcrResponseDto ocr) {
         StoreProposal proposal = StoreProposal.builder()
                 .businessNumber(ocr.getBusinessNumber())
-                .storeName(ocr.getStoreName())
                 .status(ProposalStatus.VOTING)
                 .build();
 

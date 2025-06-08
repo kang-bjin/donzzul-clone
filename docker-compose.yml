@@ -12,7 +12,7 @@ services:
       DB_NAME: donjjul
       DB_USERNAME: admin
       DB_PASSWORD: ossprojdonjjul
-      OCR_SERVER_URL: http://ocr:5000
+      OCR_SERVER_URL: http://ocr:5000/ocr
     depends_on:
       - ocr
 

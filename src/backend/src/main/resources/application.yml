@@ -12,6 +12,11 @@ spring:
       hibernate:
         format_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
 server:
   address: 0.0.0.0
   port: 8080
@@ -24,4 +29,4 @@ jwt:
   secret: donjjul-secret-key-that-opens-every-door-there-is
 
 ocr:
-  url: "http://ocr:5000"
+  url: "http://ocr:5000/ocr"
