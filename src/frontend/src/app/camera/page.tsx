@@ -29,10 +29,23 @@ const CameraScreen: React.FC = () => {
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode:{exact: "environment"}}});
+        const constraints = {
+          video: {
+            facingMode: { exact: "environment" },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            advanced: [{ focusMode: "continuous" }]
+          }
+        } as any;
+
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
+
+          const [track] = stream.getVideoTracks();
+          const capabilities = track.getCapabilities();
+          console.log('Camera capabilities:', capabilities);
         }
       } catch (err) {
         console.error('카메라 접근 오류:', err);
@@ -41,11 +54,9 @@ const CameraScreen: React.FC = () => {
 
     startCamera();
 
-    const currentVideo = videoRef.current;
-
     return () => {
-      if (currentVideo?.srcObject) {
-        const tracks = (currentVideo.srcObject as MediaStream).getTracks();
+      if (videoRef.current?.srcObject) {
+        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
         tracks.forEach(track => track.stop());
       }
     };
