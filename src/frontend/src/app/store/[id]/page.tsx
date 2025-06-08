@@ -76,7 +76,10 @@ export default function Store() {
     // 리뷰 리스트 가져오기
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/store/${id}`)
       .then((res) => res.json())
-      .then((data: Review[]) => setReviews(data))
+      .then((data) => {
+        console.log('리뷰 응답: ', data)
+          setReviews(data)
+      })
       .catch((err) => {
         console.error('리뷰 불러오기 실패:', err)
         setReviews([])
