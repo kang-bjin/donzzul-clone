@@ -221,15 +221,5 @@
 - [TypeScript](https://www.typescriptlang.org/) – Apache License 2.0  
 - [Spring Boot](https://spring.io/projects/spring-boot) - Apache License 2.0  
 - [MySQL](https://www.mysql.com/) - GPL License  
-- [Docker](https://www.docker.com/) - Apache License 2.0  
-
-## 📝 한글 OCR 개발 환경 준비
-1. Tesseract OCR 설치
-  - https://github.com/tesseract-ocr/tesseract#installing-tesseract
-
-2. 한글 학습 데이터(kor.traineddata) 설정
-  - https://github.com/tesseract-ocr/tessdata
-
-3. 다운로드한 kor.traineddata 파일을 아래 경로 중 해당 OS에 맞게 복사
-  - Windows: C:\Program Files\Tesseract-OCR\tessdata
-  - Ubuntu: /usr/share/tesseract-ocr/4.00/tessdata
+- [Docker](https://www.docker.com/) - Apache License 2.0
+- 
