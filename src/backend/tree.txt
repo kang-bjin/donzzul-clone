@@ -1,0 +1,312 @@
+C: 볼륨에 대한 폴더 경로의 목록입니다.
+볼륨 일련 번호는 4241-BC67입니다.
+C:.
+|   .gitattributes
+|   .gitignore
+|   build.gradle
+|   Dockerfile
+|   gradlew
+|   gradlew.bat
+|   query
+|   settings.gradle
+|   tree.txt
+|   
++---.gradle
+|   |   file-system.probe
+|   |   
+|   +---8.14
+|   |   |   gc.properties
+|   |   |   
+|   |   +---checksums
+|   |   |       checksums.lock
+|   |   |       md5-checksums.bin
+|   |   |       sha1-checksums.bin
+|   |   |       
+|   |   +---executionHistory
+|   |   |       executionHistory.bin
+|   |   |       executionHistory.lock
+|   |   |       
+|   |   +---expanded
+|   |   +---fileChanges
+|   |   |       last-build.bin
+|   |   |       
+|   |   +---fileHashes
+|   |   |       fileHashes.bin
+|   |   |       fileHashes.lock
+|   |   |       resourceHashesCache.bin
+|   |   |       
+|   |   \---vcsMetadata
+|   +---buildOutputCleanup
+|   |       buildOutputCleanup.lock
+|   |       cache.properties
+|   |       outputFiles.bin
+|   |       
+|   \---vcs-1
+|           gc.properties
+|           
++---build
+|   |   resolvedMainClassName
+|   |   
+|   +---classes
+|   |   \---java
+|   |       \---main
+|   |           \---com
+|   |               \---ossproj
+|   |                   \---donjjul
+|   |                       |   BackendApplication.class
+|   |                       |   
+|   |                       +---config
+|   |                       |       AppConfig.class
+|   |                       |       CharacterConfig.class
+|   |                       |       RestConfig.class
+|   |                       |       SecurityConfig.class
+|   |                       |       WebConfig.class
+|   |                       |       
+|   |                       +---controller
+|   |                       |       CertificateController.class
+|   |                       |       ConsumptionController.class
+|   |                       |       DonationController.class
+|   |                       |       MyPageController.class
+|   |                       |       ProposalVoteController.class
+|   |                       |       ReceiptController.class
+|   |                       |       ReviewController.class
+|   |                       |       StoreController.class
+|   |                       |       StoreProposalController.class
+|   |                       |       UserController.class
+|   |                       |       
+|   |                       +---domain
+|   |                       |       Certificate.class
+|   |                       |       Donation.class
+|   |                       |       DonationTarget.class
+|   |                       |       ProposalVote$ProposalVoteBuilder.class
+|   |                       |       ProposalVote.class
+|   |                       |       Review.class
+|   |                       |       Store$StoreBuilder.class
+|   |                       |       Store.class
+|   |                       |       StoreProposal$StoreProposalBuilder.class
+|   |                       |       StoreProposal.class
+|   |                       |       User$UserBuilder.class
+|   |                       |       User.class
+|   |                       |       
+|   |                       +---dto
+|   |                       |       CertificateResponse$CertificateResponseBuilder.class
+|   |                       |       CertificateResponse.class
+|   |                       |       CharacterResponse.class
+|   |                       |       LoginRequest.class
+|   |                       |       LoginResponse.class
+|   |                       |       OcrResponseDto.class
+|   |                       |       ProposalResponseDto.class
+|   |                       |       ProposalVoteRequest.class
+|   |                       |       ProposalVoteResponse$ProposalVoteResponseBuilder.class
+|   |                       |       ProposalVoteResponse.class
+|   |                       |       ReceiptDto.class
+|   |                       |       ReceiptValidationResult.class
+|   |                       |       ReviewCreateRequest.class
+|   |                       |       ReviewResponse.class
+|   |                       |       StoreMarkerDto.class
+|   |                       |       StoreProposalRequest.class
+|   |                       |       StoreProposalResponse.class
+|   |                       |       VerifyReceiptResponse.class
+|   |                       |       
+|   |                       +---enums
+|   |                       |       CharacterStage.class
+|   |                       |       ProposalStatus.class
+|   |                       |       VoteType.class
+|   |                       |       
+|   |                       +---repository
+|   |                       |       CertificateRepository.class
+|   |                       |       DonationRepository.class
+|   |                       |       DonationTargetRepository.class
+|   |                       |       ProposalVoteRepository.class
+|   |                       |       ReviewRepository.class
+|   |                       |       StoreProposalRepository.class
+|   |                       |       StoreRepository.class
+|   |                       |       UserRepository.class
+|   |                       |       
+|   |                       +---security
+|   |                       |       CustomUserDetails.class
+|   |                       |       CustomUserDetailsService.class
+|   |                       |       JwtAuthenticationFilter.class
+|   |                       |       
+|   |                       +---service
+|   |                       |       CertificateService.class
+|   |                       |       CharacterService.class
+|   |                       |       DonationService.class
+|   |                       |       ProposalService.class
+|   |                       |       ProposalVoteService.class
+|   |                       |       ReceiptService.class
+|   |                       |       ReviewService.class
+|   |                       |       StoreProposalService.class
+|   |                       |       StoreService.class
+|   |                       |       UserService.class
+|   |                       |       VerificationResult.class
+|   |                       |       
+|   |                       \---util
+|   |                               JwtUtil.class
+|   |                               MultipartInputStreamFileResource.class
+|   |                               OcrClient.class
+|   |                               
+|   +---generated
+|   |   \---sources
+|   |       +---annotationProcessor
+|   |       |   \---java
+|   |       |       \---main
+|   |       \---headers
+|   |           \---java
+|   |               \---main
+|   +---libs
+|   |       backend-0.0.1-SNAPSHOT-plain.jar
+|   |       backend-0.0.1-SNAPSHOT.jar
+|   |       
+|   +---reports
+|   |   \---problems
+|   |           problems-report.html
+|   |           
+|   +---resources
+|   |   \---main
+|   |           application-dev.yml
+|   |           application-docker.yml
+|   |           application.yml
+|   |           
+|   \---tmp
+|       +---bootJar
+|       |       MANIFEST.MF
+|       |       
+|       +---compileJava
+|       |   |   previous-compilation-data.bin
+|       |   |   
+|       |   \---compileTransaction
+|       |       +---backup-dir
+|       |       \---stash-dir
+|       |               StoreController.class.uniqueId2
+|       |               StoreMarkerDto.class.uniqueId0
+|       |               StoreService.class.uniqueId1
+|       |               
+|       \---jar
+|               MANIFEST.MF
+|               
++---gradle
+|   \---wrapper
+|           gradle-wrapper.jar
+|           gradle-wrapper.properties
+|           
+\---src
+    +---main
+    |   +---java
+    |   |   \---com
+    |   |       \---ossproj
+    |   |           \---donjjul
+    |   |               |   BackendApplication.java
+    |   |               |   
+    |   |               +---config
+    |   |               |       AppConfig.java
+    |   |               |       CharacterConfig.java
+    |   |               |       RestConfig.java
+    |   |               |       SecurityConfig.java
+    |   |               |       WebConfig.java
+    |   |               |       
+    |   |               +---controller
+    |   |               |       CertificateController.java
+    |   |               |       ConsumptionController.java
+    |   |               |       DonationController.java
+    |   |               |       MyPageController.java
+    |   |               |       ProposalVoteController.java
+    |   |               |       ReceiptController.java
+    |   |               |       ReviewController.java
+    |   |               |       StoreController.java
+    |   |               |       StoreProposalController.java
+    |   |               |       UserController.java
+    |   |               |       
+    |   |               +---domain
+    |   |               |       Certificate.java
+    |   |               |       Donation.java
+    |   |               |       DonationTarget.java
+    |   |               |       ProposalVote.java
+    |   |               |       Review.java
+    |   |               |       Store.java
+    |   |               |       StoreProposal.java
+    |   |               |       User.java
+    |   |               |       
+    |   |               +---dto
+    |   |               |       CertificateResponse.java
+    |   |               |       CharacterResponse.java
+    |   |               |       LoginRequest.java
+    |   |               |       LoginResponse.java
+    |   |               |       OcrResponseDto.java
+    |   |               |       ProposalResponseDto.java
+    |   |               |       ProposalVoteRequest.java
+    |   |               |       ProposalVoteResponse.java
+    |   |               |       ReceiptDto.java
+    |   |               |       ReceiptValidationResult.java
+    |   |               |       ReviewCreateRequest.java
+    |   |               |       ReviewResponse.java
+    |   |               |       StoreMarkerDto.java
+    |   |               |       StoreProposalRequest.java
+    |   |               |       StoreProposalResponse.java
+    |   |               |       VerifyReceiptResponse.java
+    |   |               |       
+    |   |               +---enums
+    |   |               |       CharacterStage.java
+    |   |               |       ProposalStatus.java
+    |   |               |       VoteType.java
+    |   |               |       
+    |   |               +---repository
+    |   |               |       CertificateRepository.java
+    |   |               |       DonationRepository.java
+    |   |               |       DonationTargetRepository.java
+    |   |               |       ProposalVoteRepository.java
+    |   |               |       ReviewRepository.java
+    |   |               |       StoreProposalRepository.java
+    |   |               |       StoreRepository.java
+    |   |               |       UserRepository.java
+    |   |               |       
+    |   |               +---security
+    |   |               |       CustomUserDetails.java
+    |   |               |       CustomUserDetailsService.java
+    |   |               |       JwtAuthenticationFilter.java
+    |   |               |       
+    |   |               +---service
+    |   |               |       CertificateService.java
+    |   |               |       CharacterService.java
+    |   |               |       DonationService.java
+    |   |               |       ProposalService.java
+    |   |               |       ProposalVoteService.java
+    |   |               |       ReceiptService.java
+    |   |               |       ReviewService.java
+    |   |               |       StoreProposalService.java
+    |   |               |       StoreService.java
+    |   |               |       UserService.java
+    |   |               |       VerificationResult.java
+    |   |               |       
+    |   |               \---util
+    |   |                       JwtUtil.java
+    |   |                       MultipartInputStreamFileResource.java
+    |   |                       OcrClient.java
+    |   |                       
+    |   \---resources
+    |       |   application-dev.yml
+    |       |   application-docker.yml
+    |       |   application.yml
+    |       |   
+    |       \---static
+    |           \---images
+    |                   store1.jpg
+    |                   store10.jpg
+    |                   store11.jpg
+    |                   store12.jpg
+    |                   store2.jpg
+    |                   store3.jpg
+    |                   store4.jpg
+    |                   store5.jpg
+    |                   store6.jpg
+    |                   store7.jpg
+    |                   store8.jpg
+    |                   store9.jpg
+    |                   
+    \---test
+        \---java
+            \---com
+                \---ossproj
+                    \---donjjul
+                            BackendApplicationTests.java
+                            
