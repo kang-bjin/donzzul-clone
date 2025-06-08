@@ -112,6 +112,7 @@
 
 <details>
 <summary>📦 backend 디렉토리 구조</summary>
+
 ```
 📦 backend
 ┣ 📂gradle
