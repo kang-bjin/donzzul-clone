@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/receipt")
+@RequestMapping("/receipt")
 public class ReceiptController {
 
     private final OcrClient ocrClient;

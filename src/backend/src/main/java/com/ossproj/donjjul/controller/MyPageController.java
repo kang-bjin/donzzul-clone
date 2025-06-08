@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/my")
+@RequestMapping("/my")
 public class MyPageController {
 
     private final ReviewService reviewService;
