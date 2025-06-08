@@ -111,7 +111,7 @@
 ```
 
 <details>
-<summary>📦 backend 디렉토리 구조</summary>
+<summary>📦 backend </summary>
 
 ```
 📦 backend
@@ -151,6 +151,22 @@
 ┣ 📜query
 ┗ 📜settings.gradle
 ```
+</details>
+
+<details>
+<summary>📦 ocr-server </summary>
+
+```
+📦 ocr-server
+┣ 📂 test
+┣ 📂 test_data
+┣ 📜 .dockerignore
+┣ 📜 app.py
+┣ 📜 Dockerfile
+┣ 📜 ocr_module.py
+┗ 📜 requirements.txt
+```
+
 </details>
 
 
