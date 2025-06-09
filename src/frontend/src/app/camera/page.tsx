@@ -33,7 +33,7 @@ const CameraScreen: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('rating', '5');
+    formData.append('rating', String(5));
     formData.append('content', '업로드된 이미지');
 
     try {
@@ -119,7 +119,7 @@ const CameraScreen: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('rating', '5');
+    formData.append('rating', String(5));
     formData.append('content', '캡처한 이미지');
 
     try {
