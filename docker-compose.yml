@@ -5,6 +5,8 @@ services:
     image: 559050249664.dkr.ecr.ap-northeast-2.amazonaws.com/donjjul-backend:latest
     ports:
       - "80:8080"
+    networks:
+      - donjjul-net
     environment:
       SPRING_PROFILES_ACTIVE: docker
       DB_HOST: spring-db.czuosc4sm6fc.ap-northeast-2.rds.amazonaws.com
@@ -20,3 +22,9 @@ services:
     image: 559050249664.dkr.ecr.ap-northeast-2.amazonaws.com/donjjul-ocr:latest
     ports:
       - "5000:5000"
+    networks:
+      - donjjul-net
+
+networks:
+  donjjul-net:
+    driver: bridge

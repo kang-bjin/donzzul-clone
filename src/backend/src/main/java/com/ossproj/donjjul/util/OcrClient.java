@@ -22,16 +22,19 @@ public class OcrClient {
     private final RestTemplate restTemplate;
 
     public OcrResponseDto requestOcr(MultipartFile imageFile) throws IOException {
+        System.out.println("OCR URL: " + ocrUrl);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", new MultipartInputStreamFileResource(
-                imageFile.getInputStream(), imageFile.getOriginalFilename()
+                imageFile.getInputStream(),
+                imageFile.getOriginalFilename(),
+                imageFile.getSize()
         ));
 
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, Object>    > requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<OcrResponseDto> response = restTemplate
                 .postForEntity(ocrUrl, requestEntity, OcrResponseDto.class);

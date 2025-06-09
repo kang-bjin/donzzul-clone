@@ -29,4 +29,4 @@ jwt:
   secret: donjjul-secret-key-that-opens-every-door-there-is
 
 ocr:
-  url: "http://ocr:5000/ocr"
+  url: ${OCR_SERVER_URL}
