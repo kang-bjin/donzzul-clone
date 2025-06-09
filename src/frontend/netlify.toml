@@ -8,7 +8,7 @@ publish = ".next"
 
 [build.environment]
 NODE_ENV = "production"
-NEXT_PUBLIC_API_URL = "donzzul.store"
+NEXT_PUBLIC_API_URL = "https://donzzul.store"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
