@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import OCRFailModal from '@/components/modals/OCRFailModal';
+
 
 // base64 → Blob 변환 함수
 function dataURLtoBlob(dataurl: string): Blob {
@@ -17,124 +19,52 @@ function dataURLtoBlob(dataurl: string): Blob {
   return new Blob([u8arr], { type: mime });
 }
 
-// 이미지 리사이즈 함수
-const resizeImage = (file: File, maxWidth = 800): Promise<Blob> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      img.src = e.target?.result as string;
-    };
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const scale = maxWidth / img.width;
-      const width = maxWidth;
-      const height = img.height * scale;
-
-      canvas.width = width;
-      canvas.height = height;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return reject(new Error("Canvas context load error"));
-
-      ctx.drawImage(img, 0, 0, width, height);
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error("Blob conversion failed"));
-      }, 'image/jpeg', 0.8); // 압축률: 80%
-    };
-
-    reader.readAsDataURL(file);
-  });
-};
-
-// 모바일 여부 체크
-const isMobile = typeof window !== 'undefined' && /Mobi|Android|iPhone/i.test(navigator.userAgent);
-
 const CameraScreen: React.FC = () => {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 모바일용 사진 업로드 처리
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    try{
-      const resizedBlob = await resizeImage(file, 800);
-      const resizedFile = new File([resizedBlob], 'resized.jpg', { type: 'image/jpeg' });
-
-      const formData = new FormData();
-
-      formData.append('file', resizedFile);
-      formData.append('rating', '5');
-      formData.append('content', '업로드된 이미지');
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/process`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        if (result.status === 'registered') {
-          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.');
-          router.push(`/review?bno=${result.business_number}`);
-        } else if (result.status === 'unregistered') {
-          alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.');
-          router.push(`/submit_store?bno=${result.business_number}`);
-        } else if (result.status === 'expired') {
-          alert(result.reason || '유효기간 초과 또는 인증 불가');
-        } else {
-          alert('알 수 없는 상태: ' + result.status);
-        }
-      } else {
-        setIsModalOpen(true);
-      }
-    } catch (err) {
-      console.error('업로드 에러:', err);
-      alert('이미지 업로드 에러');
-    }
-  };
-
-  // 데스크탑용 카메라 시작
+  // 카메라 시작
   useEffect(() => {
-    if (!isMobile) {
-      const startCamera = async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: { ideal: 'environment' } },
-          });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            await videoRef.current.play();
+    const startCamera = async () => {
+      try {
+        const constraints: MediaStreamConstraints = {
+          video: {
+            facingMode: { exact: "environment" },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            advanced: [{ focusMode: "continuous" }]
           }
-        } catch (err) {
-          console.error('카메라 접근 오류:', err);
+        } as any;
+
+        const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode:{exact: "environment"}}});
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
         }
-      };
+      } catch (err) {
+        console.error('카메라 접근 오류:', err);
+      }
+    };
 
-      startCamera();
+    startCamera();
 
-      const currentVideo = videoRef.current;
+    const currentVideo = videoRef.current;
 
-      return () => {
-        if (currentVideo?.srcObject) {
-          const tracks = (currentVideo.srcObject as MediaStream).getTracks();
-          tracks.forEach((track) => track.stop());
-        }
-      };
-    }
+    return () => {
+      if (currentVideo?.srcObject) {
+        const tracks = (currentVideo.srcObject as MediaStream).getTracks();
+        tracks.forEach(track => track.stop());
+      }
+    };
   }, []);
 
-  // 데스크탑용 사진 캡처
+  // 촬영 및 백엔드 전송
   const takePhoto = async () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+
 
     if (!video || !canvas) return;
 
@@ -159,27 +89,32 @@ const CameraScreen: React.FC = () => {
     formData.append('content', '캡처한 이미지');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/receipt/process`, {
+      const response = await fetch(`/api/receipt/process`, {
         method: 'POST',
         body: formData,
       });
 
-      const result = await response.json();
-
       if (response.ok) {
+        const result = await response.json();
+        // status 기반 분기
         if (result.status === 'registered') {
-          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.');
+          // 이미 등록된 가게, 리뷰 작성 페이지로 이동
+          alert('착한가게로 등록된 가게입니다. 리뷰 작성 화면으로 이동합니다.')
+          console.log('넘기는 사업자번호:', result.business_number);
           router.push(`/review?bno=${result.business_number}`);
         } else if (result.status === 'unregistered') {
-          alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.');
+          // 신규 가게 제보 페이지로 이동
+          alert('착한가게로 등록되어있지 않은 가게입니다. 새로운 가게 제보 화면으로 이동합니다.')
+          console.log('전체 result:', result)
           router.push(`/submit_store?bno=${result.business_number}`);
         } else if (result.status === 'expired') {
+          // 유효기간 초과 등
           alert(result.reason || '유효기간 초과 또는 인증 불가');
         } else {
           alert('알 수 없는 상태: ' + result.status);
         }
       } else {
-        setIsModalOpen(true);
+        setIsModalOpen(true);  // 모달 띄우기
       }
     } catch (err) {
       console.error('이미지 업로드 에러:', err);
@@ -187,27 +122,10 @@ const CameraScreen: React.FC = () => {
     }
   };
 
-  // ✅ 실제 렌더링 파트
-  return isMobile ? (
-    <div className="flex flex-col items-center justify-center h-screen bg-white px-4">
-      <p className="mb-4 text-center text-gray-800 font-medium">사진을 찍어 OCR 인증을 시작하세요</p>
-      <label className="cursor-pointer bg-[#FDDC55] text-black px-4 py-2 rounded-lg shadow-md font-semibold">
-        📷 사진 찍기
-        <input
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={handleImageUpload}
-          className="hidden"
-        />
-      </label>
-      <OCRFailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </div>
-  ) : (
+  return (
     <div className="flex flex-col h-screen items-center justify-between">
       {/* 상단 바 */}
       <div className="w-full bg-[#FDDC55] min-h-[50px] relative z-10 flex items-center justify-center"></div>
-
       {/* 카메라 미리보기 */}
       <div className="flex-1 w-full bg-black flex items-center justify-center relative z-0">
         <video
@@ -217,7 +135,6 @@ const CameraScreen: React.FC = () => {
           muted
         />
       </div>
-
       {/* 하단 바 + 촬영 버튼 */}
       <div className="w-full bg-[#FDDC55] h-30 flex items-center justify-center relative">
         <div className="w-16 h-16 bg-[#FDDC55] border border-black rounded-full flex items-center justify-center mt-2 mb-2">
@@ -226,9 +143,9 @@ const CameraScreen: React.FC = () => {
             className="w-14 h-14 bg-white rounded-full border border-black active:scale-95 cursor-pointer"
           />
         </div>
+        {/* 캡처용 canvas (숨김) */}
         <canvas ref={canvasRef} className="hidden" />
       </div>
-
       <OCRFailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
