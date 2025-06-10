@@ -207,7 +207,7 @@
 - 발표자료  
   - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
   - [중간 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
-  - [최종 발표](./doc/3_1_OSSProj_02_Spring_최종발표자료.pdf)
+  - [최종 발표](./doc/최종발표/3_1_OSSProj_02_Spring_최종발표자료.pdf)
 
 
 - 트러블슈팅
