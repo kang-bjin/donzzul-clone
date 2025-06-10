@@ -13,7 +13,7 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // submit 기본 동작(페이지 리로드) 막기
 
-    console.log("API 주소 확인:", process.env.NEXT_PUBLIC_API_URL);
+    console.log("API 주소 확인:", process.env.NEXT_PUBLIC_API_URL); // 얘는 무시해도 됨 어차피 netlify설정대로 가기 때문에 오류 x!
     
     try {
       const res = await fetch(`/api/users/login`, {
