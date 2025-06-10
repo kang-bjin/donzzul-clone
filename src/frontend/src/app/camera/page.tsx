@@ -37,7 +37,11 @@ const CameraScreen: React.FC = () => {
     formData.append('content', '업로드된 이미지');
 
     try {
+<<<<<<< HEAD
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/receipt/process`, {
+=======
+      const response = await fetch(`/api/receipt/process`, {
+>>>>>>> cd726659ff702c26c3ba9855b48348d1c1f8f493
         method: 'POST',
         body: formData,
       });
@@ -123,7 +127,11 @@ const CameraScreen: React.FC = () => {
     formData.append('content', '캡처한 이미지');
 
     try {
+<<<<<<< HEAD
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/receipt/process`, {
+=======
+      const response = await fetch(`/api/receipt/process`, {
+>>>>>>> cd726659ff702c26c3ba9855b48348d1c1f8f493
         method: 'POST',
         body: formData,
       });

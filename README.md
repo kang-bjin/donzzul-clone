@@ -25,10 +25,10 @@
 
 ## 💫 팀원 소개
 
-| 서희정 | 이설후 | 강병진 | 김시연 |
-|--------|--------|--------|--------|
-| 팀장, 디자인, 프론트엔드, 배포| 프론트엔드 | 백엔드 | 연동, 배포 |
-| 경제학과  | 산업시스템공학과 | 전자전기공학부   | 산업시스템공학과  |
+| 서희정 (팀장)       | 이설후 | 강병진     | 김시연 |
+|----------------|--------|---------|--------|
+| 디자인, 프론트엔드, 배포 | 프론트엔드 | 기획, 백엔드 | 연동, 배포 |
+| 경제학과           | 산업시스템공학과 | 전자전기공학부 | 산업시스템공학과  |
 
 
 ## 💻 개발 기간
@@ -68,8 +68,11 @@
 
 
 ## 🌟 최종 구현 결과
-- 추후 ppt 프론트엔드 사진 첨부, 내용 작성
-
+<img src="images/final1.png"/> 
+<img src="images/final2.png"/> 
+<img src="images/final3.png"/> 
+<img src="images/final4.png"/> 
+<img src="images/final5.png"/> 
 
 ## 🧾 다이어그램
 ### 시스템 아키텍처
@@ -195,22 +198,23 @@
 - 회의록  
   - [회의록](./doc/회의록/)
 
-
 - 보고서  
   - [수행계획서](./doc/1_1_OSSProj_02_Spring_수행계획서.pdf)
   - [수행계획서수정본](./doc/(0430)1_1_OSSProj_02_Spring_수행계획서.pdf)
   - [중간보고서](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
-  - [최종보고서](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
+  - [최종보고서](./doc/3_1_OSSProj_02_Spring_최종보고서.pdf)
 
 - 발표자료  
   - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
   - [중간 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
-  - [최종 발표](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
+  - [최종 발표](./doc/3_1_OSSProj_02_Spring_최종발표자료.pdf)
 
 
 - 트러블슈팅
   - [트러블슈팅](./doc/트러블슈팅/OSSProj_트러블슈팅.pdf)
 
+- 소스 코드
+  - [src 폴더](./src)
 
 ## 📦 사용한 오픈소스 및 라이선스
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Apache License 2.0- 
@@ -222,4 +226,3 @@
 - [Spring Boot](https://spring.io/projects/spring-boot) - Apache License 2.0  
 - [MySQL](https://www.mysql.com/) - GPL License  
 - [Docker](https://www.docker.com/) - Apache License 2.0
-- 
