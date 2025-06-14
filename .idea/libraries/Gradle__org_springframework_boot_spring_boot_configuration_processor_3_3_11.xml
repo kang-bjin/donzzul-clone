@@ -2,7 +2,7 @@
   <library name="Gradle: org.springframework.boot:spring-boot-configuration-processor:3.3.11" type="java-imported" external-system-id="GRADLE">
     <properties groupId="org.springframework.boot" artifactId="spring-boot-configuration-processor" version="3.3.11" baseVersion="3.3.11" />
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.3.11/a6aac07b4fd21c2b66bdfe7a434594b10ace894a/spring-boot-configuration-processor-3.3.11.jar!/" />
+      <root url="jar://$USER_HOME$/scoop/apps/gradle/current/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.3.11/a6aac07b4fd21c2b66bdfe7a434594b10ace894a/spring-boot-configuration-processor-3.3.11.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
