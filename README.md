@@ -248,13 +248,12 @@
   - [회의록](./doc/회의록/)
 
 - 보고서  
-  - [수행계획서](./doc/1_1_OSSProj_02_Spring_수행계획서.pdf)
-  - [수행계획서수정본](./doc/(0430)1_1_OSSProj_02_Spring_수행계획서.pdf)
+  - [수행계획서](./doc/(0430)1_1_OSSProj_02_Spring_수행계획서.pdf)
   - [중간보고서](./doc/2_1_OSSProj_02_Spring_중간보고서.pdf)
   - [최종보고서](./doc/3_1_OSSProj_02_Spring_최종보고서.pdf)
 
 - 발표자료  
-  - [수행 계획서 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
+  - [제안 발표](./doc/제안발표/1_2_OSSProj_02_Spring_수행계획발표자료.pdf) 
   - [중간 발표](./doc/중간발표/2_2_OSSProj_02_Spring_중간발표자료.pdf)
   - [최종 발표](./doc/최종발표/3_2_OSSProj_02_Spring_최종발표자료.pdf)
 
